@@ -1,7 +1,13 @@
+package controllers;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import database.Database;
+import interfaces.RegisterListener;
+import models.UserModel;
+import views.RegisterView;
 
 public class RegisterController implements RegisterListener {
 	private RegisterView view;
@@ -11,15 +17,14 @@ public class RegisterController implements RegisterListener {
 	}
 
 	@Override
-	public void registerPerformed(RegisterModel event) throws SQLException {
+	public void registerPerformed(UserModel event) throws SQLException {
 		System.out.println("Register event received: " + event.getName() + "; " + event.getPassword());
 		//add to database
 		
 		String username = event.getName();
 		String password = event.getPassword();
 		
-		String url = String.format("jdbc:mysql://sql2.freemysqlhosting.net/sql2310355", 3306);
-		Connection conn = DriverManager.getConnection(url, "sql2310355", "gK5%qI5%");
+		Connection conn = Database.getConnection();
 		
 		String query = "INSERT INTO `account`(`userName`,`userPassword`) VALUES (?,?);";
 		

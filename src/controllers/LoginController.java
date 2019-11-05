@@ -1,3 +1,8 @@
+package controllers;
+import interfaces.LoginListener;
+import models.UserModel;
+import views.LoginView;
+
 public class LoginController implements LoginListener {
 	private LoginView view;
 	
@@ -6,7 +11,7 @@ public class LoginController implements LoginListener {
 	}
 
 	@Override
-	public void loginPerformed(LoginModel event) {
+	public void loginPerformed(UserModel event) {
 		System.out.println("Login event received: " + event.getName() + "; " + event.getPassword());
 		//add to database
 	}
