@@ -19,18 +19,19 @@ public class RegisterController implements RegisterListener {
 	@Override
 	public void registerPerformed(UserModel event) throws SQLException {
 		System.out.println("Register event received: " + event.getName() + "; " + event.getPassword());
-		//add to database
 		
 		String username = event.getName();
 		String password = event.getPassword();
+		String email = event.getEmail();
 		
 		Connection conn = Database.getConnection();
 		
-		String query = "INSERT INTO `account`(`userName`,`userPassword`) VALUES (?,?);";
+		String query = "INSERT INTO `account`(`userName`,`userPassword`, email) VALUES (?,?,?);";
 		
         PreparedStatement ps = conn.prepareStatement(query); 
 		ps.setString(1, username);
 	    ps.setString(2, password);
+	    ps.setString(3, email);
 	    ps.executeUpdate(); 
 	}
 	
