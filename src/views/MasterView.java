@@ -11,7 +11,7 @@ public class MasterView extends JFrame{
     public void initWindow() {
 
         setTitle("Scrubs Car Rental");
-        setSize(1200,800);
+        setSize(600,400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
