@@ -38,10 +38,10 @@ public class Main {
 			}
 		});
 	}
-	public static void initWindow() {	
+	public static void initWindow() {
 		LoginView logView = new LoginView();
 		LoginController logCtrl = new LoginController(logView);
-			
+
 		logView.setLoginListener(logCtrl);
 	}
 		
