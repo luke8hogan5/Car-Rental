@@ -24,10 +24,8 @@ public class Main {
 					e1.printStackTrace();
 				}
 				if(db != null) {
-//						MainWindow main = new MainWindow();
-//			        	main.setVisible(true);
-//						regGUI();
-						initWindow();
+					//initLogin();
+					initRegister();
 				}
 				
 				try {
@@ -38,24 +36,18 @@ public class Main {
 			}
 		});
 	}
-	public static void initWindow() {	
+	public static void initLogin() {	
 		LoginView logView = new LoginView();
 		LoginController logCtrl = new LoginController(logView);
 			
 		logView.setLoginListener(logCtrl);
 	}
 		
-		public static void regGUI() {
-			RegisterView view = new RegisterView();
-			RegisterController controller = new RegisterController(view);
+		public static void initRegister() {
+			RegisterView regView = new RegisterView();
+			RegisterController regCtrl = new RegisterController(regView);
 			
-			view.setRegisterListener(controller);
-		}
-		public static void logGUI() {
-			LoginView view = new LoginView();
-			LoginController controller = new LoginController(view);
-			
-			view.setLoginListener(controller);
+			regView.setRegisterListener(regCtrl);
 		}
 }
 

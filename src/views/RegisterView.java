@@ -4,9 +4,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,21 +20,15 @@ import controllers.RegisterController;
 import interfaces.RegisterListener;
 import models.UserModel;
 
-public class RegisterView extends JFrame implements ActionListener {
+public class RegisterView extends MasterView implements ActionListener {
 
 	private JButton okButton;
 	private JTextField nameField;
 	private JPasswordField passField;
 	private JPasswordField repeatPassField;
+	private JTextField emailField;
 
 	private RegisterListener registerListener;
-
-	public static void regGUI() {
-		RegisterView view = new RegisterView();
-		RegisterController controller = new RegisterController(view);
-		
-		view.setRegisterListener(controller);
-	}
 	
 	public RegisterView() {
 		super();
@@ -40,6 +37,7 @@ public class RegisterView extends JFrame implements ActionListener {
 		passField = new JPasswordField(10);
 		repeatPassField = new JPasswordField(10);
 		okButton = new JButton("Create user");
+		emailField = new JTextField(20);
 
 		setLayout(new GridBagLayout());
 
@@ -103,10 +101,30 @@ public class RegisterView extends JFrame implements ActionListener {
 		gc.fill = GridBagConstraints.NONE;
 
 		add(repeatPassField, gc);
+		
+		gc.anchor = GridBagConstraints.LINE_END;
+		gc.gridx = 1;
+		gc.gridy = 4;
+		gc.weightx = 1;
+		gc.weighty = 1;
+		gc.insets = new Insets(0, 0, 0, 10);
+		gc.fill = GridBagConstraints.NONE;
+
+		add(new JLabel("Email: "), gc);
+
+		gc.anchor = GridBagConstraints.LINE_START;
+		gc.gridx = 2;
+		gc.gridy = 4;
+		gc.weightx = 1;
+		gc.weighty = 1;
+		gc.insets = new Insets(0, 0, 0, 0);
+		gc.fill = GridBagConstraints.NONE;
+
+		add(emailField, gc);
 
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gc.gridx = 2;
-		gc.gridy = 4;
+		gc.gridy = 5;
 		gc.weightx = 1;
 		gc.weighty = 100;
 		gc.fill = GridBagConstraints.NONE;
@@ -115,22 +133,19 @@ public class RegisterView extends JFrame implements ActionListener {
 
 		okButton.addActionListener(this);
 		
-//		addWindowListener(new WindowAdapter() {
-//			
-//			@Override
-//			public void windowOpened(WindowEvent e) {
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				
+			}
 
-//
-//			@Override
-//			public void windowClosing(WindowEvent e) {
-//				Database.getInstance().disconnect();
-//			}
-//			
-//		});
+			@Override
+			public void windowClosing(WindowEvent e) {
 
-		setSize(600, 500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setVisible(true);
+			}
+			
+		});
 	}
 
 	@Override
@@ -138,12 +153,13 @@ public class RegisterView extends JFrame implements ActionListener {
 
 		String password = new String(passField.getPassword());
 		String repeat = new String(repeatPassField.getPassword());
+		String email = new String(emailField.getText());
 
 		if (password.equals(repeat)) {
 			String name = nameField.getText();
 
 			try {
-				fireRegisterEvent(new UserModel(name, password));
+				fireRegisterEvent(new UserModel(name, password, email));
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
