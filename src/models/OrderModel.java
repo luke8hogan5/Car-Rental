@@ -17,7 +17,7 @@ public class OrderModel{
 		this.dateDue = dateDue;
 	}
 	public OrderModel(int orderstatus,boolean paymentCleared){
-		this.orderstatus = orderstatus;
+		this.orderStatus = orderstatus;
 		this.paymentCleared = paymentCleared;
 	}
 	
