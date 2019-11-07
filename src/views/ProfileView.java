@@ -1,6 +1,5 @@
 package views;
 
-import interfaces.ProfListener;
 import interfaces.ProfileListener;
 import models.Customer;
 
@@ -8,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class ProfileView extends MasterView implements ActionListener {
 
@@ -17,6 +17,8 @@ public class ProfileView extends MasterView implements ActionListener {
     private JButton updateBtn;
 
     private Customer user = new Customer();
+
+    private ProfileListener listener;
 
     public ProfileView() {
         super();
@@ -34,7 +36,7 @@ public class ProfileView extends MasterView implements ActionListener {
         updateBtn.addActionListener(this);
     }
 
-    public void setListener(ProfileListener profListener){}
+    public void setListener(ProfileListener listener){this.listener = listener;}
 
     private void setupView() {
         setLayout(new GridBagLayout());
@@ -98,5 +100,16 @@ public class ProfileView extends MasterView implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        user.setName(name.getText());
+        user.setEmail(email.getText());
+        user.setAddress(address.getText());
+
+        if(listener != null){
+            try {
+                listener.profileUpdated(user);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

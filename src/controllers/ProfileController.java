@@ -26,13 +26,13 @@ public class ProfileController implements ProfileListener {
 
 
         Connection conn = Database.getConnection();
-        String stmt = "UPDATE `account` SET `userName=? `email`=? `address`=? WHERE `user_id`=?;";
+        String stmt = "UPDATE account SET userName=?, email=?, address=? WHERE user_id=?;";
 
         PreparedStatement ps = conn.prepareStatement(stmt);
         ps.setString(1, user.getName());
         ps.setString(2, user.getEmail());
         ps.setString(3, user.getAddress());
-        ps.setString(4, Integer.toString(user.getCustID()));
+        ps.setInt(4, user.getCustID());
         ps.execute();
     }
 }
