@@ -16,6 +16,10 @@ public class OrderModel{
 		this.dateCreated = dateCreated;
 		this.dateDue = dateDue;
 	}
+	public OrderModel(int orderstatus,boolean paymentCleared){
+		this.orderstatus = orderstatus;
+		this.paymentCleared = paymentCleared;
+	}
 	
 	public int getOrderStatus(){
 		return orderStatus;
