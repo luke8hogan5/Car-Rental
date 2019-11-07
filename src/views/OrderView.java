@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,6 +25,9 @@ import javax.swing.JTextField;
 import controllers.OrderController;
 import interfaces.LoginListener;
 import interfaces.OrderListener;
+import models.OrderModel;
+import models.UserModel;
+import models.VehicleModel;
 
 public class OrderView extends MasterView implements ActionListener {
 	
@@ -34,8 +38,9 @@ public class OrderView extends MasterView implements ActionListener {
     	super();   
         setSize(500,500);
        // mainFrame.setVisible(true);
-                
-        JLabel orders = new JLabel("Current Orders :");        
+
+
+		JLabel orders = new JLabel("Current Orders :");
         
         JLabel placeOrder = new JLabel("Place Order");
         
@@ -87,13 +92,17 @@ public class OrderView extends MasterView implements ActionListener {
 
 			add(new JLabel("Vehicle Make: "), gc);
 
-			
-	      
+
     }
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	}
-//		String password = new String(passField.getPassword());
+
+		//get Vehicle based on Make , Model , Year
+
+	 	//OrderModel newOrder = new OrderModel("1,false");
+
+	//		String password = new String(passField.getPassword());
 //		
 ////		if (name.equals(//get user from database)) {
 ////				String name = nameField.getText();
@@ -106,27 +115,11 @@ public class OrderView extends MasterView implements ActionListener {
 ////					"Error", JOptionPane.WARNING_MESSAGE);
 ////		}
 ////	}
-	public void setLoginListener(OrderListener orderListener) {
+	public void setOrderListener(OrderListener orderListener) {
 		this.OrderListener = orderListener;
 	}
+	public void fireLoginEvent(VehicleModel event) throws SQLException {
+		if (OrderListener != null) {
+			OrderListener.orderPerformed(event);
+		}
 }
-/*JMenuBar menuBar = new JMenuBar();
-
-JMenu homeNav = new JMenu("Home");
-homeNav.setMnemonic(KeyEvent.VK_F);
-JMenu accNav = new JMenu("Account");
-accNav.setMnemonic(KeyEvent.VK_F);
-JMenu contactNav = new JMenu("Contact");
-contactNav.setMnemonic(KeyEvent.VK_F);
-
-JMenuItem item = new JMenuItem("Exit");
-item.setMnemonic(KeyEvent.VK_E);
-item.setToolTipText("Exit application");
-item.addActionListener((event) -> System.exit(0));
-
-homeNav.add(item);
-menuBar.add(homeNav);
-menuBar.add(accNav);
-menuBar.add(contactNav);
-f.setJMenuBar(menuBar);*/
- 

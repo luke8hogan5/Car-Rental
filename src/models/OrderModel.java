@@ -15,6 +15,10 @@ public class OrderModel{
 		this.d1 = d1;
 		this.d2 = d2;
 	}
+	public OrderModel(int orderstatus,boolean paymentCleared){
+		this.orderstatus = orderstatus;
+		this.paymentCleared = paymentCleared;
+	}
 	
 	public int getOrderstatus(){
 		return orderstatus;
