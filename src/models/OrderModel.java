@@ -4,24 +4,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OrderModel{
-	private int orderstatus;
+	private int orderStatus;
 	private boolean paymentCleared;
-	private Date d1; // dateCreated
-	private Date d2; //Duedate
+	private Date dateCreated; // dateCreated
+	private Date dateDue; //Duedate
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
-	public OrderModel(int orderstatus, boolean paymentCleared, Date d1, Date d2){
-		this.orderstatus = orderstatus;
+	public OrderModel(int orderstatus, boolean paymentCleared, Date dateCreated, Date dateDue){
+		this.orderStatus = orderstatus;
 		this.paymentCleared = paymentCleared;
-		this.d1 = d1;
-		this.d2 = d2;
+		this.dateCreated = dateCreated;
+		this.dateDue = dateDue;
 	}
 	
-	public int getOrderstatus(){
-		return orderstatus;
+	public int getOrderStatus(){
+		return orderStatus;
 	}
 	
-	public void setOrderstatus(int orderstatus){
-		this.orderstatus = orderstatus;
+	public void setOrderStatus(int orderStatus){
+		this.orderStatus = orderStatus;
 	}
 	
 	public boolean getPaymentCleared(){
@@ -32,25 +33,19 @@ public class OrderModel{
 		this.paymentCleared = paymentCleared;
 	}
 	
-//	public String getCreatedDate(){
-//		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-//		Date d1 = format.parse(d1String);
-//		Date d1 = new Date();
-//		return d1;
-//	}
-	
-	public void setCreatedDate(Date d1){
-		this.d1 = d1;
+	public String getCreatedDate(){
+		return dateFormat.format(dateCreated);
 	}
 	
-//	public String getDueDate(){
-//		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-////		Date d2 = format.parse(d2String);
-//		Date d2 = new Date();
-//		return d2;
-//	}
+	public void setCreatedDate(Date d1){
+		this.dateCreated = d1;
+	}
+	
+	public String getDueDate(){
+		return dateFormat.format(dateDue);
+	}
 	
 	public void setDueDate(Date d2){
-		this.d2 = d2;
+		this.dateDue = d2;
 	}
 }
