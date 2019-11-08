@@ -58,10 +58,10 @@ public class Main {
 }*/
 	public static void initCatalog() {	
 		CatalogView1 CatalogV = new CatalogView1();
-		CatalogV.initWindow(); 
-		//CatalogController CatalogCtrl = new CatalogController(CatalogV);
+		//CatalogV.initWindow(); 
+		CatalogController CatalogCtrl = new CatalogController(CatalogV);
 		
-		//Catalog.setCatalogListener(CatalogCtrl);
+		CatalogV.setCatalogListener(CatalogCtrl);
 	}
 }
 
