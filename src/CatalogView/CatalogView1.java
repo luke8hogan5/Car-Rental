@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 import database.Database;
+import interfaces.CatalogListener;
+import models.CatalogModel;
 
 public class CatalogView1 extends JFrame {
 	
@@ -15,6 +17,7 @@ public class CatalogView1 extends JFrame {
 	private JTableHeader jth;
 	private JTable tabDemo;
 	private JButton btnShow;
+	private CatalogListener catalogListener;
 	
 	public CatalogView1(){
 		super("Catalog view");
@@ -87,12 +90,19 @@ public class CatalogView1 extends JFrame {
 		this.scpDemo.getViewport().add(tabDemo); 
 		
 		
-
-		
 		
 		}catch(SQLException sqle){
 		JOptionPane.showMessageDialog(null,"Data Error","Error",JOptionPane.ERROR_MESSAGE);
 		}
+		}
+		
+		public void setCatalogListener(CatalogListener catalogListener) {
+			this.catalogListener = catalogListener;
+		}
+		public void fireCatalogEvent(CatalogModel event) throws SQLException {
+			if (catalogListener!= null) {
+				catalogListener.CatalogPerformed(event);
+			}
 		}
 }
 
