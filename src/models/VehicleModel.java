@@ -2,37 +2,65 @@ package models;
 
 public class VehicleModel{
 	
-	private String VehicleType;
-	private String VehicleDetails;
-	private double VehiclePrice;
+	private String type;
+	private String make;
+	private String model;
+	private String details;
+	private double price;
+	private int year;
+
 	
 	public VehicleModel(String VehicleType, String VehicleDetails, double VehiclePrice){
-		this.VehicleType = VehicleType;
-		this.VehicleDetails = VehicleDetails;
-		this.VehiclePrice = VehiclePrice;
+		this.type = VehicleType;
+		this.details = VehicleDetails;
+		this.price = VehiclePrice;
 	}
 	
-	public String getVehicleType(){
-		return VehicleType;
+	public String getType(){
+		return type;
 	}
 	
-	public void setVehicleType(String VehicleType){
-		this.VehicleType = VehicleType;
+	public void setType(String type){
+		this.type = type;
+	}
+
+	public String getMake() {
+		return make;
+	}
+
+	public void setMake(String make) {
+		this.make = make;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getDetails(){
+		return details;
 	}
 	
-	public String getVehicleDetails(){
-		return VehicleDetails;
+	public void setDetails(String details){
+		this.details =details;
 	}
 	
-	public void setVehicleDetails(String VehicleDetails){
-		this.VehicleDetails =VehicleDetails;
+	public double getPrice(){
+		return price;
 	}
 	
-	public double getVehiclePrice(){
-		return VehiclePrice;
+	public void setPrice(double price){
+		this.price = price;
 	}
-	
-	public void setVehiclePrice(double VehiclePrice){
-		this.VehiclePrice = VehiclePrice;
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 }
