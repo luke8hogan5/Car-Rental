@@ -22,9 +22,6 @@ public class OrderViewExt extends MasterView implements ActionListener {
 
     private OrderExtListener OrderExtListener;
 
-    public String[] vehicleModels = new String[10];
-    public JComboBox modelList;
-
     public OrderViewExt() {
         super();
         setSize(600,400);
@@ -37,14 +34,12 @@ public class OrderViewExt extends MasterView implements ActionListener {
         String queryPrice = "SELECT `vehiclePrice` FROM  `vehicle` WHERE `vehicle_id`=\"" + vehicleId + "\";";
 
         Statement st = null;
-        try {
+        try {   //Get the Users Loyalty Rating and Points
             st = conn.createStatement();
             ResultSet rs = st.executeQuery(queryPoints);
-            //int i = 0;
             while (rs.next()) {
                 loyRating = rs.getInt("loyaltyRating");
                 loyPoints = rs.getInt("loyaltyPoints");
-                //i++;
             }
             ResultSet vp = st.executeQuery(queryPrice);
             while (vp.next()) {
@@ -196,11 +191,11 @@ public class OrderViewExt extends MasterView implements ActionListener {
 
         int deliveryCost = 0;
 
-        JTextField deliveryBox = new JTextField(10);
+        JTextField deliveryBox = new JTextField(13);
         deliveryBox.setEditable(false);
 
         if (rating >= 2) {
-            deliveryBox.setText("Free Loyalty");
+            deliveryBox.setText("Free Based On Loyalty");
         } else {
             deliveryCost = 50;
             deliveryBox.setText("50.00");
@@ -282,13 +277,17 @@ public class OrderViewExt extends MasterView implements ActionListener {
         //int discountPerDay = (int) Math.round(totalDiscounts / rentDuration);
         double userCost = vCostPerDay - totalDiscountsPerDay;
 
+        BigDecimal vCost = BigDecimal.valueOf(vCostPerDay);
+        vCost = vCost.setScale(2, RoundingMode.HALF_UP);
+
+
         BigDecimal bd = BigDecimal.valueOf(userCost);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         netCostPerDay = bd.doubleValue();
 
         int totalCostPerDay = (int) Math.round(vCostPerDay);
 
-        netCost += valueOf(totalCostPerDay) + " - " + valueOf(totalDiscountsPerDay) + " = " + valueOf(netCostPerDay) + "";
+        netCost += valueOf(vCost.doubleValue()) + " - " + valueOf(totalDiscountsPerDay) + " = " + valueOf(netCostPerDay) + "";
         return netCost;
     }
 

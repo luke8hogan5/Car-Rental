@@ -59,6 +59,7 @@ public class OrderView extends MasterView implements ActionListener {
 		JButton submitId = new JButton("Get Details");
 		idBox.setSize(50,20);
 	    JButton getCosts = new JButton("Get Prices");
+		getCosts.setEnabled(false);
 		/*JComboBox makeBox = new JComboBox();
 		makeBox.setModel(new DefaultComboBoxModel(vehicleMakes));
 		JComboBox makeList = makeBox;
@@ -183,7 +184,7 @@ public class OrderView extends MasterView implements ActionListener {
         gc.gridy = 5;
         gc.weightx = 1;
         gc.weighty = 1;
-        gc.insets = new Insets(10, 0, 10, 0);
+        gc.insets = new Insets(10, 10, 10, 0);
         add(priceBox, gc);
 
         gc.anchor = GridBagConstraints.LINE_END;
@@ -202,7 +203,7 @@ public class OrderView extends MasterView implements ActionListener {
         gc.gridy = 6;
         gc.weightx = 1;
         gc.weighty = 1;
-        gc.insets = new Insets(10, 0, 10, 0);
+        gc.insets = new Insets(10, 10, 10, 0);
         add(rentBox, gc);
 
         gc.anchor = GridBagConstraints.LINE_END;
@@ -221,16 +222,17 @@ public class OrderView extends MasterView implements ActionListener {
         gc.gridy = 7;
         gc.weightx = 1;
         gc.weighty = 1;
-        gc.insets = new Insets(10, 0, 10, 0);
+        gc.insets = new Insets(10, 10, 10, 0);
         add(leaseBox, gc);
 
         JButton proPay = new JButton("Payment");
-        gc.anchor = GridBagConstraints.CENTER;
-        gc.gridx = 3;
-        gc.gridy = 7;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 10);
+        proPay.setEnabled(false);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.gridx = 3;
+		gc.gridy = 7;
+		gc.weightx = 0.5;
+		gc.weighty = 1;
+		gc.insets = new Insets(50, 10, 10, 100);
         add(proPay, gc);
 
 
@@ -259,6 +261,7 @@ public class OrderView extends MasterView implements ActionListener {
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
+				getCosts.setEnabled(true);
 			}
 		} );
         getCosts.addActionListener(new ActionListener() {
@@ -292,6 +295,7 @@ public class OrderView extends MasterView implements ActionListener {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+                proPay.setEnabled(true);
             }
         } );
         proPay.addActionListener(new ActionListener() {
