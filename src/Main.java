@@ -32,6 +32,7 @@ public class Main {
 					e1.printStackTrace();
 				}
 				if(db != null) {
+<<<<<<< HEAD
 					try {
 						//initUsersAdm();
 						//initVehicleViewAdm();
@@ -40,6 +41,16 @@ public class Main {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+=======
+					//initLogin();
+					initRegister();
+				}
+				
+				try {
+
+				} catch (Exception e) {
+					e.printStackTrace();
+>>>>>>> 246bbd16297e5ddccc1701a7c289c4e98ae064e2
 				}
 			}
 		});
@@ -50,6 +61,7 @@ public class Main {
 			
 		logView.setLoginListener(logCtrl);
 	}
+<<<<<<< HEAD
 	public static void initOrderAdm() throws SQLException {	
 		OrderViewAdm orderViewAdm = new OrderViewAdm();
 		OrderControllerAdm orderCtrlAdm = new OrderControllerAdm(orderViewAdm);
@@ -74,6 +86,13 @@ public class Main {
 			RegisterView regView = new RegisterView();
 			RegisterController regCtrl = new RegisterController(regView);
 			
+=======
+		
+		public static void initRegister() {
+			RegisterView regView = new RegisterView();
+			RegisterController regCtrl = new RegisterController(regView);
+			
+>>>>>>> 246bbd16297e5ddccc1701a7c289c4e98ae064e2
 			regView.setRegisterListener(regCtrl);
 		}
 	public static void initVehicleViewAdm() throws SQLException {

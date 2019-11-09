@@ -5,8 +5,13 @@ public class UserModel {
 	private int userId;
 	private String name;
 	private String password;
+<<<<<<< HEAD
 	private String email;
 	
+=======
+
+	public UserModel(){}
+>>>>>>> 246bbd16297e5ddccc1701a7c289c4e98ae064e2
 	public UserModel(String name, String password) {
 		this.name = name;
 		this.password = password;
