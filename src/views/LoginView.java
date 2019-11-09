@@ -4,10 +4,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;	
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -17,19 +21,12 @@ import models.UserModel;
 
 public class LoginView extends MasterView implements ActionListener {
 	
-//	public void initWindow() {	
-//		LoginView logView = new LoginView();
-//		LoginController logCtrl = new LoginController(logView);
-//			
-//		logView.setLoginListener(logCtrl);
-//	}
-	
 	private JButton okButton;
 	private JTextField nameField;
 	private JPasswordField passField;
 
 	private LoginListener loginListener;
-		
+	
 	public LoginView() {
 		super();
 		
@@ -48,7 +45,7 @@ public class LoginView extends MasterView implements ActionListener {
 		gc.insets = new Insets(100, 0, 0, 10);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(new JLabel("Name: "), gc);
+		add(new JLabel("Username: "), gc);
 
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 2;
@@ -91,49 +88,41 @@ public class LoginView extends MasterView implements ActionListener {
 
 		okButton.addActionListener(this);
 			
-//			addWindowListener(new WindowAdapter() {
-//				
-//				@Override
-//				public void windowOpened(WindowEvent e) {
-//					try {
-//						Database.getInstance().connect();
-//					} catch (Exception e1) {
-//						JOptionPane.showMessageDialog(View.this, "Unable to connect to database.",
-//								"Error", JOptionPane.WARNING_MESSAGE);
-//						e1.printStackTrace();
-//					}
-//				}
-	//
-//				@Override
-//				public void windowClosing(WindowEvent e) {
-//					Database.getInstance().disconnect();
-//				}
-//				
-//			});
+			addWindowListener(new WindowAdapter() {
+				
+				@Override
+				public void windowOpened(WindowEvent e) {
+
+				}
+				
+				@Override
+				public void windowClosing(WindowEvent e) {
+					
+				}
+				
+			});
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			String name = nameField.getText();
+			String password = new String(passField.getPassword());
+
+
+				try {
+					fireLoginEvent(new UserModel(name, password));
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 		}
-//			String password = new String(passField.getPassword());
-//			
-////			if (name.equals(//get user from database)) {
-////					String name = nameField.getText();
-////			if (password.equals(//get pass from database)) {
-////				String name = nameField.getText();
-////
-////				fireLoginEvent(new RegisterModel(name, password));
-////			} else {
-////				JOptionPane.showMessageDialog(this, "User not found.",
-////						"Error", JOptionPane.WARNING_MESSAGE);
-////			}
-////		}
-//
+
 		public void setLoginListener(LoginListener loginListener) {
 			this.loginListener = loginListener;
 		}
 
-		public void fireLoginEvent(UserModel event) {
+		public void fireLoginEvent(UserModel event) throws SQLException {
 			if (loginListener != null) {
 				loginListener.loginPerformed(event);
 			}

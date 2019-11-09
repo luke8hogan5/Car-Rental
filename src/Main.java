@@ -3,10 +3,18 @@ import java.sql.SQLException;
 import javax.swing.SwingUtilities;
 
 import controllers.LoginController;
+import controllers.OrderControllerAdm;
+import controllers.PaymentController;
 import controllers.RegisterController;
+import controllers.UsersControllerAdm;
+import controllers.VehicleControllerAdm;
 import database.Database;
+import views.UsersViewAdm;
+import views.VehicleViewAdm;
 import views.LoginView;
 import views.MasterView;
+import views.OrderViewAdm;
+import views.PaymentView;
 import views.RegisterView;
 
 public class Main {
@@ -24,39 +32,56 @@ public class Main {
 					e1.printStackTrace();
 				}
 				if(db != null) {
-//						MainWindow main = new MainWindow();
-//			        	main.setVisible(true);
-//						regGUI();
-						initWindow();
-				}
-				
-				try {
-
-				} catch (Exception e) {
-					e.printStackTrace();
+					try {
+						//initUsersAdm();
+						//initVehicleViewAdm();
+						initUsersAdm();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
 	}
-	public static void initWindow() {	
+	public static void initLogin() {	
 		LoginView logView = new LoginView();
 		LoginController logCtrl = new LoginController(logView);
 			
 		logView.setLoginListener(logCtrl);
 	}
+	public static void initOrderAdm() throws SQLException {	
+		OrderViewAdm orderViewAdm = new OrderViewAdm();
+		OrderControllerAdm orderCtrlAdm = new OrderControllerAdm(orderViewAdm);
+			
+		orderViewAdm.setOrderAdmListener(orderCtrlAdm);
+	}
+	public static void initPaymentView() {	
+		PaymentView payView = new PaymentView();
+		PaymentController payCtrl = new PaymentController(payView);
+			
+		payView.setPaymentListener(payCtrl);
+	}
+	public static void initUsersAdm() throws SQLException {	
+		UsersViewAdm view = new UsersViewAdm();
 		
-		public static void regGUI() {
-			RegisterView view = new RegisterView();
-			RegisterController controller = new RegisterController(view);
+		UsersControllerAdm usersCtrl = new UsersControllerAdm(view);
+		
+		view.setUsersAdmListener(usersCtrl);
+	}
+	
+	public static void initRegister() {
+			RegisterView regView = new RegisterView();
+			RegisterController regCtrl = new RegisterController(regView);
 			
-			view.setRegisterListener(controller);
+			regView.setRegisterListener(regCtrl);
 		}
-		public static void logGUI() {
-			LoginView view = new LoginView();
-			LoginController controller = new LoginController(view);
-			
-			view.setLoginListener(controller);
-		}
+	public static void initVehicleViewAdm() throws SQLException {
+		VehicleViewAdm vehicleView = new VehicleViewAdm();
+		VehicleControllerAdm vehicleCtrl = new VehicleControllerAdm(vehicleView);
+		
+		vehicleView.setVehicleListener(vehicleCtrl);
+	}
 }
 
 

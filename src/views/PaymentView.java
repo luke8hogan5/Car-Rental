@@ -1,7 +1,7 @@
 package views;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.Insets;	
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -9,35 +9,33 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import controllers.RegisterController;
-import interfaces.RegisterListener;
-import models.UserModel;
+import database.Database;
+import interfaces.LoginListener;
+import interfaces.PaymentListener;
+import models.PaymentModel;
 
-public class RegisterView extends MasterView implements ActionListener {
-
-	private JButton okButton;
-	private JTextField nameField;
-	private JPasswordField passField;
-	private JPasswordField repeatPassField;
-	private JTextField emailField;
-
-	private RegisterListener registerListener;
+public class PaymentView extends MasterView implements ActionListener {
 	
-	public RegisterView() {
-		super();
+	private JButton payButton;
+	private JTextField cardHolder;
+	private JTextField cardNo;
+	private JTextField expDate;
+	private JTextField cVV;
 
-		nameField = new JTextField(10);
-		passField = new JPasswordField(10);
-		repeatPassField = new JPasswordField(10);
-		okButton = new JButton("Create user");
-		emailField = new JTextField(20);
+	private PaymentListener paymentListener;
+		
+	public PaymentView() {
+		super();
+		
+		cardHolder = new JTextField(30);
+		cardNo = new JTextField(16);
+		cVV = new JPasswordField(3);
+		expDate = new JTextField(6);
+		payButton = new JButton("Process Payment");
 
 		setLayout(new GridBagLayout());
 
@@ -50,7 +48,7 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.insets = new Insets(100, 0, 0, 10);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(new JLabel("Name: "), gc);
+		add(new JLabel("Card Holder: "), gc);
 
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 2;
@@ -60,7 +58,7 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.insets = new Insets(100, 0, 0, 0);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(nameField, gc);
+		add(cardHolder, gc);
 
 		gc.anchor = GridBagConstraints.LINE_END;
 		gc.gridx = 1;
@@ -70,7 +68,7 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.insets = new Insets(0, 0, 0, 10);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(new JLabel("Password: "), gc);
+		add(new JLabel("Card Number: "), gc);
 
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.gridx = 2;
@@ -80,7 +78,7 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(passField, gc);
+		add(cardNo, gc);
 
 		gc.anchor = GridBagConstraints.LINE_END;
 		gc.gridx = 1;
@@ -89,9 +87,10 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.weighty = 1;
 		gc.insets = new Insets(0, 0, 0, 10);
 		gc.fill = GridBagConstraints.NONE;
-
-		add(new JLabel("Repeat password: "), gc);
-
+		
+		add(new JLabel("Expiry Date: "), gc);
+		
+		
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.gridx = 2;
 		gc.gridy = 3;
@@ -100,7 +99,7 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(repeatPassField, gc);
+		add(expDate, gc);
 		
 		gc.anchor = GridBagConstraints.LINE_END;
 		gc.gridx = 1;
@@ -109,9 +108,9 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.weighty = 1;
 		gc.insets = new Insets(0, 0, 0, 10);
 		gc.fill = GridBagConstraints.NONE;
-
-		add(new JLabel("Email: "), gc);
-
+		
+		add(new JLabel("CVV:  "), gc);
+		
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.gridx = 2;
 		gc.gridy = 4;
@@ -119,8 +118,8 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.weighty = 1;
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.fill = GridBagConstraints.NONE;
-
-		add(emailField, gc);
+		
+		add(cVV, gc);
 
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gc.gridx = 2;
@@ -129,55 +128,39 @@ public class RegisterView extends MasterView implements ActionListener {
 		gc.weighty = 100;
 		gc.fill = GridBagConstraints.NONE;
 
-		add(okButton, gc);
+		add(payButton, gc);
 
-		okButton.addActionListener(this);
-		
-		addWindowListener(new WindowAdapter() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-
-			}
-			
-		});
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		String password = new String(passField.getPassword());
-		String repeat = new String(repeatPassField.getPassword());
-		String email = new String(emailField.getText());
-
-		if (password.equals(repeat)) {
-			String name = nameField.getText();
-
-			try {
-				fireRegisterEvent(new UserModel(name, password, email));
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} else {
-			JOptionPane.showMessageDialog(this, "Passwords do not match.",
-					"Error", JOptionPane.WARNING_MESSAGE);
+		payButton.addActionListener(this);
 		}
-	}
 
-	public void setRegisterListener(RegisterListener registerListener) {
-		this.registerListener = registerListener;
-	}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			String cardHolderField = cardHolder.getText();
+			String cardNoField = cardNo.getText();
+			String expDateField = expDate.getText();
+			int cVVField = Integer.parseInt(cVV.getText());
+			//userId = get id on login from userModel
 
-	public void fireRegisterEvent(UserModel event) throws SQLException {
-		if (registerListener != null) {
-			registerListener.registerPerformed(event);
+				try {
+					firePaymentEvent(new PaymentModel(cardHolderField, cardNoField, cVVField, expDateField));
+				} catch (SQLException e1) {
+					System.out.print("Could not process payment details");
+					e1.printStackTrace();
+				}
+
 		}
-	}
+
+		public void setPaymentListener(PaymentListener paymentListener) {
+			this.paymentListener = paymentListener;
+		}
+
+		public void firePaymentEvent(PaymentModel event) throws SQLException {
+			if (paymentListener != null) {
+				paymentListener.paymentPerformed(event);
+			}
+		}
+
+//	}
 
 }
