@@ -55,7 +55,7 @@ public class CatalogView1 extends JFrame {
 			
 			
 		Connection conn = Database.getConnection();
-		String sql = "SELECT vehicleMake,vehicleModel,vehiclePrice,vehicleYear FROM vehicle;";
+		String sql = "SELECT vehicle_id,vehicleMake,vehicleModel,vehiclePrice,vehicleYear FROM vehicle where isAvailable = 1;";
 		//vehicleMake, vehiclePrice,vehicelModel,vehicleYear
 		PreparedStatement st = conn.prepareStatement(sql);
 		//Statement st = conn.createStatement(sql);
@@ -63,25 +63,25 @@ public class CatalogView1 extends JFrame {
 									
 		int count = 0;
 		while(rs.next()){
-			System.out.println(count);
+			//System.out.println(count);
 		count++;
 		}
 		rs = st.executeQuery();
 		
-		Object[][] info = new Object[count][4];//4
+		Object[][] info = new Object[count][5];//5
 		count = 0;
 		while(rs.next()){
 		info[count][0] = rs.getString("vehicleMake");
-
 		info[count][1] = rs.getString("vehicleModel");
 		info[count][2] = Double.valueOf( rs.getDouble("vehiclePrice") );
 		info[count][3] = Integer.valueOf(rs.getInt("vehicleYear"));
+		info[count][4] = Integer.valueOf(rs.getInt("vehicle_id"));
 		count++;
 		//System.out.println(rs.getString("vehicleMake"));
 		}
 		
 		
-		String[] title = {"VehicleMake","vehicleModel","vehiclePrice","vehicleYear"};
+		String[] title = {"VehicleMake","vehicleModel","vehiclePrice","vehicleYear","VehicleID"};
 		
 		this.tabDemo = new JTable(info,title);
 		
