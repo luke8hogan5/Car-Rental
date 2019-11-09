@@ -29,7 +29,6 @@ public class OrderView extends MasterView implements ActionListener {
 
 	public OrderView() {
 		super();
-
 				String id = "" , vMake = "" , vModel = "" ;
 				double vPrice = 0.0;
 				Connection conn = Database.getConnection();
@@ -263,6 +262,7 @@ public class OrderView extends MasterView implements ActionListener {
                     while(rq.next()){
                         vPrice = rq.getDouble("vehiclePrice");
                         //System.out.println(vMake);
+                        //System.out.println(vMake);
                     }
                     vRent = ((vPrice / 365)/2);
                     BigDecimal bd = new BigDecimal(vRent).setScale(2, RoundingMode.HALF_UP);
@@ -274,31 +274,42 @@ public class OrderView extends MasterView implements ActionListener {
                     rentBox.setText(""+bd.doubleValue());
                     leaseBox.setText(""+bd1.doubleValue());
 
-
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
         } );
+        proPay.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                getContentPane().removeAll();
+				revalidate();
+				repaint();
+                // removeAll();
+
+				setLayout(new GridBagLayout());
+				GridBagConstraints gc = new GridBagConstraints();
+				gc.anchor = GridBagConstraints.LINE_END;
+				gc.gridx = 1;
+				gc.gridy = 1;
+				gc.weightx = 1;
+				gc.weighty = 1;
+				gc.insets = new Insets(10, 10, 10, 10);
+				add(new JLabel("New Screen Yeet :"), gc);
+
+				//calculate Discounts , Delivery Fee , Loyalty Rating
+				double totalDiscounts = 0.00 , deliveryFeeOnRent ;
+				deliveryFeeOnRent = 50.00;
+
+
+            }
+        } );
+
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("Actions Yeet");
 	}
-
-
-
-	//get Vehicle based on Make , Model , Year
-
-	//OrderModel newOrder = new OrderModel("1,false");
-
-	//		String password = new String(passField.getPassword());
-//		
-////		if (name.equals(//get user from database)) {
-////				String name = nameField.getText();
-////		if (password.equals(//get pass from database)) {
-////			String name = nameField.getText();
-////
 ////			fireLoginEvent(new RegisterModel(name, password));
 ////		} else {
 ////			JOptionPane.showMessageDialog(this, "User not found.",
