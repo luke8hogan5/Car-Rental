@@ -26,7 +26,7 @@ public class LoginView extends MasterView implements ActionListener {
 	private JPasswordField passField;
 
 	private LoginListener loginListener;
-		
+	
 	public LoginView() {
 		super();
 		
@@ -45,7 +45,7 @@ public class LoginView extends MasterView implements ActionListener {
 		gc.insets = new Insets(100, 0, 0, 10);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(new JLabel("Name: "), gc);
+		add(new JLabel("Username: "), gc);
 
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 2;
