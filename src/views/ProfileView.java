@@ -1,7 +1,7 @@
 package views;
 
 import interfaces.ProfileListener;
-import models.Customer;
+import models.UserModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,24 +11,26 @@ import java.sql.SQLException;
 
 public class ProfileView extends MasterView implements ActionListener {
 
-    private JTextArea name;
+    private JTextField name;
     private JTextArea address;
-    private JTextArea email;
+    private JTextField email;
     private JButton updateBtn;
 
-    private Customer user = new Customer();
+    private UserModel user = new UserModel();
 
     private ProfileListener listener;
 
     public ProfileView() {
         super();
 
-        name = new JTextArea(user.getName());
+        name = new JTextField(32);
+        name.setText(user.getName());
         address = new JTextArea(user.getAddress());
         address.setMaximumSize(new Dimension(64, 30));
         address.setLineWrap(true);
         address.setWrapStyleWord(true);
-        email = new JTextArea(user.getEmail());
+        email = new JTextField(32);
+        email.setText(user.getEmail());
         updateBtn = new JButton("Update Details");
 
         setupView();
@@ -104,6 +106,7 @@ public class ProfileView extends MasterView implements ActionListener {
         user.setEmail(email.getText());
         user.setAddress(address.getText());
 
+        //fire update event
         if(listener != null){
             try {
                 listener.profileUpdated(user);
@@ -112,4 +115,5 @@ public class ProfileView extends MasterView implements ActionListener {
             }
         }
     }
+
 }

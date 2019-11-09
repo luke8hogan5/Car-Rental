@@ -1,14 +1,10 @@
 package controllers;
 
-import com.mysql.cj.log.Log;
 import database.Database;
 import interfaces.ProfileListener;
-import models.Customer;
 import models.UserModel;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,7 +17,7 @@ public class ProfileController implements ProfileListener {
     }
 
     @Override
-    public void profileUpdated(Customer user) throws SQLException {
+    public void profileUpdated(UserModel user) throws SQLException {
         System.out.println("Detail update received"+user.toString());
 
 
@@ -32,7 +28,7 @@ public class ProfileController implements ProfileListener {
         ps.setString(1, user.getName());
         ps.setString(2, user.getEmail());
         ps.setString(3, user.getAddress());
-        ps.setInt(4, user.getCustID());
+        ps.setInt(4, user.getId());
         ps.execute();
     }
 }
