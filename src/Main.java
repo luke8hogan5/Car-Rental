@@ -3,10 +3,12 @@ import java.sql.SQLException;
 import javax.swing.SwingUtilities;
 
 import controllers.LoginController;
+import controllers.ProfileController;
 import controllers.RegisterController;
 import database.Database;
 import views.LoginView;
 import views.MasterView;
+import views.ProfileView;
 import views.RegisterView;
 
 public class Main {
@@ -25,7 +27,8 @@ public class Main {
 				}
 				if(db != null) {
 					//initLogin();
-					initRegister();
+//					initRegister();
+					initProfile();
 				}
 				
 				try {
@@ -43,12 +46,19 @@ public class Main {
 		logView.setLoginListener(logCtrl);
 	}
 		
-		public static void initRegister() {
-			RegisterView regView = new RegisterView();
-			RegisterController regCtrl = new RegisterController(regView);
-			
-			regView.setRegisterListener(regCtrl);
-		}
+	public static void initRegister() {
+		RegisterView regView = new RegisterView();
+		RegisterController regCtrl = new RegisterController(regView);
+
+		regView.setRegisterListener(regCtrl);
+	}
+
+	public static void initProfile(){
+		ProfileView view = new ProfileView();
+		ProfileController profCtrl = new ProfileController(view);
+
+		view.setListener(profCtrl);
+	}
 }
 
 
