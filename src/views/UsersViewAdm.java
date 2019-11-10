@@ -11,13 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -25,8 +19,8 @@ import database.Database;
 import interfaces.UsersListenerAdm;
 import models.UserModel;
 
-public class UsersViewAdm extends MasterView {
-
+public class UsersViewAdm extends JPanel{
+	private MasterView parent;
 	private JButton saveBtn;
 	private JButton updateBtn;
 	private JButton deleteBtn;
@@ -42,208 +36,210 @@ public class UsersViewAdm extends MasterView {
 
 	private UsersListenerAdm displayUsersListener;
 			
-	public UsersViewAdm() throws SQLException {
+	public UsersViewAdm(MasterView parent) throws SQLException {
 		super();
+		this.parent = parent;
+
 			
-	    	l1 = new JLabel("FirstName");
-	    	l2 = new JLabel("Email");
-	    	l3 = new JLabel("Id");
-	    	l4 = new JLabel("Scrubs Car Rental");
-			nameField = new JTextField(20);
-			emailField = new JTextField(20);
-			idField = new JTextField(20);
-			addressField = new JTextField(20);
-			loyaltyField = new JTextField(20);
-			balanceField = new JTextField(20);
-			saveBtn = new JButton("Add");
-			updateBtn = new JButton("Update");
-			deleteBtn = new JButton("Delete");
-			userTable = new JTable();
-			scrollPane = new JScrollPane();
-			
-	        //setResizable(false);
+		l1 = new JLabel("FirstName");
+		l2 = new JLabel("Email");
+		l3 = new JLabel("Id");
+		l4 = new JLabel("Scrubs Car Rental");
+		nameField = new JTextField(20);
+		emailField = new JTextField(20);
+		idField = new JTextField(20);
+		addressField = new JTextField(20);
+		loyaltyField = new JTextField(20);
+		balanceField = new JTextField(20);
+		saveBtn = new JButton("Add");
+		updateBtn = new JButton("Update");
+		deleteBtn = new JButton("Delete");
+		userTable = new JTable();
+		scrollPane = new JScrollPane();
 
-	    	Connection conn = Database.getConnection();
-	        Statement st = conn.createStatement();
-	        ResultSet rs;
-	        rs = st.executeQuery("select user_id, userName, email, loyaltyRating, balanceDue from account where userType = 1;");
-	        ResultSetMetaData md = rs.getMetaData();
-	        int columnCount = md.getColumnCount();
-	        Vector columns = new Vector(columnCount);
-	 
-	      //store column names
-	        for(int i=1; i<=columnCount; i++)
-	          columns.add(md.getColumnName(i));
-	         
-	      Vector data = new Vector();
-	      Vector row;
-	       
-	        while (rs.next()) {
-	          
-	          row = new Vector(columnCount);
-	             for(int i=1; i<=columnCount; i++)
-	             {
-	                 row.add(rs.getString(i));
-	             }
-	             data.add(row);            
-	        }
-	         
-	        //Display in JTable  
-	        DefaultTableModel tableModel = new DefaultTableModel(data, columns);
-	        userTable.setModel(tableModel);
-	        userTable.setCellSelectionEnabled(true);
-	        scrollPane.setViewportView(userTable);
-	        
-	        userTable.addMouseListener(new MouseAdapter() {
-	            public void mouseClicked(MouseEvent event) {
-	                userTableMouseClicked(event);
-	            }
-	        });
-	        
-	        GroupLayout layout = new GroupLayout(getContentPane());
-	        getContentPane().setLayout(layout);
-	        layout.setHorizontalGroup(
-	            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	            .addGroup(layout.createSequentialGroup()
-	                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                    .addGroup(layout.createSequentialGroup()
-	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                            .addGroup(layout.createSequentialGroup()
-	                                .addComponent(l1,GroupLayout.PREFERRED_SIZE, 80,GroupLayout.PREFERRED_SIZE)
-	                                .addGap(18, 18, 18)
-	                                .addComponent(nameField,GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
-	                            .addGroup(layout.createSequentialGroup()
-	                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                                    .addComponent(l2, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-	                                    .addComponent(l3, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-	                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-	                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                                    .addComponent(idField, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
-	                                    .addComponent(emailField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))))
-	                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
-	                    .addGroup(layout.createSequentialGroup()
-	                        .addComponent(saveBtn,GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-	                        .addGap(27, 27, 27)
-	                        .addComponent(updateBtn,GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-	                        .addGap(27, 27, 27)
-	                        .addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 75,GroupLayout.PREFERRED_SIZE)))
-                    		.addGap(18, 18, 18)
-	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-	                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 800,GroupLayout.PREFERRED_SIZE)
-	                .addContainerGap())
-	            .addGroup(layout.createSequentialGroup()
-	                .addGap(218, 218, 218)
-	                .addComponent(l4)
-	                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	        );
-	        layout.setVerticalGroup(
-	            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	            .addGroup(layout.createSequentialGroup()
-	                .addContainerGap()
-	                .addComponent(l4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                .addGap(18, 18, 18)
-	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                    .addGroup(layout.createSequentialGroup()
-	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                            .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                            .addComponent(l1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                        .addGap(30, 30, 30)
-	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                            .addComponent(l2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                        .addGap(30, 30, 30)
-	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                            .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                            .addComponent(l3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                        .addGap(39, 39, 39)
-	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                                .addComponent(updateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                            .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-	                    .addComponent(scrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                .addContainerGap(29, Short.MAX_VALUE))
-	        );
+		//setResizable(false);
 
-	        pack();
-	        setLocationRelativeTo(null);
+		Connection conn = Database.getConnection();
+		Statement st = conn.createStatement();
+		ResultSet rs;
+		rs = st.executeQuery("select user_id, userName, email, loyaltyRating, balanceDue from account where userType = 1;");
+		ResultSetMetaData md = rs.getMetaData();
+		int columnCount = md.getColumnCount();
+		Vector columns = new Vector(columnCount);
 
-	        saveBtn.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent event) {					
-	                try {
-						saveBtnActionPerformed(event);
-		            	
-						String name = nameField.getText();
-						String email = emailField.getText();
-						int id = Integer.parseInt(idField.getText());
+	  //store column names
+		for(int i=1; i<=columnCount; i++)
+		  columns.add(md.getColumnName(i));
 
-						fireAddUserEvent(new UserModel(name, email, id));
+	  Vector data = new Vector();
+	  Vector row;
 
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            }
-	        });
-	        
-	        updateBtn.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent event) {
-	                try {
-						updateBtnActionPerformed(event);
-						
-						String name = nameField.getText();
-						String email = emailField.getText();
-						int id = Integer.parseInt(idField.getText());
-						
-						fireUpdateUserEvent(new UserModel(name, email, id));
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            }
-	        });
+		while (rs.next()) {
 
-	        deleteBtn.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent event) {
-	               	try {
-						deleteBtnActionPerformed(event);
-						
-						int id = Integer.parseInt(idField.getText());
-						
-						fireDeleteUserEvent(new UserModel(id));
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            }
-	        });
+		  row = new Vector(columnCount);
+			 for(int i=1; i<=columnCount; i++)
+			 {
+				 row.add(rs.getString(i));
+			 }
+			 data.add(row);
+		}
 
+		//Display in JTable
+		DefaultTableModel tableModel = new DefaultTableModel(data, columns);
+		userTable.setModel(tableModel);
+		userTable.setCellSelectionEnabled(true);
+		scrollPane.setViewportView(userTable);
+
+		userTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent event) {
+				userTableMouseClicked(event);
 			}
-	
-		public void delete(int id) throws SQLException {
-	
-			Connection con = Database.getConnection();
-			String sql = "DELETE FROM `account` WHERE user_id='" + id + "'";
-			Statement st = con.createStatement();
-			st.execute(sql);
+		});
+
+		GroupLayout layout = new GroupLayout(parent.getContentPane());
+		parent.getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+			.addGroup(layout.createSequentialGroup()
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+							.addGroup(layout.createSequentialGroup()
+								.addComponent(l1,GroupLayout.PREFERRED_SIZE, 80,GroupLayout.PREFERRED_SIZE)
+								.addGap(18, 18, 18)
+								.addComponent(nameField,GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
+							.addGroup(layout.createSequentialGroup()
+								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+									.addComponent(l2, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addComponent(l3, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+									.addComponent(idField, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+									.addComponent(emailField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
+					.addGroup(layout.createSequentialGroup()
+						.addComponent(saveBtn,GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+						.addGap(27, 27, 27)
+						.addComponent(updateBtn,GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+						.addGap(27, 27, 27)
+						.addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 75,GroupLayout.PREFERRED_SIZE)))
+						.addGap(18, 18, 18)
+				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 800,GroupLayout.PREFERRED_SIZE)
+				.addContainerGap())
+			.addGroup(layout.createSequentialGroup()
+				.addGap(218, 218, 218)
+				.addComponent(l4)
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		layout.setVerticalGroup(
+			layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+			.addGroup(layout.createSequentialGroup()
+				.addContainerGap()
+				.addComponent(l4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+				.addGap(18, 18, 18)
+				.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+					.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+							.addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+							.addComponent(l1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addGap(30, 30, 30)
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+							.addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+							.addComponent(l2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addGap(30, 30, 30)
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+							.addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+							.addComponent(l3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addGap(39, 39, 39)
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+							.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(updateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+							.addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+					.addComponent(scrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
+				.addContainerGap(29, Short.MAX_VALUE))
+		);
+
+		parent.pack();
+		parent.setLocationRelativeTo(null);
+
+		saveBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				try {
+					saveBtnActionPerformed(event);
+
+					String name = nameField.getText();
+					String email = emailField.getText();
+					int id = Integer.parseInt(idField.getText());
+
+					fireAddUserEvent(new UserModel(name, email, id));
+
+				} catch (SQLException e) {
+					/** Auto-generated catch block*/
+					e.printStackTrace();
+				}
+			}
+		});
+
+		updateBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				try {
+					updateBtnActionPerformed(event);
+
+					String name = nameField.getText();
+					String email = emailField.getText();
+					int id = Integer.parseInt(idField.getText());
+
+					fireUpdateUserEvent(new UserModel(name, email, id));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		deleteBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				try {
+					deleteBtnActionPerformed(event);
+
+					int id = Integer.parseInt(idField.getText());
+
+					fireDeleteUserEvent(new UserModel(id));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
 		}
 
-		public void saveUser(String fname, String lname, int id) throws SQLException {
-			Connection con = Database.getConnection();
-			String sql = "INSERT INTO `account`(`userName`, `email`, `user_id`) "
-					+ "VALUES ('" + fname + "','" + lname + "','" + id + "')";
-			Statement st = con.createStatement();
-			st.execute(sql);
-		}
-		
-		public void update(String fname, String lname, int id) throws SQLException {
-    
-			Connection con = Database.getConnection();
-			String sql = "UPDATE `account`SET userName='" + fname + "',email='" + lname + "'WHERE user_id='" + id + "'";
-			Statement st = con.createStatement();
-			st.execute(sql);
-		}
+	public void delete(int id) throws SQLException {
+
+		Connection con = Database.getConnection();
+		String sql = "DELETE FROM `account` WHERE user_id='" + id + "'";
+		Statement st = con.createStatement();
+		st.execute(sql);
+	}
+
+	public void saveUser(String fname, String lname, int id) throws SQLException {
+		Connection con = Database.getConnection();
+		String sql = "INSERT INTO `account`(`userName`, `email`, `user_id`) "
+				+ "VALUES ('" + fname + "','" + lname + "','" + id + "')";
+		Statement st = con.createStatement();
+		st.execute(sql);
+	}
+
+	public void update(String fname, String lname, int id) throws SQLException {
+
+		Connection con = Database.getConnection();
+		String sql = "UPDATE `account`SET userName='" + fname + "',email='" + lname + "'WHERE user_id='" + id + "'";
+		Statement st = con.createStatement();
+		st.execute(sql);
+	}
 
 	//handles delete button action
 	private void deleteBtnActionPerformed(ActionEvent event) throws SQLException {

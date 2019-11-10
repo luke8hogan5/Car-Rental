@@ -8,18 +8,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
+import controllers.PaymentController;
 import database.Database;
 import interfaces.LoginListener;
 import interfaces.PaymentListener;
 import models.PaymentModel;
 
-public class PaymentView extends MasterView implements ActionListener {
-	
+public class PaymentView extends JPanel {
+	private MasterView parent;
 	private JButton payButton;
 	private JTextField cardHolder;
 	private JTextField cardNo;
@@ -28,8 +26,10 @@ public class PaymentView extends MasterView implements ActionListener {
 
 	private PaymentListener paymentListener;
 		
-	public PaymentView() {
+	public PaymentView(MasterView parent) {
 		super();
+		this.parent = parent;
+		paymentListener = new PaymentController(this);
 		
 		cardHolder = new JTextField(30);
 		cardNo = new JTextField(16);
@@ -130,25 +130,20 @@ public class PaymentView extends MasterView implements ActionListener {
 
 		add(payButton, gc);
 
-		payButton.addActionListener(this);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
+		payButton.addActionListener(e->{
 			String cardHolderField = cardHolder.getText();
 			String cardNoField = cardNo.getText();
 			String expDateField = expDate.getText();
 			int cVVField = Integer.parseInt(cVV.getText());
 			//userId = get id on login from userModel
 
-				try {
-					firePaymentEvent(new PaymentModel(cardHolderField, cardNoField, cVVField, expDateField));
-				} catch (SQLException e1) {
-					System.out.print("Could not process payment details");
-					e1.printStackTrace();
-				}
-
+			try {
+				firePaymentEvent(new PaymentModel(cardHolderField, cardNoField, cVVField, expDateField));
+			} catch (SQLException e1) {
+				System.out.print("Could not process payment details");
+				e1.printStackTrace();
+			}
+		});
 		}
 
 		public void setPaymentListener(PaymentListener paymentListener) {

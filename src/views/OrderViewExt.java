@@ -1,6 +1,7 @@
 package views;
 
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
+//import com.sun.org.apache.bcel.internal.generic.SWITCH;
+import controllers.OrderExtController;
 import database.Database;
 import interfaces.OrderExtListener;
 import models.OrderModel;
@@ -13,17 +14,23 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.Calendar;
 
 import static java.lang.String.valueOf;
 
-public class OrderViewExt extends MasterView implements ActionListener {
-
-    private OrderExtListener OrderExtListener;
+public class OrderViewExt extends JPanel implements ActionListener {
+    private MasterView parent;
+    private OrderExtListener orderExtListener;
 
     public OrderViewExt() {
+
+    public String[] vehicleModels = new String[10];
+    public JComboBox modelList;
+
+    public OrderViewExt(MasterView parent) {
         super();
+        this.parent = parent;
+        orderExtListener = new OrderExtController(this);
+
         setSize(600,400);
         //Send Over Price of Vehicle
         int userId = 1, vehicleId = 5;
@@ -50,6 +57,7 @@ public class OrderViewExt extends MasterView implements ActionListener {
             exception.printStackTrace();
         }
     }
+    
 
 
     public void buildTable(int rating, int points, double price,int userId , int vehicleId) {
@@ -325,13 +333,14 @@ public class OrderViewExt extends MasterView implements ActionListener {
 
 
     public void setOrderExtListener(OrderExtListener orderExtListener) {
-        this.OrderExtListener = orderExtListener;
+        this.orderExtListener = orderExtListener;
     }
 
 
     public void fireLoginEvent(VehicleModel event) throws SQLException {
-        if (OrderExtListener != null) {
-            OrderExtListener.orderPerformed(event);
+        if (orderExtListener != null) {
+            orderExtListener.orderPerformed(event);
         }
     }
-}
+ }
+

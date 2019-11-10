@@ -8,20 +8,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
+import controllers.CatalogController;
 import controllers.RegisterController;
 import interfaces.RegisterListener;
 import models.UserModel;
 
-public class RegisterView extends MasterView implements ActionListener {
-
+public class RegisterView extends JPanel implements ActionListener {
+	private MasterView parent;
 	private JButton okButton;
 	private JTextField nameField;
 	private JPasswordField passField;
@@ -30,8 +25,10 @@ public class RegisterView extends MasterView implements ActionListener {
 
 	private RegisterListener registerListener;
 	
-	public RegisterView() {
+	public RegisterView(MasterView parent) {
 		super();
+		this.parent = parent;
+		registerListener = new RegisterController(this);
 
 		nameField = new JTextField(10);
 		passField = new JPasswordField(10);
@@ -132,34 +129,21 @@ public class RegisterView extends MasterView implements ActionListener {
 		add(okButton, gc);
 
 		okButton.addActionListener(this);
-		
-		addWindowListener(new WindowAdapter() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-
-			}
-			
-		});
+		parent.getRootPane().setDefaultButton(okButton);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		String password = new String(passField.getPassword());
+		String pass = new String(passField.getPassword());
 		String repeat = new String(repeatPassField.getPassword());
 		String email = new String(emailField.getText());
 
-		if (password.equals(repeat)) {
+		if (pass.equals(repeat)) {
 			String name = nameField.getText();
 
 			try {
-				fireRegisterEvent(new UserModel(name, password, email));
+				fireRegisterEvent(name, pass, email);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -170,13 +154,10 @@ public class RegisterView extends MasterView implements ActionListener {
 		}
 	}
 
-	public void setRegisterListener(RegisterListener registerListener) {
-		this.registerListener = registerListener;
-	}
-
-	public void fireRegisterEvent(UserModel event) throws SQLException {
+	public void fireRegisterEvent(String name, String pass, String email) throws SQLException {
 		if (registerListener != null) {
-			registerListener.registerPerformed(event);
+			registerListener.registerPerformed(name, email, pass, parent);
+			parent.changePanel(new CatalogView(parent));
 		}
 	}
 
