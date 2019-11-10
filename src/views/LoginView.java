@@ -112,9 +112,14 @@ public class LoginView extends JPanel implements ActionListener {
 			if (loginListener != null) {
 				loginListener.loginPerformed(name, pass,parent);
 
-				if(parent.getCurrentUser().getUserType() != 0)
-				parent.changePanel(new CatalogView(parent));
-			}
+                if(parent.getCurrentUser() == null) {
+                    JOptionPane.showMessageDialog(this, "Incorrect username or password", "Login Error", JOptionPane.WARNING_MESSAGE);
+                }else if(parent.getCurrentUser().getUserType() == 1) {
+                    parent.changePanel(new CatalogView(parent));
+                }else if(parent.getCurrentUser().getUserType() == 2) {
+                    parent.changePanel(new OrderViewAdm(parent));
+                }
+            }
 		}
 
 //	}
