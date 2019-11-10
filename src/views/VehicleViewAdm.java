@@ -12,13 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -29,8 +23,8 @@ import interfaces.VehicleListenerAdm;
 import models.UserModel;
 import models.VehicleModelAdm;
 
-public class VehicleViewAdm extends MasterView {
-
+public class VehicleViewAdm extends JPanel {
+	private MasterView parent;
 	private JButton saveBtn;
 	private JButton updateBtn;
 	private JButton deleteBtn;
@@ -49,226 +43,226 @@ public class VehicleViewAdm extends MasterView {
 	public VehicleViewAdm() throws SQLException {
 		super();
 			
-	    	l1 = new JLabel("Vehicle Make");
-	    	l2 = new JLabel("Vehile Model");
-	    	l3 = new JLabel("VehicleId");
-	    	l6 = new JLabel("Vehicle Price");
-	    	l5 = new JLabel("Vehicle Year");
-	    	l7 = new JLabel("Availability");
-	    	l4 = new JLabel("Scrubs Car Rental");
-			vehicleMakeField = new JTextField(10);
-			vehicleModelField = new JTextField(10);
-			vehicleIdField = new JTextField(10);
-			vehiclePriceField = new JTextField(10);
-			vehicleYearField = new JTextField(10);
-			vehicleAvailable = new JTextField(10);
-			saveBtn = new JButton("Add");
-			updateBtn = new JButton("Update");
-			deleteBtn = new JButton("Delete");
-			vehicleTable = new JTable();
-			scrollPane = new JScrollPane();
-			
-	        setResizable(false);
-	        
-		    	Connection conn = Database.getConnection();
-		        Statement stat = conn.createStatement();
-		        ResultSet rs;
-		        rs = stat.executeQuery("select vehicleMake,vehicleModel, vehicle_id, vehicleYear, vehiclePrice, isAvailable from vehicle;");
-		        ResultSetMetaData md = rs.getMetaData();
-		        int columnCount = md.getColumnCount();
-		        Vector columns = new Vector(columnCount);
-		 
-		      //store column names
-		        for(int i=1; i<=columnCount; i++)
-		          columns.add(md.getColumnName(i));
-		         
-		        Vector data = new Vector();
-		        Vector row;
-		       
-		        while (rs.next()) {
-		          
-		          row = new Vector(columnCount);
-		             for(int i=1; i<=columnCount; i++)
-		             {
-		                 row.add(rs.getString(i));
-		             }
-		             data.add(row);            
-		        }
-		         
-		        //Display in JTable  
-		        DefaultTableModel tableModel = new DefaultTableModel(data, columns);
-		        vehicleTable.setModel(tableModel);
-		        vehicleTable.setCellSelectionEnabled(true);
-	        
+		l1 = new JLabel("Vehicle Make");
+		l2 = new JLabel("Vehile Model");
+		l3 = new JLabel("VehicleId");
+		l6 = new JLabel("Vehicle Price");
+		l5 = new JLabel("Vehicle Year");
+		l7 = new JLabel("Availability");
+		l4 = new JLabel("Scrubs Car Rental");
+		vehicleMakeField = new JTextField(10);
+		vehicleModelField = new JTextField(10);
+		vehicleIdField = new JTextField(10);
+		vehiclePriceField = new JTextField(10);
+		vehicleYearField = new JTextField(10);
+		vehicleAvailable = new JTextField(10);
+		saveBtn = new JButton("Add");
+		updateBtn = new JButton("Update");
+		deleteBtn = new JButton("Delete");
+		vehicleTable = new JTable();
+		scrollPane = new JScrollPane();
 
-	        vehicleTable.addMouseListener(new MouseAdapter() {
-	            public void mouseClicked(MouseEvent event) {
-	                userTableMouseClicked(event);
-	            }
-	        });
-	        scrollPane.setViewportView(vehicleTable);
-	        
-	        
-	        GroupLayout layout = new GroupLayout(getContentPane());
-	        getContentPane().setLayout(layout);
-	        layout.setHorizontalGroup(
-	            layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
-	                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                    .addGroup(layout.createSequentialGroup()
-	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                            .addGroup(layout.createSequentialGroup()
-	                            .addComponent(l1,GroupLayout.PREFERRED_SIZE, 90,GroupLayout.PREFERRED_SIZE)
-	                            .addComponent(vehicleMakeField,GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
-	        	                	.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	        	                		.addGroup(layout.createSequentialGroup()
-	                                    .addComponent(l2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-	                                    .addComponent(vehicleModelField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
-	        	                        	.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	        		                            .addGroup(layout.createSequentialGroup()
-	        		                            .addComponent(l3, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-	        		                            .addComponent(vehicleIdField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
-	        			                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	        			                        	.addGroup(layout.createSequentialGroup()
-	        			                        			.addComponent(l5, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-	        			                        			.addComponent(vehicleYearField, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
-	        				                        		.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	        				                        			.addGroup(layout.createSequentialGroup()
-	        				                        			.addComponent(l6, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-	        				                        			.addComponent(vehiclePriceField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
-	        				                        				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-			        				                        			.addGroup(layout.createSequentialGroup()
-			        				                        			.addComponent(l7, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-			        				                        			.addComponent(vehicleAvailable, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
-	        				))))))
-	                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE))
-	                    .addGroup(layout.createSequentialGroup()
-	                        .addComponent(saveBtn,GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-	                        .addGap(35, 35, 35)
-	                        .addComponent(updateBtn,GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-	                        .addGap(35, 35, 35)
-	                        .addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 75,GroupLayout.PREFERRED_SIZE)))
-	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-	                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 600,GroupLayout.PREFERRED_SIZE)
-	                .addContainerGap())
-	            .addGroup(layout.createSequentialGroup()
-	                .addGap(300, 300, 300)
-	                .addComponent(l4)
-	                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	        );
-	        layout.setVerticalGroup(
-	            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	            .addGroup(layout.createSequentialGroup().addContainerGap().addComponent(l4).addGap(18, 18, 18)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
-	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(vehicleMakeField)
-	                            .addComponent(l1)).addGap(30, 30, 30).
-	                        addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                            .addComponent(vehicleModelField).addComponent(l2)).addGap(30, 30, 30)
-	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(vehicleIdField)
-	                            .addComponent(l3)).addGap(39, 39, 39)
-	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-		                            .addComponent(vehicleYearField).addComponent(l5)).addGap(30, 30, 30)
-	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-		                            .addComponent(vehiclePriceField).addComponent(l6)).addGap(30, 30, 30)
-	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-		                            .addComponent(vehicleAvailable).addComponent(l7)).addGap(30, 30, 30)
-	                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                                .addComponent(deleteBtn).addComponent(updateBtn)).addComponent(saveBtn)))
-	                    .addComponent(scrollPane, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 600,GroupLayout.PREFERRED_SIZE)).addContainerGap(30, Short.MAX_VALUE))
-	        );
-	        pack();
-	        setLocationRelativeTo(null);
+		parent.setResizable(false);
 
-	        saveBtn.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent event) {					
-	                try {
-						saveBtnActionPerformed(event);
-		            	
-						String vehicleMake = vehicleMakeField.getText();
-						String vehicleModel = vehicleModelField.getText();
-						int vehicleId = Integer.parseInt(vehicleIdField.getText());
-						int vehicleYear = Integer.parseInt(vehicleYearField.getText());
-						double vehiclePrice = Double.parseDouble(vehiclePriceField.getText());
-						int available = Integer.parseInt(vehicleAvailable.getText());
-						
+			Connection conn = Database.getConnection();
+			Statement stat = conn.createStatement();
+			ResultSet rs;
+			rs = stat.executeQuery("select vehicleMake,vehicleModel, vehicle_id, vehicleYear, vehiclePrice, isAvailable from vehicle;");
+			ResultSetMetaData md = rs.getMetaData();
+			int columnCount = md.getColumnCount();
+			Vector columns = new Vector(columnCount);
 
-						fireAddVehicleEvent(new VehicleModelAdm(vehicleId, vehicleModel, vehicleMake, vehicleYear,
-								vehiclePrice, available));
+		  //store column names
+			for(int i=1; i<=columnCount; i++)
+			  columns.add(md.getColumnName(i));
 
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            }
-	        });
-	        
-	        updateBtn.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent event) {
-	                try {
-						updateBtnActionPerformed(event);
-						
-						String vehicleMake = vehicleMakeField.getText();
-						String vehicleModel = vehicleModelField.getText();
-						int vehicleId = Integer.parseInt(vehicleIdField.getText());
-						int vehicleYear = Integer.parseInt(vehicleYearField.getText());
-						double vehiclePrice = Double.parseDouble(vehiclePriceField.getText());
-						int available = Integer.parseInt(vehicleAvailable.getText());
-						
-						fireUpdateVehicleEvent(new VehicleModelAdm(vehicleId, vehicleModel, vehicleMake, vehicleYear,
-								vehiclePrice, available));
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            }
-	        });
+			Vector data = new Vector();
+			Vector row;
 
-	        deleteBtn.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent event) {
-	               	try {
-						deleteBtnActionPerformed(event);
-						
-						int id = Integer.parseInt(vehicleIdField.getText());
-						
-						fireDeleteVehicleEvent(new VehicleModelAdm(id));
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            }
-	        });
+			while (rs.next()) {
 
+			  row = new Vector(columnCount);
+				 for(int i=1; i<=columnCount; i++)
+				 {
+					 row.add(rs.getString(i));
+				 }
+				 data.add(row);
 			}
-	
-		public void delete(int vehicleId) throws SQLException {
-	
-			Connection con = Database.getConnection();
-			String sql = "DELETE FROM `vehicle` WHERE vehicle_id='" + vehicleId + "'";
-			Statement st = con.createStatement();
-			st.execute(sql);
+
+			//Display in JTable
+			DefaultTableModel tableModel = new DefaultTableModel(data, columns);
+			vehicleTable.setModel(tableModel);
+			vehicleTable.setCellSelectionEnabled(true);
+
+
+		vehicleTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent event) {
+				userTableMouseClicked(event);
+			}
+		});
+		scrollPane.setViewportView(vehicleTable);
+
+
+		GroupLayout layout = new GroupLayout(parent.getContentPane());
+		parent.getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+							.addGroup(layout.createSequentialGroup()
+							.addComponent(l1,GroupLayout.PREFERRED_SIZE, 90,GroupLayout.PREFERRED_SIZE)
+							.addComponent(vehicleMakeField,GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
+								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+									.addGroup(layout.createSequentialGroup()
+									.addComponent(l2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+									.addComponent(vehicleModelField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
+										.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+											.addGroup(layout.createSequentialGroup()
+											.addComponent(l3, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+											.addComponent(vehicleIdField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
+											.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+												.addGroup(layout.createSequentialGroup()
+														.addComponent(l5, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+														.addComponent(vehicleYearField, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
+														.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+															.addGroup(layout.createSequentialGroup()
+															.addComponent(l6, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+															.addComponent(vehiclePriceField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
+																.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+																	.addGroup(layout.createSequentialGroup()
+																	.addComponent(l7, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+																	.addComponent(vehicleAvailable, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
+						))))))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE))
+					.addGroup(layout.createSequentialGroup()
+						.addComponent(saveBtn,GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+						.addGap(35, 35, 35)
+						.addComponent(updateBtn,GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+						.addGap(35, 35, 35)
+						.addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 75,GroupLayout.PREFERRED_SIZE)))
+				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 600,GroupLayout.PREFERRED_SIZE)
+				.addContainerGap())
+			.addGroup(layout.createSequentialGroup()
+				.addGap(300, 300, 300)
+				.addComponent(l4)
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		layout.setVerticalGroup(
+			layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+			.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(l4).addGap(18, 18, 18)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(vehicleMakeField)
+							.addComponent(l1)).addGap(30, 30, 30).
+						addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+							.addComponent(vehicleModelField).addComponent(l2)).addGap(30, 30, 30)
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(vehicleIdField)
+							.addComponent(l3)).addGap(39, 39, 39)
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(vehicleYearField).addComponent(l5)).addGap(30, 30, 30)
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(vehiclePriceField).addComponent(l6)).addGap(30, 30, 30)
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(vehicleAvailable).addComponent(l7)).addGap(30, 30, 30)
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(deleteBtn).addComponent(updateBtn)).addComponent(saveBtn)))
+					.addComponent(scrollPane, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 600,GroupLayout.PREFERRED_SIZE)).addContainerGap(30, Short.MAX_VALUE))
+		);
+		parent.pack();
+		parent.setLocationRelativeTo(null);
+
+		saveBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				try {
+					saveBtnActionPerformed(event);
+
+					String vehicleMake = vehicleMakeField.getText();
+					String vehicleModel = vehicleModelField.getText();
+					int vehicleId = Integer.parseInt(vehicleIdField.getText());
+					int vehicleYear = Integer.parseInt(vehicleYearField.getText());
+					double vehiclePrice = Double.parseDouble(vehiclePriceField.getText());
+					int available = Integer.parseInt(vehicleAvailable.getText());
+
+
+					fireAddVehicleEvent(new VehicleModelAdm(vehicleId, vehicleModel, vehicleMake, vehicleYear,
+							vehiclePrice, available));
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		updateBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				try {
+					updateBtnActionPerformed(event);
+
+					String vehicleMake = vehicleMakeField.getText();
+					String vehicleModel = vehicleModelField.getText();
+					int vehicleId = Integer.parseInt(vehicleIdField.getText());
+					int vehicleYear = Integer.parseInt(vehicleYearField.getText());
+					double vehiclePrice = Double.parseDouble(vehiclePriceField.getText());
+					int available = Integer.parseInt(vehicleAvailable.getText());
+
+					fireUpdateVehicleEvent(new VehicleModelAdm(vehicleId, vehicleModel, vehicleMake, vehicleYear,
+							vehiclePrice, available));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		deleteBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				try {
+					deleteBtnActionPerformed(event);
+
+					int id = Integer.parseInt(vehicleIdField.getText());
+
+					fireDeleteVehicleEvent(new VehicleModelAdm(id));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
 		}
 
-		public void saveUser(String vehicleMake, String vehicleModel, int vehicleId, int vehicleYear, double vehiclePrice, int available) throws SQLException {
-			Connection con = Database.getConnection();
-			String sql = "INSERT INTO vehicle(vehicleMake, vehicleModel, vehicle_id, vehicleYear, vehiclePrice, isAvailable) VALUES (?,?,?,?,?,?);";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, vehicleMake);
-		    ps.setString(2, vehicleModel);
-		    ps.setInt(3, vehicleId);
-			ps.setInt(4, vehicleYear);
-		    ps.setDouble(5, vehiclePrice);
-		    ps.setInt(6, available);
-		    ps.executeUpdate(); 
-		}
-		
-		public void update(String vehicleMake, String vehicleModel, int vehicleId, int vehicleYear, double vehiclePrice, int available) throws SQLException {
-    
-			Connection con = Database.getConnection();
-			String sql = "UPDATE `vehicle`SET vehicleMake='" + vehicleMake + "',vehicleModel='" + vehicleModel + "',vehicleYear='" + vehicleYear + "',vehiclePrice='" + vehiclePrice + "',isAvailable='" + available + "'WHERE vehicle_id='" + vehicleId + "'";
-			Statement st = con.createStatement();
-			st.execute(sql);
-		}
+	public void delete(int vehicleId) throws SQLException {
+
+		Connection con = Database.getConnection();
+		String sql = "DELETE FROM `vehicle` WHERE vehicle_id='" + vehicleId + "'";
+		Statement st = con.createStatement();
+		st.execute(sql);
+	}
+
+	public void saveUser(String vehicleMake, String vehicleModel, int vehicleId, int vehicleYear, double vehiclePrice, int available) throws SQLException {
+		Connection con = Database.getConnection();
+		String sql = "INSERT INTO vehicle(vehicleMake, vehicleModel, vehicle_id, vehicleYear, vehiclePrice, isAvailable) VALUES (?,?,?,?,?,?);";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, vehicleMake);
+		ps.setString(2, vehicleModel);
+		ps.setInt(3, vehicleId);
+		ps.setInt(4, vehicleYear);
+		ps.setDouble(5, vehiclePrice);
+		ps.setInt(6, available);
+		ps.executeUpdate();
+	}
+
+	public void update(String vehicleMake, String vehicleModel, int vehicleId, int vehicleYear, double vehiclePrice, int available) throws SQLException {
+
+		Connection con = Database.getConnection();
+		String sql = "UPDATE `vehicle`SET vehicleMake='" + vehicleMake + "',vehicleModel='" + vehicleModel + "',vehicleYear='" + vehicleYear + "',vehiclePrice='" + vehiclePrice + "',isAvailable='" + available + "'WHERE vehicle_id='" + vehicleId + "'";
+		Statement st = con.createStatement();
+		st.execute(sql);
+	}
 
 	//handles delete button action
 	private void deleteBtnActionPerformed(ActionEvent event) throws SQLException {

@@ -14,40 +14,43 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import controllers.OrderController;
 import database.Database;
 import interfaces.OrderListener;
 import models.VehicleModel;
 
 import static jdk.nashorn.internal.objects.NativeMath.round;
 
-public class OrderView extends MasterView implements ActionListener {
+public class OrderView extends JPanel implements ActionListener {
+	private MasterView parent;
 
-
-	private OrderListener OrderListener;
+	private OrderListener orderListener;
 	public String[] vehicleModels = new String[10];
 	public JComboBox modelList;
 
-	public OrderView() {
+	public OrderView(MasterView parent) {
 		super();
-				String id = "" , vMake = "" , vModel = "" ;
-				double vPrice = 0.0;
-				Connection conn = Database.getConnection();
-				String query = "SELECT `vehicle_id` FROM  `vehicle`;";
-				Statement st = null;
-				try {
-					st = conn.createStatement();
-					ResultSet rs = st.executeQuery(query);
-					int i = 0;
-					while (rs.next()) {
-						id = rs.getString("vehicle_id");
-						System.out.println(rs.getString("vehicle_id"));
-						i++;
-					}
-					buildTable(id);
-				}catch (SQLException exception) {
-					exception.printStackTrace();
-				}
+		this.parent = parent;
+		orderListener = new OrderController(this);
+		String id = "" , vMake = "" , vModel = "" ;
+		double vPrice = 0.0;
+		Connection conn = Database.getConnection();
+		String query = "SELECT `vehicle_id` FROM  `vehicle`;";
+		Statement st = null;
+		try {
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			int i = 0;
+			while (rs.next()) {
+				id = rs.getString("vehicle_id");
+				System.out.println(rs.getString("vehicle_id"));
+				i++;
 			}
+			buildTable(id);
+		}catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+	}
 
 
 	public void buildTable(String id) {
@@ -235,7 +238,7 @@ public class OrderView extends MasterView implements ActionListener {
 
 
         submitId.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) { //TODO: add to controller
 				String id = idBox.getText();
 				String vMake = "" , vModel = "" , vYear = "" ;
 				double vPrice = 0.0;
@@ -312,13 +315,13 @@ public class OrderView extends MasterView implements ActionListener {
 ////		}
 ////	}
 
-	public void setOrderListener(OrderListener orderListener) {
-		this.OrderListener = orderListener;
-	}
+//	public void setOrderListener(OrderListener orderListener) {
+//		this.orderListener = orderListener;
+//	}
 
 	public void fireLoginEvent(VehicleModel event) throws SQLException {
-		if (OrderListener != null) {
-			OrderListener.orderPerformed(event);
+		if (orderListener != null) {
+			orderListener.orderPerformed(event);
 		}
 	}
 }

@@ -3,13 +3,14 @@ package controllers;
 import interfaces.OrderExtListener;
 import models.VehicleModel;
 import views.OrderView;
+import views.OrderViewExt;
 
 import java.sql.SQLException;
 
 public class OrderExtController implements OrderExtListener {
 
-    private OrderView view;
-    public OrderExtController(OrderView view) {
+    private OrderViewExt view;
+    public OrderExtController(OrderViewExt view) {
         this.view = view;
     }
 

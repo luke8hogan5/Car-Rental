@@ -7,27 +7,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 
+import controllers.Controller;
+import controllers.OrderControllerAdm;
 import database.Database;
 import interfaces.OrderListenerAdm;
 import models.OrderModelAdm;
 
-public class OrderViewAdm extends MasterView { //implements ActionListener {
-
+public class OrderViewAdm extends JPanel{
+	private MasterView parent;
 	private JLabel orderDetails;
 	private JButton displayOrders;
 	private JScrollPane scrollPane;
 	private JTable orderTable;
 
-	private OrderListenerAdm orderListenerAdm;
 	private OrderListenerAdm orderAdmListener;
 	
-	public OrderViewAdm() throws SQLException {
+	public OrderViewAdm(MasterView parent) throws SQLException {
 		super();
+		this.parent = parent;
+		orderAdmListener = new OrderControllerAdm(this);
 		
 		displayOrders = new JButton("Display Orders");
 
