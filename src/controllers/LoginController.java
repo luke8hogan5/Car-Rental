@@ -17,11 +17,15 @@ public class LoginController implements LoginListener {
 	public LoginController(LoginView view) {
 		this.view = view;
 	}
-
+	
 	@Override
 	public void loginPerformed(UserModel event, MasterView master) throws SQLException {
 		System.out.println("Login event received: " + event.getName() + "; " + event.getPassword());
+<<<<<<< HEAD
+		
+=======
 
+>>>>>>> 246bbd16297e5ddccc1701a7c289c4e98ae064e2
 		String username = event.getName();
 		String password = event.getPassword();
 		

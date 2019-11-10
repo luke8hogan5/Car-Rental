@@ -1,85 +1,60 @@
 package models;
+
+
 public class UserModel {
-	private int id;
+	private int userId;
 	private String name;
-	private String email;
 	private String password;
-	private String address;
-	private double balance;
-	private int loyaltyPts;
+<<<<<<< HEAD
+	private String email;
+	
+=======
 
 	public UserModel(){}
-
+>>>>>>> 246bbd16297e5ddccc1701a7c289c4e98ae064e2
 	public UserModel(String name, String password) {
 		this.name = name;
 		this.password = password;
 	}
-
+	
+	public UserModel(int userId) {
+		this.userId = userId;
+	}
+	
 	public UserModel(String name, String password, String email) {
 		this.name = name;
 		this.password = password;
 		this.email = email;
 	}
-
-	public UserModel(int id, String name, String email, String password, String address, double balance, int loyaltyPts) {
-		this.id = id;
+	
+	public UserModel(String name, String email, int userId) {
 		this.name = name;
+		this.userId = userId;
 		this.email = email;
-		this.password = password;
-		this.address = address;
-		this.balance = balance;
-		this.loyaltyPts = loyaltyPts;
 	}
-
-	public int getId() {
-		return id;
+	
+	public int getUserId() {
+		return userId;
 	}
-
-	public String getName() {
-		return name;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getAddress() {
-		return address;
+	public String getName() {
+		return name;
 	}
-
-	public void setAddress(String address) {
-		this.address = address;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public double getBalance() {
-		return balance;
+	public String getPassword() {
+		return password;
 	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
-	public int getLoyaltyPts() {
-		return loyaltyPts;
-	}
-
-	public void setLoyaltyPts(int loyaltyPts) {
-		this.loyaltyPts = loyaltyPts;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
