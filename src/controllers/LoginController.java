@@ -9,6 +9,7 @@ import database.Database;
 import interfaces.LoginListener;
 import models.UserModel;
 import views.LoginView;
+import views.MasterView;
 
 public class LoginController implements LoginListener {
 	private LoginView view;
@@ -18,14 +19,14 @@ public class LoginController implements LoginListener {
 	}
 
 	@Override
-	public void loginPerformed(UserModel event) throws SQLException {
+	public void loginPerformed(UserModel event, MasterView master) throws SQLException {
 		System.out.println("Login event received: " + event.getName() + "; " + event.getPassword());
 
 		String username = event.getName();
 		String password = event.getPassword();
 		
 		Connection conn = Database.getConnection();
-		String query = "SELECT userName, userPassword FROM  account;";
+		String query = "SELECT userName, userPassword FROM  account;"; //TODO change this
 		Statement st = conn.createStatement();
 	    ResultSet rs = st.executeQuery(query);
 	    
@@ -33,9 +34,11 @@ public class LoginController implements LoginListener {
 	    	String user = rs.getString("userName");
 	    	String pass = rs.getString("userPassword");
 	        
-			if(username.equals(user) && password.equals(password)) {
+			if(username.equals(user) && password.equals(pass)) {
 		    	System.out.println("Login performed");
 			}
 	    }
+
+	    master.setCurrentUser(event);
 	}
 }

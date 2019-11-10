@@ -4,6 +4,7 @@ import database.Database;
 import interfaces.CatalogListener;
 import views.CatalogView;
 
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,8 +22,9 @@ public class CatalogController implements CatalogListener{
     public Vector<Vector<Object>> getCatalog() throws SQLException {
         System.out.println("Attempting to get catalog data...");
 
+
         Connection conn = Database.getConnection();
-        String stmt = "SELECT vehicleMake,vehicleModel,vehiclePrice,vehicleYear FROM vehicle;";
+        String stmt = "SELECT vehicleMake,vehicleModel,vehiclePrice,vehicleYear FROM vehicle Where isAvailable = 1;";
         PreparedStatement st = conn.prepareStatement(stmt);
         ResultSet rs = st.executeQuery();
 
@@ -57,6 +59,7 @@ public class CatalogController implements CatalogListener{
             resultLine.add(rs.getString("vehicleModel"));
             resultLine.add(rs.getString("vehicleYear"));
             resultLine.add(rs.getString("vehiclePrice"));
+            resultLine.add("Order");
             /**  Add row */
             resultList.add(resultLine);
         }

@@ -8,20 +8,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
+import controllers.CatalogController;
 import controllers.RegisterController;
 import interfaces.RegisterListener;
 import models.UserModel;
 
-public class RegisterView extends MasterView implements ActionListener {
-
+public class RegisterView extends JPanel implements ActionListener {
+	private MasterView parent;
 	private JButton okButton;
 	private JTextField nameField;
 	private JPasswordField passField;
@@ -30,8 +25,10 @@ public class RegisterView extends MasterView implements ActionListener {
 
 	private RegisterListener registerListener;
 	
-	public RegisterView() {
+	public RegisterView(MasterView parent) {
 		super();
+		this.parent = parent;
+		registerListener = new RegisterController(this);
 
 		nameField = new JTextField(10);
 		passField = new JPasswordField(10);
@@ -132,20 +129,7 @@ public class RegisterView extends MasterView implements ActionListener {
 		add(okButton, gc);
 
 		okButton.addActionListener(this);
-		
-		addWindowListener(new WindowAdapter() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-
-			}
-			
-		});
+		parent.getRootPane().setDefaultButton(okButton);
 	}
 
 	@Override
@@ -176,7 +160,8 @@ public class RegisterView extends MasterView implements ActionListener {
 
 	public void fireRegisterEvent(UserModel event) throws SQLException {
 		if (registerListener != null) {
-			registerListener.registerPerformed(event);
+			registerListener.registerPerformed(event, parent);
+			parent.changePanel(new CatalogView(parent));
 		}
 	}
 

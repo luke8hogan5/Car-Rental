@@ -8,28 +8,31 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import controllers.LoginController;
 import interfaces.LoginListener;
 import models.UserModel;
 
-public class LoginView extends MasterView implements ActionListener {
+public class LoginView extends JPanel implements ActionListener {
 	
 	private JButton okButton;
 	private JTextField nameField;
 	private JPasswordField passField;
+	private MasterView parent;
 
 	private LoginListener loginListener;
+
 		
-	public LoginView() {
+	public LoginView(MasterView parent) {
 		super();
-		
+		this.parent = parent;
+		loginListener = new LoginController(this);
+
+		buildInterface();
+		}
+
+	private void buildInterface() {
 		nameField = new JTextField(10);
 		passField = new JPasswordField(10);
 		okButton = new JButton("Login");
@@ -87,23 +90,10 @@ public class LoginView extends MasterView implements ActionListener {
 		add(okButton, gc);
 
 		okButton.addActionListener(this);
-			
-			addWindowListener(new WindowAdapter() {
-				
-				@Override
-				public void windowOpened(WindowEvent e) {
+		parent.getRootPane().setDefaultButton(okButton);
+	}
 
-				}
-				
-				@Override
-				public void windowClosing(WindowEvent e) {
-					
-				}
-				
-			});
-		}
-
-		@Override
+	@Override
 		public void actionPerformed(ActionEvent e) {
 			String name = nameField.getText();
 			String password = new String(passField.getPassword());
@@ -124,7 +114,8 @@ public class LoginView extends MasterView implements ActionListener {
 
 		public void fireLoginEvent(UserModel event) throws SQLException {
 			if (loginListener != null) {
-				loginListener.loginPerformed(event);
+				loginListener.loginPerformed(event,parent);
+				parent.changePanel(new CatalogView(parent));
 			}
 		}
 

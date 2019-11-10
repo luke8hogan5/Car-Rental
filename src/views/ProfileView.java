@@ -9,19 +9,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class ProfileView extends MasterView implements ActionListener {
+public class ProfileView extends JPanel implements ActionListener {
 
+    private MasterView parent;
     private JTextField name;
     private JTextArea address;
     private JTextField email;
     private JButton updateBtn;
 
     private UserModel user = new UserModel();
-
     private ProfileListener listener;
 
-    public ProfileView() {
+    public ProfileView(MasterView parent) {
         super();
+        this.parent = parent;
 
         name = new JTextField(32);
         name.setText(user.getName());

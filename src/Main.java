@@ -1,15 +1,15 @@
+import java.awt.*;
 import java.sql.SQLException;
 
 import javax.swing.SwingUtilities;
 
+import controllers.CatalogController;
 import controllers.LoginController;
 import controllers.ProfileController;
 import controllers.RegisterController;
 import database.Database;
-import views.LoginView;
-import views.MasterView;
-import views.ProfileView;
-import views.RegisterView;
+import interfaces.ProfileListener;
+import views.*;
 
 public class Main {
 
@@ -28,7 +28,9 @@ public class Main {
 				if(db != null) {
 					//initLogin();
 //					initRegister();
-					initProfile();
+//					initProfile();
+//					initCatalog();
+                    MasterView masterView = new MasterView();
 				}
 				
 				try {
@@ -38,26 +40,6 @@ public class Main {
 				}
 			}
 		});
-	}
-	public static void initLogin() {	
-		LoginView logView = new LoginView();
-		LoginController logCtrl = new LoginController(logView);
-			
-		logView.setLoginListener(logCtrl);
-	}
-		
-	public static void initRegister() {
-		RegisterView regView = new RegisterView();
-		RegisterController regCtrl = new RegisterController(regView);
-
-		regView.setRegisterListener(regCtrl);
-	}
-
-	public static void initProfile(){
-		ProfileView view = new ProfileView();
-		ProfileController profCtrl = new ProfileController(view);
-
-		view.setListener(profCtrl);
 	}
 }
 

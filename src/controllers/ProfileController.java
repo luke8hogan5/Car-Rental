@@ -10,9 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ProfileController implements ProfileListener {
-    private JFrame view;
+    private JPanel view;
 
-    public ProfileController(JFrame view) {
+    public ProfileController(JPanel view) {
         this.view = view;
     }
 

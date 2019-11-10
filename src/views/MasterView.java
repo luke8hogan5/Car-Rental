@@ -1,21 +1,18 @@
 package views;
 
 import models.UserModel;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class MasterView extends JFrame{
-    private int id;
+    private UserModel currentUser;
+    private JPanel currentPanel;
 
-    protected JMenuBar menuBar;
 	
     public MasterView() {
         initWindow();
     }
 	
-    public void initWindow() {
+    private void initWindow() {
 
         setTitle("Scrubs Car Rental");
         setSize(1000,600);
@@ -23,30 +20,30 @@ public class MasterView extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 
-		if(id != 0) {
-//            menuBar = new JMenuBar();
-//            JMenu homeNav = new JMenu("Home");
-//            homeNav.setMnemonic(KeyEvent.VK_F);
-//            JMenu accNav = new JMenu("Account");
-//            accNav.setMnemonic(KeyEvent.VK_F);
-//            JMenu orderNav = new JMenu("Order Form");
-//            orderNav.setMnemonic(KeyEvent.VK_F);
-//            JMenu contactNav = new JMenu("Contact");
-//            contactNav.setMnemonic(KeyEvent.VK_F);
+        changePanel(new WelcomeView(this));
 
-//            menuBar.add(homeNav);
-//            menuBar.add(accNav);
-//            menuBar.add(orderNav);
-//            menuBar.add(contactNav);
+    }
+
+    void changePanel(JPanel panel){
+        if(currentPanel != panel){
+            if(currentPanel != null)
+                remove(currentPanel);
+            currentPanel = panel;
+            add(panel);
+
+            revalidate();
         }
-
-
-
-//        setJMenuBar(menuBar);
     }
 
-    private void updateSearchBar(){
-
+    private void setMenu(JMenuBar menuBar){
+        setJMenuBar(menuBar);
     }
-   
+
+    public UserModel getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(UserModel currentUser) {
+        this.currentUser = currentUser;
+    }
 }
