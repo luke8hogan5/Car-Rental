@@ -28,7 +28,7 @@ public class ProfileController implements ProfileListener {
         ps.setString(1, user.getName());
         ps.setString(2, user.getEmail());
         ps.setString(3, user.getAddress());
-        ps.setInt(4, user.getId());
+        ps.setInt(4, user.getUserId());
         ps.execute();
     }
 }
