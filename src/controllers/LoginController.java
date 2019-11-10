@@ -19,30 +19,25 @@ public class LoginController implements LoginListener {
 	}
 	
 	@Override
-	public void loginPerformed(UserModel event, MasterView master) throws SQLException {
-		System.out.println("Login event received: " + event.getName() + "; " + event.getPassword());
-<<<<<<< HEAD
-		
-=======
-
->>>>>>> 246bbd16297e5ddccc1701a7c289c4e98ae064e2
-		String username = event.getName();
-		String password = event.getPassword();
+	public void loginPerformed(String name, String pass, MasterView master) throws SQLException {
+		System.out.println("Login event received: " + name + "; " + pass);
 		
 		Connection conn = Database.getConnection();
-		String query = "SELECT userName, userPassword FROM  account;"; //TODO change this
-		Statement st = conn.createStatement();
-	    ResultSet rs = st.executeQuery(query);
-	    
-	    while(rs.next()) {
-	    	String user = rs.getString("userName");
-	    	String pass = rs.getString("userPassword");
-	        
-			if(username.equals(user) && password.equals(pass)) {
-		    	System.out.println("Login performed");
-			}
-	    }
+		String stmt = "SELECT * FROM  account WHERE userName=? AND userPassword=?;";
 
-	    master.setCurrentUser(event);
+		PreparedStatement ps = conn.prepareStatement(stmt);
+		ps.setString(1,name);
+		ps.setString(2,pass);
+		ResultSet currentUser = ps.executeQuery();
+
+		while(currentUser.next())
+			master.setCurrentUser(new UserModel(currentUser.getInt(1),
+					currentUser.getInt(2),
+					currentUser.getString(3),
+					currentUser.getString(5),
+					currentUser.getString(6),
+					currentUser.getInt(7),
+					currentUser.getDouble(8)));
 	}
 }
+

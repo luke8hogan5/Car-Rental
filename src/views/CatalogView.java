@@ -47,7 +47,6 @@ public class CatalogView extends JPanel{
         JMenu homeNav = new JMenu("Home");
         homeNav.setMnemonic(KeyEvent.VK_F);
         JMenu accNav = new JMenu("Account");
-//        accNav.setMnemonic(KeyEvent.VK_F);
         accNav.addMenuListener(new MenuListener() {
             @Override
             public void menuSelected(MenuEvent e) {
@@ -64,9 +63,22 @@ public class CatalogView extends JPanel{
             }
         });
         JMenu orderNav = new JMenu("Order Form");
-        orderNav.setMnemonic(KeyEvent.VK_F);
-        JMenu contactNav = new JMenu("Contact");
-        contactNav.setMnemonic(KeyEvent.VK_F);
+        orderNav.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+                parent.changePanel(new ProfileView(parent));
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+            }
+        });
         Button searchBtn = new Button("Search");
         searchBtn.addActionListener(e -> {
             try {
@@ -83,7 +95,6 @@ public class CatalogView extends JPanel{
         menuBar.add(homeNav);
         menuBar.add(accNav);
         menuBar.add(orderNav);
-        menuBar.add(contactNav);
         menuBar.add(new JSeparator(), CENTER_ALIGNMENT);
         menuBar.add(searchField);
         menuBar.add(searchBtn);

@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class ProfileView extends JPanel implements ActionListener {
+public class ProfileView extends JPanel {
 
     private MasterView parent;
     private JTextField name;
@@ -17,7 +17,6 @@ public class ProfileView extends JPanel implements ActionListener {
     private JTextField email;
     private JButton updateBtn;
 
-    private UserModel user = new UserModel();
     private ProfileListener listener;
 
     public ProfileView(MasterView parent) {
@@ -25,21 +24,18 @@ public class ProfileView extends JPanel implements ActionListener {
         this.parent = parent;
 
         name = new JTextField(32);
-        name.setText(user.getName());
-        address = new JTextArea(user.getAddress());
+        name.setText(parent.getCurrentUser().getName());
+        address = new JTextArea(parent.getCurrentUser().getAddress());
         address.setMaximumSize(new Dimension(64, 30));
         address.setLineWrap(true);
         address.setWrapStyleWord(true);
+        address.setText(parent.getCurrentUser().getAddress());
         email = new JTextField(32);
-        email.setText(user.getEmail());
+        email.setText(parent.getCurrentUser().getEmail());
         updateBtn = new JButton("Update Details");
 
         setupView();
-
-        updateBtn.addActionListener(this);
     }
-
-    public void setListener(ProfileListener listener){this.listener = listener;}
 
     private void setupView() {
         setLayout(new GridBagLayout());
@@ -79,7 +75,7 @@ public class ProfileView extends JPanel implements ActionListener {
         add(new JLabel("Balance:"), gc);
 //        gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
-        add(new JLabel(Double.toString(user.getBalance())), gc);
+        add(new JLabel(Double.toString(parent.getCurrentUser().getBalanceDue())), gc);
 
 //        gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 1;
@@ -87,7 +83,7 @@ public class ProfileView extends JPanel implements ActionListener {
         add(new JLabel("Loyalty Points:"), gc);
 //        gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
-        add(new JLabel(Integer.toString(user.getLoyaltyPts())), gc);
+        add(new JLabel(Integer.toString(parent.getCurrentUser().getLoyaltyRating())), gc);
 
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.gridx = 2;
@@ -97,24 +93,20 @@ public class ProfileView extends JPanel implements ActionListener {
 
         add(updateBtn, gc);
 
-        updateBtn.addActionListener(this);
-    }
+        updateBtn.addActionListener(e->{
+            parent.getCurrentUser().setName(name.getText());
+            parent.getCurrentUser().setEmail(email.getText());
+            parent.getCurrentUser().setAddress(address.getText());
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        user.setName(name.getText());
-        user.setEmail(email.getText());
-        user.setAddress(address.getText());
-
-        //fire update event
-        if(listener != null){
-            try {
-                listener.profileUpdated(user);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            //fire update event
+            if(listener != null){
+                try {
+                    listener.profileUpdated(parent.getCurrentUser());
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
-        }
+        });
     }
 
 }

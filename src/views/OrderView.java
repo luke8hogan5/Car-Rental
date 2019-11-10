@@ -19,8 +19,6 @@ import database.Database;
 import interfaces.OrderListener;
 import models.VehicleModel;
 
-import static jdk.nashorn.internal.objects.NativeMath.round;
-
 public class OrderView extends JPanel implements ActionListener {
 	private MasterView parent;
 
