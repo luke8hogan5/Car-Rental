@@ -100,7 +100,7 @@ public class LoginView extends JPanel implements ActionListener {
 
 
 				try {
-					fireLoginEvent(new UserModel(name, password));
+					fireLoginEvent(name, password);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -108,13 +108,11 @@ public class LoginView extends JPanel implements ActionListener {
 
 		}
 
-		public void setLoginListener(LoginListener loginListener) {
-			this.loginListener = loginListener;
-		}
-
-		public void fireLoginEvent(UserModel event) throws SQLException {
+		public void fireLoginEvent(String name, String pass) throws SQLException {
 			if (loginListener != null) {
-				loginListener.loginPerformed(event,parent);
+				loginListener.loginPerformed(name, pass,parent);
+
+				if(parent.getCurrentUser().getUserType() != 0)
 				parent.changePanel(new CatalogView(parent));
 			}
 		}

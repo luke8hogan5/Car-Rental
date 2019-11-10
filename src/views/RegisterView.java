@@ -135,15 +135,15 @@ public class RegisterView extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		String password = new String(passField.getPassword());
+		String pass = new String(passField.getPassword());
 		String repeat = new String(repeatPassField.getPassword());
 		String email = new String(emailField.getText());
 
-		if (password.equals(repeat)) {
+		if (pass.equals(repeat)) {
 			String name = nameField.getText();
 
 			try {
-				fireRegisterEvent(new UserModel(name, password, email));
+				fireRegisterEvent(name, pass, email);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -154,13 +154,9 @@ public class RegisterView extends JPanel implements ActionListener {
 		}
 	}
 
-	public void setRegisterListener(RegisterListener registerListener) {
-		this.registerListener = registerListener;
-	}
-
-	public void fireRegisterEvent(UserModel event) throws SQLException {
+	public void fireRegisterEvent(String name, String pass, String email) throws SQLException {
 		if (registerListener != null) {
-			registerListener.registerPerformed(event, parent);
+			registerListener.registerPerformed(name, email, pass, parent);
 			parent.changePanel(new CatalogView(parent));
 		}
 	}
