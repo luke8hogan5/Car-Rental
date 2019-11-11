@@ -1,38 +1,62 @@
 package models;
 
 public class VehicleModel{
-	
-	private String VehicleType;
-	private String VehicleDetails;
-	private double VehiclePrice;
-	
-	public VehicleModel(String VehicleType, String VehicleDetails, double VehiclePrice){
-		this.VehicleType = VehicleType;
-		this.VehicleDetails = VehicleDetails;
-		this.VehiclePrice = VehiclePrice;
+
+	private int vehicleId;
+	private int vehicleType;
+	private String vehicleMake;
+	private double vehiclePrice;
+	private String vehicleModel;
+	private int vehicleYear;
+
+	public VehicleModel(int vehicleId, int vehicleType, String vehicleMake, double vehiclePrice, String vehicleModel, int vehicleYear) {
+		this.vehicleId = vehicleId;
+		this.vehicleType = vehicleType;
+		this.vehicleMake = vehicleMake;
+		this.vehiclePrice = vehiclePrice;
+		this.vehicleModel = vehicleModel;
+		this.vehicleYear = vehicleYear;
+	}
+
+	public int getVehicleType(){
+		return vehicleType;
+	}
+	public void setVehicleType(int VehicleType){
+		this.vehicleType = VehicleType;
 	}
 	
-	public String getVehicleType(){
-		return VehicleType;
+	public String getVehicleModel(){
+		return vehicleModel;
 	}
-	
-	public void setVehicleType(String VehicleType){
-		this.VehicleType = VehicleType;
-	}
-	
-	public String getVehicleDetails(){
-		return VehicleDetails;
-	}
-	
-	public void setVehicleDetails(String VehicleDetails){
-		this.VehicleDetails =VehicleDetails;
+	public void setVehicleModel(String VehicleDetails){
+		this.vehicleModel =VehicleDetails;
 	}
 	
 	public double getVehiclePrice(){
-		return VehiclePrice;
+		return vehiclePrice;
 	}
-	
 	public void setVehiclePrice(double VehiclePrice){
-		this.VehiclePrice = VehiclePrice;
+		this.vehiclePrice = VehiclePrice;
+	}
+
+	public int getVehicleId() {
+		return vehicleId;
+	}
+	public void setVehicleId(int vehicleId) {
+		this.vehicleId = vehicleId;
+	}
+
+	public String getVehicleMake() {
+		return vehicleMake;
+	}
+	public void setVehicleMake(String vehicleMake) {
+		this.vehicleMake = vehicleMake;
+	}
+
+	public int getVehicleYear() {
+		return vehicleYear;
+	}
+	public void setVehicleYear(int vehicleYear) {
+		this.vehicleYear = vehicleYear;
 	}
 }
