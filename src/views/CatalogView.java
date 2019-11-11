@@ -3,6 +3,7 @@ import components.ClientsTableButtonRenderer;
 import components.ClientsTableRenderer;
 import controllers.CatalogController;
 import interfaces.CatalogListener;
+import models.VehicleModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,7 @@ public class CatalogView extends JPanel{
     private Boolean isCatalogFiltered = false;
     private Button showCat;
     private GridBagConstraints gc;
+    private ArrayList<VehicleModel> vehicleModels;
 	
     public CatalogView(MasterView parent) {
         super();
@@ -140,7 +142,7 @@ public class CatalogView extends JPanel{
         dataTbl.setShowVerticalLines(false);
 
         dataTbl.getSelectionModel().addListSelectionListener(e -> {
-            parent.changePanel(new OrderView(parent, tableModel.getDataVector().elementAt(dataTbl.getSelectedRow())));
+            parent.changePanel(new OrderView(parent, vehicleModels.get(dataTbl.getSelectedRow())));
         });
 
         contentWindow.getViewport().add(dataTbl);
@@ -161,6 +163,10 @@ public class CatalogView extends JPanel{
             isCatalogFiltered = false;
             remove(showCat);
         }
+    }
+
+    public void setVehicleModels(ArrayList<VehicleModel> vehicleModels) {
+        this.vehicleModels = vehicleModels;
     }
 }
 
