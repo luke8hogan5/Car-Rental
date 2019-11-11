@@ -2,6 +2,7 @@ package controllers;
 
 import database.Database;
 import interfaces.CatalogListener;
+import models.VehicleModel;
 import views.CatalogView;
 
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class CatalogController implements CatalogListener{
@@ -24,7 +26,7 @@ public class CatalogController implements CatalogListener{
 
 
         Connection conn = Database.getConnection();
-        String stmt = "SELECT vehicleMake,vehicleModel,vehiclePrice,vehicleYear FROM vehicle Where isAvailable = 1;";
+        String stmt = "SELECT * FROM vehicle Where isAvailable = 1;";
         PreparedStatement st = conn.prepareStatement(stmt);
         ResultSet rs = st.executeQuery();
 
@@ -52,17 +54,25 @@ public class CatalogController implements CatalogListener{
     //
     private Vector<Vector<Object>> getResults(ResultSet rs) throws SQLException{
         Vector<Vector<Object>> resultList = new Vector<>();
+        ArrayList<VehicleModel> models = new ArrayList<>();
         while(rs.next()){
-            /** Get data from col for current row */
             Vector<Object> resultLine = new Vector<>();
-            resultLine.add(rs.getString("vehicleMake"));
-            resultLine.add(rs.getString("vehicleModel"));
-            resultLine.add(rs.getString("vehicleYear"));
-            resultLine.add(rs.getString("vehiclePrice"));
+            VehicleModel model = new VehicleModel(rs.getInt("vehicle_id"),
+                                                  rs.getInt("vehicleType"),
+                                                  rs.getString("vehicleMake"),
+                                                  rs.getDouble("vehiclePrice"),
+                                                  rs.getString("vehicleModel"),
+                                                  rs.getInt("vehicleYear"));
+            models.add(model);
+            resultLine.add(model.getVehicleMake());
+            resultLine.add(model.getVehicleModel());
+            resultLine.add(model.getVehicleYear());
+            resultLine.add(model.getVehiclePrice());
             resultLine.add("Order");
-            /**  Add row */
             resultList.add(resultLine);
         }
+
+        view.setVehicleModels(models);
         return resultList;
     }
 
