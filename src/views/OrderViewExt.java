@@ -1,10 +1,8 @@
 package views;
 
-//import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import controllers.OrderExtController;
 import database.Database;
 import interfaces.OrderExtListener;
-import models.OrderModel;
 import models.VehicleModel;
 
 import javax.swing.*;
@@ -17,53 +15,34 @@ import java.sql.*;
 
 import static java.lang.String.valueOf;
 
-public class OrderViewExt extends JPanel implements ActionListener {
+public class OrderViewExt extends JPanel {
     private MasterView parent;
     private OrderExtListener orderExtListener;
 
-    public OrderViewExt() {
-    }
-    public OrderViewExt(MasterView parent) {
+    public OrderViewExt(MasterView parent, int rentDuration, VehicleModel data) {
             super();
             this.parent = parent;
             orderExtListener = new OrderExtController(this);
-            setSize(600, 400);
             //Send Over Price of Vehicle
-            int userId = parent.getCurrentUser().getUserId() , vehicleId = 5;
-            int loyRating = 0, loyPoints = 0;
-            double vPrice = 0.0;
-            Connection conn = Database.getConnection();
-            String queryPoints = "SELECT `loyaltyRating`,`loyaltyPoints` FROM  `discounts` WHERE `user_id`=\"" + userId + "\";";
-            String queryPrice = "SELECT `vehiclePrice` FROM  `vehicle` WHERE `vehicle_id`=\"" + vehicleId + "\";";
+            int userId = parent.getCurrentUser().getUserId();
+            int vehicleId = data.getVehicleId();
+            int loyRating = parent.getCurrentUser().getLoyaltyRating();
+            int loyPoints = 0;
+            //int loyPoints = = parent.getCurrentUser().get;
 
-            Statement st = null;
-            try {   //Get the Users Loyalty Rating and Points
-                st = conn.createStatement();
-                ResultSet rs = st.executeQuery(queryPoints);
-                while (rs.next()) {
-                    loyRating = rs.getInt("loyaltyRating");
-                    loyPoints = rs.getInt("loyaltyPoints");
-                }
-                ResultSet vp = st.executeQuery(queryPrice);
-                while (vp.next()) {
-                    vPrice = vp.getDouble("vehiclePrice");
-                }
-                buildTable(loyRating, loyPoints, vPrice, userId, vehicleId);
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
+            double vPrice = data.getVehiclePrice();
+
+            buildTable(loyRating, loyPoints, vPrice, userId, vehicleId,rentDuration);
         }
 
 
-        public void buildTable ( int rating, int points, double price, int userId, int vehicleId){
+        public void buildTable (int rating, int points, double price, int userId, int vehicleId,int rentDuration){
 
             double vRentPerDay = ((price / 365) / 2);
             int vRent = (int) Math.round((price / 365) / 2);
-            int rentDuration = 50;
 
-            double totalDiscountsPerDay = ((totalDiscounts(rating, vRentPerDay, rentDuration)));
-            String netCostPerDay = calNetCost(vRentPerDay, totalDiscountsPerDay, rentDuration);
-
+            double totalDiscountsPerDay = ((totalDiscounts(rating, vRentPerDay)));
+            String netCostPerDay = calNetCost(vRentPerDay, totalDiscountsPerDay);
 
             setLayout(new GridBagLayout());
             GridBagConstraints gc = new GridBagConstraints();
@@ -192,15 +171,11 @@ public class OrderViewExt extends JPanel implements ActionListener {
             gc.insets = new Insets(10, 10, 10, 10);
             add(new JLabel("Delivery Fee : "), gc);
 
-            int deliveryCost = 0;
-
             JTextField deliveryBox = new JTextField(13);
             deliveryBox.setEditable(false);
-
             if (rating >= 2) {
                 deliveryBox.setText("Free Based On Loyalty");
             } else {
-                deliveryCost = 50;
                 deliveryBox.setText("50.00");
             }
 
@@ -244,41 +219,27 @@ public class OrderViewExt extends JPanel implements ActionListener {
             //Pass On Values
 
             confirmPayment.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-
-
-                    OrderModel newOrder = new OrderModel(userId, vehicleId, false);
-
-                    String updateTable = "INSERT INTO  `orderTable`(`vehicle_id`,`user_id`,`paymentCleared`) VALUES (?,?,?);";
-
-                    Connection conn = Database.getConnection();
-
-                    //String query = "INSERT INTO `account`(`userName`,`userPassword`, email) VALUES (?,?,?);";
-
-                    PreparedStatement ps = null;
+                public void actionPerformed(ActionEvent e)  {
                     try {
-                        ps = conn.prepareStatement(updateTable);
-                        ps.setInt(1, vehicleId);
-                        ps.setInt(2, userId);
-                        ps.setBoolean(3, newOrder.getPaymentCleared());
-                        ps.executeUpdate();
+                        fireOrderSubmited(userId,vehicleId,rentDuration,false);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
-                    parent.changePanel(new PaymentView(parent));
-
-
                 }
             });
-
-
         }
 
-        public String calNetCost ( double vCostPerDay, double totalDiscountsPerDay, int rentDuration){
+        public void fireOrderSubmited(int userId,int vehicleId,int rentDuration,boolean paymentCleared) throws SQLException {
+            if (orderExtListener != null) {
+                orderExtListener.orderSubmited(userId, vehicleId,rentDuration,false, parent);
+                parent.changePanel(new PaymentView(parent));
+            }
+        }
+
+        public String calNetCost(double vCostPerDay, double totalDiscountsPerDay){
 
             String netCost = "";
             double netCostPerDay = 0.00;
-            //int discountPerDay = (int) Math.round(totalDiscounts / rentDuration);
             double userCost = vCostPerDay - totalDiscountsPerDay;
 
             BigDecimal vCost = BigDecimal.valueOf(vCostPerDay);
@@ -295,11 +256,12 @@ public class OrderViewExt extends JPanel implements ActionListener {
             return netCost;
         }
 
-        double totalDiscounts ( int loyaltyRating, double vCost, int rentDuration){
+        double totalDiscounts ( int loyaltyRating, double vCost){
             double totalDiscount = 0.00, rate = 0.00;
             switch (loyaltyRating) {
                 case 0:
                     rate = 0;
+                    break;
                 case 1:
                     rate = vCost * 0.02;
                     break;
@@ -321,21 +283,4 @@ public class OrderViewExt extends JPanel implements ActionListener {
             totalDiscount += bd.doubleValue();
             return totalDiscount;
         }
-
-        @Override
-        public void actionPerformed (ActionEvent e){
-            System.out.println("Actions Yeet");
-        }
-
-
-        public void setOrderExtListener (OrderExtListener orderExtListener){
-            this.orderExtListener = orderExtListener;
-        }
-
-
-        public void fireLoginEvent (VehicleModel event) throws SQLException {
-            if (orderExtListener != null) {
-                orderExtListener.orderPerformed(event);
-            }
-        }
-    }
+}
