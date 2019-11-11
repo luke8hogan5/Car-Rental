@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
@@ -44,8 +46,6 @@ public class CatalogView extends JPanel{
 
     private void setMenu() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu homeNav = new JMenu("Home");
-        homeNav.setMnemonic(KeyEvent.VK_F);
         JMenu accNav = new JMenu("Account");
         accNav.addMenuListener(new MenuListener() {
             @Override
@@ -57,23 +57,6 @@ public class CatalogView extends JPanel{
             public void menuDeselected(MenuEvent e) {
 
             }
-            @Override
-            public void menuCanceled(MenuEvent e) {
-
-            }
-        });
-        JMenu orderNav = new JMenu("Order Form");
-        orderNav.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                parent.changePanel(new ProfileView(parent));
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-
-            }
-
             @Override
             public void menuCanceled(MenuEvent e) {
 
@@ -92,9 +75,7 @@ public class CatalogView extends JPanel{
         searchField = new JTextField(20);
         searchField.setText("Search Keyword");
 
-        menuBar.add(homeNav);
         menuBar.add(accNav);
-        menuBar.add(orderNav);
         menuBar.add(new JSeparator(), CENTER_ALIGNMENT);
         menuBar.add(searchField);
         menuBar.add(searchBtn);
@@ -122,6 +103,7 @@ public class CatalogView extends JPanel{
         gc.gridy = 1;
         gc.weightx = 1;
         gc.weighty = 100;
+        gc.insets = new Insets(0, 10, 0, 10);
         gc.fill = GridBagConstraints.HORIZONTAL;
         add(contentWindow, gc);
     }
@@ -137,9 +119,8 @@ public class CatalogView extends JPanel{
     }
 
     private void setTable(Vector<Vector<Object>> data) {
-        for(int i=0; i<data.size(); i++){
-            for(int j=0; j<data.get(i).size(); j++)
-                System.out.printf("%s ",data.get(i).get(j));
+        for (Vector<Object> objects : data) {
+            for (Object object : objects) System.out.printf("%s ", object);
             System.out.print("\n");
         }
 
@@ -148,21 +129,22 @@ public class CatalogView extends JPanel{
 
         DefaultTableModel tableModel = new DefaultTableModel(titles, 0);
         JTable dataTbl = new JTable(tableModel);
+        ClientsTableRenderer renderer = new ClientsTableRenderer(new JCheckBox());
 
-        for(int x=0; x<data.size(); x++)
-            tableModel.addRow(data.get(x));
+        for (Vector<Object> datum : data) tableModel.addRow(datum);
+
         dataTbl.getColumnModel().getColumn(4).setCellRenderer(new ClientsTableButtonRenderer());
-        dataTbl.getColumnModel().getColumn(4).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
+        dataTbl.getColumnModel().getColumn(4).setCellEditor(renderer);
         dataTbl.setPreferredScrollableViewportSize(dataTbl.getPreferredSize());
         dataTbl.setShowHorizontalLines(true);
         dataTbl.setShowVerticalLines(false);
 
+        dataTbl.getSelectionModel().addListSelectionListener(e -> {
+            parent.changePanel(new OrderView(parent, tableModel.getDataVector().elementAt(dataTbl.getSelectedRow())));
+        });
+
         contentWindow.getViewport().add(dataTbl);
 
-    }
-
-    public void setListener(CatalogListener listener) {
-        this.listener = listener;
     }
 
     public void returnToCatButton(){
