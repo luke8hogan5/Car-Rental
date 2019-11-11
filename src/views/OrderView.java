@@ -301,6 +301,7 @@ public class OrderView extends JPanel implements ActionListener {
         } );
         proPay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+				parent.changePanel(new OrderViewExt(parent));
             	 // Move Frame too OrderViewExt
             }
         } );

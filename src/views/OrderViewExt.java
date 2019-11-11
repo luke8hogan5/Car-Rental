@@ -29,7 +29,7 @@ public class OrderViewExt extends JPanel implements ActionListener {
             orderExtListener = new OrderExtController(this);
             setSize(600, 400);
             //Send Over Price of Vehicle
-            int userId = 1, vehicleId = 5;
+            int userId = parent.getCurrentUser().getUserId() , vehicleId = 5;
             int loyRating = 0, loyPoints = 0;
             double vPrice = 0.0;
             Connection conn = Database.getConnection();
@@ -265,6 +265,7 @@ public class OrderViewExt extends JPanel implements ActionListener {
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
+                    parent.changePanel(new PaymentView(parent));
 
 
                 }

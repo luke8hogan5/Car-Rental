@@ -21,6 +21,7 @@ public class MasterView extends JFrame{
 		setVisible(true);
 
         changePanel(new WelcomeView(this));
+        //changePanel(new PaymentView(this));
 
     }
 
