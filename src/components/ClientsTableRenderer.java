@@ -59,7 +59,7 @@ public class ClientsTableRenderer extends DefaultCellEditor
     if (clicked){
       DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-      return model.getDataVector().elementAt(row);
+      return (Vector) model.getDataVector().elementAt(row);
     }
     clicked = false;
 

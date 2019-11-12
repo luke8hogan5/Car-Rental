@@ -27,22 +27,36 @@ public class OrderViewExt extends JPanel {
             int userId = parent.getCurrentUser().getUserId();
             int vehicleId = data.getVehicleId();
             int loyRating = parent.getCurrentUser().getLoyaltyRating();
-            int loyPoints = 0;
+            String loyBracket = "";
+
+            if(loyRating > 600){
+                  loyBracket = "Diamond User";
+            }else if(loyRating > 400) {
+                loyBracket = "Platinum User";
+            }else if(loyRating > 200) {
+                loyBracket = "Gold User";
+            }else if(loyRating > 100) {
+                loyBracket = "Silver User";
+            }else if(loyRating > 50) {
+                loyBracket = "Bronze User";
+            }else {
+                loyBracket = "No Loyalty Tier";
+            }
             //int loyPoints = = parent.getCurrentUser().get;
 
             double vPrice = data.getVehiclePrice();
 
-            buildTable(loyRating, loyPoints, vPrice, userId, vehicleId,rentDuration);
+            buildTable(loyRating, loyBracket, vPrice, userId, vehicleId,rentDuration);
         }
 
 
-        public void buildTable (int rating, int points, double price, int userId, int vehicleId,int rentDuration){
+        public void buildTable (int rating, String loyBracket, double price, int userId, int vehicleId,int rentDuration){
 
             double vRentPerDay = ((price / 365) / 2);
             int vRent = (int) Math.round((price / 365) / 2);
 
-            double totalDiscountsPerDay = ((totalDiscounts(rating, vRentPerDay)));
-            String netCostPerDay = calNetCost(vRentPerDay, totalDiscountsPerDay);
+            double totalDiscountsPerDay = ((orderExtListener.totalDiscounts(rating, vRentPerDay)));
+            String netCostPerDay = orderExtListener.calNetCost(vRentPerDay, totalDiscountsPerDay);
 
             setLayout(new GridBagLayout());
             GridBagConstraints gc = new GridBagConstraints();
@@ -88,7 +102,7 @@ public class OrderViewExt extends JPanel {
             gc.gridy = 2;
             gc.weightx = 1;
             gc.weighty = 1;
-            gc.insets = new Insets(10, 0, 0, 0);
+            gc.insets = new Insets(10, 0, 10, 0);
             JTextField loyRating = new JTextField(valueOf(rating), 5);
             loyRating.setEditable(false);
             add(loyRating, gc);
@@ -98,19 +112,19 @@ public class OrderViewExt extends JPanel {
             gc.gridy = 2;
             gc.weightx = 0.2;
             gc.weighty = 1;
-            gc.insets = new Insets(10, 10, 10, 120);
-            add(new JLabel("Loyalty Points : "), gc);
+            gc.insets = new Insets(10, 50, 10, 120);
+            add(new JLabel("Loyalty Bracket : "), gc);
 
-            JTextField pointsBox = new JTextField(3);
+            JTextField pointsBox = new JTextField(10);
             pointsBox.setEditable(false);
-            pointsBox.setText(valueOf(points));
+            pointsBox.setText(loyBracket);
             //makeBox.setVisible(false);
-            gc.anchor = GridBagConstraints.LINE_END;
+            gc.anchor = GridBagConstraints.CENTER;
             gc.gridx = 3;
             gc.gridy = 2;
             gc.weightx = 0.4;
             gc.weighty = 1;
-            gc.insets = new Insets(10, 0, 10, 90);
+            gc.insets = new Insets(10, 0, 10, 100);
             add(pointsBox, gc);
             //makeBox.setVisible(false);
 
@@ -159,7 +173,7 @@ public class OrderViewExt extends JPanel {
             gc.gridy = 5;
             gc.weightx = 1;
             gc.weighty = 1;
-            gc.insets = new Insets(10, 0, 30, 0);
+            gc.insets = new Insets(10, 0, 10, 0);
             add(new JLabel("Additonal Fees"), gc);
 
             //makeBox.setVisible(false);
@@ -173,9 +187,9 @@ public class OrderViewExt extends JPanel {
 
             JTextField deliveryBox = new JTextField(13);
             deliveryBox.setEditable(false);
-            if (rating >= 2) {
+            if (rating >= 100) {
                 deliveryBox.setText("Free Based On Loyalty");
-            } else {
+            }else{
                 deliveryBox.setText("50.00");
             }
 
@@ -188,6 +202,15 @@ public class OrderViewExt extends JPanel {
             add(deliveryBox, gc);
             deliveryBox.setEditable(false);
 
+            if (rating <= 100){
+                gc.anchor = GridBagConstraints.LAST_LINE_START;
+                gc.gridx = 3;
+                gc.gridy = 6;
+                gc.weightx = 1;
+                gc.weighty = 0.2;
+                gc.insets = new Insets(10, 10, 10, 150);
+                add(new JLabel("(Increase loyalty to unlock free delivery)"), gc);
+            }
             gc.anchor = GridBagConstraints.LINE_END;
             gc.gridx = 1;
             gc.gridy = 7;
@@ -216,8 +239,6 @@ public class OrderViewExt extends JPanel {
             gc.insets = new Insets(10, 10, 10, 10);
             add(confirmPayment, gc);
 
-            //Pass On Values
-
             confirmPayment.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e)  {
                     try {
@@ -236,51 +257,5 @@ public class OrderViewExt extends JPanel {
             }
         }
 
-        public String calNetCost(double vCostPerDay, double totalDiscountsPerDay){
 
-            String netCost = "";
-            double netCostPerDay = 0.00;
-            double userCost = vCostPerDay - totalDiscountsPerDay;
-
-            BigDecimal vCost = BigDecimal.valueOf(vCostPerDay);
-            vCost = vCost.setScale(2, RoundingMode.HALF_UP);
-
-
-            BigDecimal bd = BigDecimal.valueOf(userCost);
-            bd = bd.setScale(2, RoundingMode.HALF_UP);
-            netCostPerDay = bd.doubleValue();
-
-            int totalCostPerDay = (int) Math.round(vCostPerDay);
-
-            netCost += valueOf(vCost.doubleValue()) + " - " + valueOf(totalDiscountsPerDay) + " = " + valueOf(netCostPerDay) + "";
-            return netCost;
-        }
-
-        double totalDiscounts ( int loyaltyRating, double vCost){
-            double totalDiscount = 0.00, rate = 0.00;
-            switch (loyaltyRating) {
-                case 0:
-                    rate = 0;
-                    break;
-                case 1:
-                    rate = vCost * 0.02;
-                    break;
-                case 2:
-                    rate = vCost * 0.04;
-                    break;
-                case 3:
-                    rate = vCost * 0.06;
-                    break;
-                case 4:
-                    rate = vCost * 0.08;
-                    break;
-                case 5:
-                    rate = vCost * 0.10;
-                    break;
-            }
-            BigDecimal bd = BigDecimal.valueOf(rate);
-            bd = bd.setScale(2, RoundingMode.HALF_UP);
-            totalDiscount += bd.doubleValue();
-            return totalDiscount;
-        }
 }

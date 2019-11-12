@@ -26,10 +26,6 @@ public class Main {
 					e1.printStackTrace();
 				}
 				if(db != null) {
-					//initLogin();
-//					initRegister();
-//					initProfile();
-//					initCatalog();
                     MasterView masterView = new MasterView();
 				}
 				
