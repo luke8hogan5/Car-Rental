@@ -19,6 +19,9 @@ public class OrderModel{
 		this.rentDuration = rentDuration;
 	}
 
+	public OrderModel() {
+	}
+
 	public boolean getPaymentCleared(){
 		return paymentCleared;
 	}
@@ -37,7 +40,7 @@ public class OrderModel{
 		return this.rentDuration;
 	}
 	
-	public void setDueDate(int rentDuration){
+	public void setRentDuration(int rentDuration){
 		this.rentDuration = rentDuration;
 	}
 
