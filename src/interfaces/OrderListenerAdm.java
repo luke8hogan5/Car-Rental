@@ -1,10 +1,9 @@
 package interfaces;
 
 import java.sql.SQLException;
-
-import models.OrderModelAdm;
+import java.util.Vector;
 
 public interface OrderListenerAdm {
 
-	public void orderAdmPerformed(OrderModelAdm event) throws SQLException;
+    Vector<Vector<Object>> orderAdmPerformed() throws SQLException;
 }

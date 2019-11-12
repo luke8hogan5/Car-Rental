@@ -1,36 +1,29 @@
 package views;
+
 import components.ClientsTableButtonRenderer;
 import components.ClientsTableRenderer;
 import controllers.CatalogController;
 import interfaces.CatalogListener;
 import models.VehicleModel;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Vector;
-
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class CatalogView extends JPanel{
     private MasterView parent;
     private JTextField searchField;
     private CatalogListener listener;
     private JScrollPane contentWindow;
-    private Boolean isCatalogFiltered = false;
-    private Button showCat;
     private GridBagConstraints gc;
     private ArrayList<VehicleModel> vehicleModels;
 	
-    public CatalogView(MasterView parent) {
+    CatalogView(MasterView parent) {
         super();
         this.parent = parent;
         listener = new CatalogController(this);
@@ -89,16 +82,6 @@ public class CatalogView extends JPanel{
         contentWindow = new JScrollPane();
         contentWindow.setBounds(10,50,300,270);
 
-        showCat = new Button("Show Catalog");
-        showCat.addActionListener(e -> {
-            try {
-                getFullCatalog();
-                returnToCatButton();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        });
-
         setLayout(new GridBagLayout());
         gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.NORTH;
@@ -141,28 +124,33 @@ public class CatalogView extends JPanel{
         dataTbl.setShowHorizontalLines(true);
         dataTbl.setShowVerticalLines(false);
 
-        dataTbl.getSelectionModel().addListSelectionListener(e -> {
-            parent.changePanel(new OrderView(parent, vehicleModels.get(dataTbl.getSelectedRow())));
-        });
+        dataTbl.getSelectionModel().addListSelectionListener(e ->
+                parent.changePanel(new OrderView(parent, vehicleModels.get(dataTbl.getSelectedRow()))));
 
         contentWindow.getViewport().add(dataTbl);
 
     }
 
-    public void returnToCatButton(){
-        if(!isCatalogFiltered) {
-            isCatalogFiltered = true;
+    private void returnToCatButton(){
+        JButton showCat = new JButton("Show Catalog");
 
-            gc.anchor = GridBagConstraints.NORTH;
-            gc.gridy = 2;
-            gc.weightx = 1;
-            gc.weighty = 100;
-            gc.fill = GridBagConstraints.HORIZONTAL;
-            add(showCat, gc);
-        }else{
-            isCatalogFiltered = false;
-            remove(showCat);
-        }
+        showCat.addActionListener(e->{
+            try {
+                getFullCatalog();
+                remove(showCat);
+                repaint();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
+        gc.anchor = GridBagConstraints.NORTH;
+        gc.gridy = 2;
+        gc.weightx = 1;
+        gc.weighty = 100;
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        add(showCat, gc);
+
+        revalidate();
     }
 
     public void setVehicleModels(ArrayList<VehicleModel> vehicleModels) {
