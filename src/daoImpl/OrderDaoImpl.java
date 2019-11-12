@@ -117,13 +117,11 @@ public class OrderDaoImpl implements OrderDao {
 	}
 	
 	@Override
-	public void updateOrder(OrderModel order) {
+	public void updatePayment(int id) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        PreparedStatement ps = conn.prepareStatement("UPDATE orderTable SET orderStatus=?, dateCreate=?, dueDate=? , paymentCleared=? WHERE order_id=? AND vehicleReturned = 0");
-	        ps.setString(1, order.getCreatedDate());
-	        ps.setInt(2, order.getRentDuration());
-	        ps.setBoolean(3, order.getPaymentCleared());
+	        PreparedStatement ps = conn.prepareStatement("UPDATE orderTable SET paymentCleared=? WHERE order_id=" + id + ";");
+	        ps.setBoolean(1, true);
 	        ps.executeUpdate();
 
 	    } catch (SQLException ex) {

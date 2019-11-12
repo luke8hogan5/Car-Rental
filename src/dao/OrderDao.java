@@ -12,8 +12,6 @@ public interface OrderDao {
 
 	void insertOrder(OrderModel order);
 
-	void updateOrder(OrderModel order);
-
 	void deleteOrder(int orderId);
 
 	void insertOrderAdm(OrderModel order);
@@ -21,5 +19,7 @@ public interface OrderDao {
 	void updateOrderAdm(OrderModel order);
 
 	int getOrderId();
+	
+	void updatePayment(int id);
 
 }
