@@ -59,6 +59,40 @@ public class VehicleDaoImpl implements VehicleDao {
 	    }
 	    return null;
 	}
+	
+	@Override
+	public ResultSet getCatalog() {
+		Connection conn = Database.getConnection();
+			try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM vehicle WHERE isAvailable = 1;");
+			ResultSet rs = ps.executeQuery();
+			return rs;
+			}
+			catch(SQLException ex){
+				ex.printStackTrace();
+			}
+			return null;
+	}
+	
+	@Override
+	public ResultSet getSearchResults(String keyword) {
+		Connection conn = Database.getConnection();
+			try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM vehicle WHERE vehicleType LIKE ? OR vehicleMake LIKE ? OR vehicleModel LIKE ? OR vehicleYear LIKE ? OR vehiclePrice LIKE ?;");
+	        
+			for(int i=1; i<6; i++) {
+	        	ps.setString(i, "%"+keyword+"%");
+			}
+	        	ResultSet rs = ps.executeQuery();
+	        	return rs;
+	        
+		
+			}
+			catch(SQLException ex){
+				ex.printStackTrace();
+			}
+			return null;
+	}
 
 	@Override
 	public void insertVehicle(VehicleModel vehicle) {

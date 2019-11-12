@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import models.VehicleModel;
@@ -15,5 +16,10 @@ public interface VehicleDao {
 	void updateVehicle(VehicleModel vehicle);
 
 	void insertVehicle(VehicleModel vehicle);
+
+	ResultSet getCatalog();
+
+	ResultSet getSearchResults(String keyword);
+	
 
 }

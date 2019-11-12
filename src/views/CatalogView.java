@@ -105,7 +105,7 @@ public class CatalogView extends JPanel{
         gc.weightx = 1;
         gc.weighty = 100;
         gc.insets = new Insets(0, 10, 0, 10);
-        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.fill = GridBagConstraints.BOTH;
         add(contentWindow, gc);
     }
 

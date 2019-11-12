@@ -52,13 +52,13 @@ public class WelcomeView extends JPanel {
         int frameWidth = getTopLevelAncestor().getWidth();
         int frameHeight = getTopLevelAncestor().getHeight();
 
-        BufferedImage img = null;
-        try{
-            img = ImageIO.read(new File("./res/images/welcome.png"));
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-        g.drawImage(img.getScaledInstance(frameWidth, frameHeight, Image.SCALE_SMOOTH), 0, 0, null);
+//        BufferedImage img = null;
+//        try{
+//            img = ImageIO.read(new File("./res/images/welcome.png"));
+//        }catch (IOException e){
+//            e.printStackTrace();
+//        }
+//
+//        g.drawImage(img.getScaledInstance(frameWidth, frameHeight, Image.SCALE_SMOOTH), 0, 0, null);
     }
 }
