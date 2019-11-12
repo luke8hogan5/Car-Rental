@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
 
 import controllers.OrderControllerAdm;
 import interfaces.OrderListenerAdm;
-import models.OrderModelAdm;
 
 public class OrderViewAdm extends JPanel{
 	private MasterView parent;
@@ -20,7 +19,7 @@ public class OrderViewAdm extends JPanel{
 
 	private OrderListenerAdm orderAdmListener;
 	
-	OrderViewAdm(MasterView parent) throws SQLException {
+	OrderViewAdm(MasterView parent){
 		super();
 		this.parent = parent;
 		orderAdmListener = new OrderControllerAdm(this);
@@ -28,6 +27,7 @@ public class OrderViewAdm extends JPanel{
 		setupMenu();
 
 		setLayout(new GridBagLayout());
+
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.NORTH;
 		gc.gridy = 1;
@@ -82,9 +82,11 @@ public class OrderViewAdm extends JPanel{
 		add(menuBar);
 	}
 
-	private void fireOrderAdmEvent() throws SQLException {
-		if (orderAdmListener != null) {
+	private void fireOrderAdmEvent(){
+		try {
 			setTable(orderAdmListener.orderAdmPerformed());
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
