@@ -29,7 +29,7 @@ public class OrderExtController implements OrderExtListener {
     @Override
     public void orderSubmited(int userId,int vehicleId,int rentDuration,boolean paymentClear, MasterView master) throws SQLException {
 
-        OrderModel newOrder = new OrderModel(userId, vehicleId, false);
+        OrderModel newOrder = new OrderModel(userId, vehicleId, rentDuration, false);
         String updateTable = "INSERT INTO  `orderTable`(`vehicle_id`,`user_id`,`rentDuration`,`paymentCleared`) VALUES (?,?,?,?);";
         Connection conn = Database.getConnection();
         PreparedStatement ps = null;

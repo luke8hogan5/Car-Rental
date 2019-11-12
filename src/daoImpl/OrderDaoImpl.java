@@ -15,10 +15,9 @@ public class OrderDaoImpl implements OrderDao {
 
 	private OrderModel extractUserInfo(ResultSet rs) throws SQLException {
 		OrderModel order = new OrderModel();
-		order.setOrderStatus( rs.getInt("orderStatus") );
 		order.setPaymentCleared( rs.getBoolean("paymentCleared") );
 		order.setCreatedDate( rs.getDate("dateCreate") );
-		order.setDueDate( rs.getDate("dueDate") );
+		order.setRentDuration( rs.getInt("rentDuration") );
 	    return order;
 	}
 	
@@ -61,10 +60,9 @@ public class OrderDaoImpl implements OrderDao {
 	    Connection conn = Database.getConnection();
 	    try {
 	        PreparedStatement ps = conn.prepareStatement("INSERT INTO orderTable VALUES (NULL, ?, ?, ?)");
-	        ps.setInt(1, order.getOrderStatus());
-	        ps.setString(2, order.getCreatedDate());
-	        ps.setString(3, order.getDueDate());
-	        ps.setBoolean(4, order.getPaymentCleared());
+	        ps.setString(1, order.getCreatedDate());
+	        ps.setInt(2, order.getRentDuration());
+	        ps.setBoolean(3, order.getPaymentCleared());
 	        ps.executeUpdate();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
@@ -77,10 +75,9 @@ public class OrderDaoImpl implements OrderDao {
 	    Connection conn = Database.getConnection();
 	    try {
 	        PreparedStatement ps = conn.prepareStatement("UPDATE orderTable SET orderStatus=?, dateCreate=?, dueDate=? , paymentCleared=? WHERE order_id=? AND vehicleReturned = 0");
-	        ps.setInt(1, order.getOrderStatus());
-	        ps.setString(2, order.getCreatedDate());
-	        ps.setString(3, order.getDueDate());
-	        ps.setBoolean(4, order.getPaymentCleared());
+	        ps.setString(1, order.getCreatedDate());
+	        ps.setInt(2, order.getRentDuration());
+	        ps.setBoolean(3, order.getPaymentCleared());
 	        ps.executeUpdate();
 
 	    } catch (SQLException ex) {
