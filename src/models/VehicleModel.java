@@ -3,13 +3,13 @@ package models;
 public class VehicleModel{
 
 	private int vehicleId;
-	private int vehicleType;
+	private String vehicleType;
 	private String vehicleMake;
 	private double vehiclePrice;
 	private String vehicleModel;
 	private int vehicleYear;
 
-	public VehicleModel(int vehicleId, int vehicleType, String vehicleMake, double vehiclePrice, String vehicleModel, int vehicleYear) {
+	public VehicleModel(int vehicleId, String vehicleType, String vehicleMake, double vehiclePrice, String vehicleModel, int vehicleYear) {
 		this.vehicleId = vehicleId;
 		this.vehicleType = vehicleType;
 		this.vehicleMake = vehicleMake;
@@ -18,10 +18,10 @@ public class VehicleModel{
 		this.vehicleYear = vehicleYear;
 	}
 
-	public int getVehicleType(){
+	public String getVehicleType(){
 		return vehicleType;
 	}
-	public void setVehicleType(int VehicleType){
+	public void setVehicleType(String VehicleType){
 		this.vehicleType = VehicleType;
 	}
 	

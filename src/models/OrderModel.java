@@ -4,38 +4,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OrderModel{
-	private  int user_id;
-	private  int vehicle_id;
-	private int orderStatus;
-	private boolean paymentCleared;
+	private  int userId;
+	private  int vehicleId;
 	private Date dateCreated; // dateCreated
-	private Date dateDue; //Duedate
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	private int rentDuration;
+	private boolean paymentCleared;
+	private boolean vehicleReturned;
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
 
-	public OrderModel(int orderstatus, boolean paymentCleared, Date dateCreated, Date dateDue){
-		this.orderStatus = orderstatus;
+	public OrderModel(int userId,int vehicleId,int rentDuration,boolean paymentCleared){
+		this.userId = userId;
+		this.vehicleId = vehicleId;
 		this.paymentCleared = paymentCleared;
-		this.dateCreated = dateCreated;
-		this.dateDue = dateDue;
+		this.rentDuration = rentDuration;
 	}
-	public OrderModel(int orderstatus,boolean paymentCleared){
-		this.orderStatus = orderstatus;
-		this.paymentCleared = paymentCleared;
-	}
-	public OrderModel(int user_id,int vehicle_id,boolean paymentCleared){
-		this.user_id = user_id;
-		this.vehicle_id = vehicle_id;
-		this.paymentCleared = paymentCleared;
-	}
-	
-	public int getOrderStatus(){
-		return orderStatus;
-	}
-	
-	public void setOrderStatus(int orderStatus){
-		this.orderStatus = orderStatus;
-	}
-	
+
 	public boolean getPaymentCleared(){
 		return paymentCleared;
 	}
@@ -44,19 +27,29 @@ public class OrderModel{
 		this.paymentCleared = paymentCleared;
 	}
 	
-	public String getCreatedDate(){
-		return dateFormat.format(dateCreated);
-	}
+	public String getCreatedDate(){ return dateFormat.format(dateCreated); }
 	
 	public void setCreatedDate(Date d1){
 		this.dateCreated = d1;
 	}
 	
-	public String getDueDate(){
-		return dateFormat.format(dateDue);
+	public int getRentDuration(){
+		return this.rentDuration;
 	}
 	
-	public void setDueDate(Date d2){
-		this.dateDue = d2;
+	public void setDueDate(int rentDuration){
+		this.rentDuration = rentDuration;
 	}
+
+	public int getUserId() { return userId; }
+
+	public void setUserId(int userId) { this.userId = userId; }
+
+	public int getVehicleId() { return vehicleId; }
+
+	public void setVehicleId(int vehicleId) { this.vehicleId = vehicleId; }
+
+	public boolean isVehicleReturned() { return vehicleReturned; }
+
+	public void setVehicleReturned(boolean vehicleReturned) { this.vehicleReturned = vehicleReturned; }
 }
