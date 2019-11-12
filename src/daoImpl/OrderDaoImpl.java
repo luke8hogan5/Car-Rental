@@ -70,7 +70,52 @@ public class OrderDaoImpl implements OrderDao {
 	    }
 		
 	}
+	
+	@Override
+	public void insertOrderAdm(OrderModel order) {
+	    Connection conn = Database.getConnection();
+	    try {
+	        PreparedStatement ps = conn.prepareStatement("INSERT INTO  orderTable(rentDuration,paymentCleared) VALUES (?,?);");
+	        ps.setInt(3, order.getRentDuration());
+	        ps.setBoolean(4, order.getPaymentCleared());
+	        ps.executeUpdate();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+		
+	}
 
+	@Override
+	public void updateOrderAdm(OrderModel order) {
+	    Connection conn = Database.getConnection();
+	    try {
+	        PreparedStatement ps = conn.prepareStatement("UPDATE orderTable SET orderStatus=?, dateCreate=?, dueDate=? , paymentCleared=? WHERE order_id=? AND vehicleReturned = 0");
+	        ps.setString(1, order.getCreatedDate());
+	        ps.setInt(2, order.getRentDuration());
+	        ps.setBoolean(3, order.getPaymentCleared());
+	        ps.executeUpdate();
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	}
+	
+	@Override
+	public int getOrderId() {
+	    Connection conn = Database.getConnection();
+	    int id = 0;
+	    try {
+	        Statement st = conn.createStatement();
+	        ResultSet rs = st.executeQuery("SELECT order_id FROM orderTable WHERE order_id =(SELECT MAX(order_id) FROM orderTable);");
+	        if(rs.next()){
+	        	id = rs.getInt(1);
+	        };
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    return id;
+	}
+	
 	@Override
 	public void updateOrder(OrderModel order) {
 	    Connection conn = Database.getConnection();

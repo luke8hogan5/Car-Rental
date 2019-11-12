@@ -16,4 +16,10 @@ public interface OrderDao {
 
 	void deleteOrder(int orderId);
 
+	void insertOrderAdm(OrderModel order);
+
+	void updateOrderAdm(OrderModel order);
+
+	int getOrderId();
+
 }
