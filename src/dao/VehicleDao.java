@@ -2,18 +2,18 @@ package dao;
 
 import java.util.List;
 
-import models.VehicleModelAdm;
+import models.VehicleModel;
 
 public interface VehicleDao {
 
-	VehicleModelAdm getVehicle();
+	VehicleModel getVehicle();
 
-	List<VehicleModelAdm> getAllVehicles();
-
-	void insertVehicle(VehicleModelAdm vehicle);
-
-	void updateVehicle(VehicleModelAdm vehicle);
+	List<VehicleModel> getAllVehicles();
 
 	void deleteVehicle(int vehicleId);
+
+	void updateVehicle(VehicleModel vehicle);
+
+	void insertVehicle(VehicleModel vehicle);
 
 }

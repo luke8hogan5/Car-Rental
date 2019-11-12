@@ -3,13 +3,14 @@ package models;
 public class VehicleModel{
 
 	private int vehicleId;
-	private int vehicleType;
+	private String vehicleType;
 	private String vehicleMake;
 	private double vehiclePrice;
 	private String vehicleModel;
 	private int vehicleYear;
+	private int vehicleAvailability;
 
-	public VehicleModel(int vehicleId, int vehicleType, String vehicleMake, double vehiclePrice, String vehicleModel, int vehicleYear) {
+	public VehicleModel(int vehicleId, String vehicleType, String vehicleMake, double vehiclePrice, String vehicleModel, int vehicleYear) {
 		this.vehicleId = vehicleId;
 		this.vehicleType = vehicleType;
 		this.vehicleMake = vehicleMake;
@@ -18,11 +19,14 @@ public class VehicleModel{
 		this.vehicleYear = vehicleYear;
 	}
 
-	public int getVehicleType(){
+	public VehicleModel() {
+	}
+
+	public String getVehicleType(){
 		return vehicleType;
 	}
-	public void setVehicleType(int VehicleType){
-		this.vehicleType = VehicleType;
+	public void setVehicleType(String string){
+		this.vehicleType = string;
 	}
 	
 	public String getVehicleModel(){
@@ -59,4 +63,13 @@ public class VehicleModel{
 	public void setVehicleYear(int vehicleYear) {
 		this.vehicleYear = vehicleYear;
 	}
+
+	public int getVehicleAvailability() {
+		return vehicleAvailability;
+	}
+
+	public void setVehicleAvailability(int vehicleAvailability) {
+		this.vehicleAvailability = vehicleAvailability;
+	}
+
 }

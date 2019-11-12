@@ -10,12 +10,12 @@ import java.util.List;
 
 import dao.VehicleDao;
 import database.Database;
-import models.VehicleModelAdm;
+import models.VehicleModel;
 
 public class VehicleDaoImpl implements VehicleDao {
 
-	private VehicleModelAdm extractUserInfo(ResultSet rs) throws SQLException {
-		VehicleModelAdm vehicle = new VehicleModelAdm();
+	private VehicleModel extractUserInfo(ResultSet rs) throws SQLException {
+		VehicleModel vehicle = new VehicleModel();
 		vehicle.setVehicleId( rs.getInt("vehicle_id") );
 		vehicle.setVehicleMake( rs.getString("vehicleMake") );
 		vehicle.setVehicleModel( rs.getString("vehicleModel") );
@@ -27,7 +27,7 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 	
 	@Override
-	public VehicleModelAdm getVehicle() {
+	public VehicleModel getVehicle() {
 		Connection conn = Database.getConnection();
 		try {
 			Statement st = conn.createStatement();
@@ -42,15 +42,15 @@ public class VehicleDaoImpl implements VehicleDao {
 }
 
 	@Override
-	public List<VehicleModelAdm> getAllVehicles() {
+	public List<VehicleModel> getAllVehicles() {
 	    Connection conn = Database.getConnection();
 	    try {
 	        Statement st = conn.createStatement();
 	        ResultSet rs = st.executeQuery("SELECT * FROM vehicle");
-	        List<VehicleModelAdm> vehicles = new ArrayList<>();
+	        List<VehicleModel> vehicles = new ArrayList<>();
 	        while(rs.next())
 	        {
-	        	VehicleModelAdm vehicle = extractUserInfo(rs);
+	        	VehicleModel vehicle = extractUserInfo(rs);
 	        	vehicles.add(vehicle);
 	        }
 	        return vehicles;
@@ -61,7 +61,7 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 
 	@Override
-	public void insertVehicle(VehicleModelAdm vehicle) {
+	public void insertVehicle(VehicleModel vehicle) {
 	    Connection conn = Database.getConnection();
 	    try {
 	        PreparedStatement ps = conn.prepareStatement("INSERT INTO vehicle VALUES (NULL, ?, ?, ?, ?, ?, ?)");
@@ -79,7 +79,7 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 
 	@Override
-	public void updateVehicle(VehicleModelAdm vehicle) {
+	public void updateVehicle(VehicleModel vehicle) {
 	    Connection conn = Database.getConnection();
 	    try {
 	        PreparedStatement ps = conn.prepareStatement("UPDATE vehicle SET vehicleModel=?, vehicleMake=?, vehicleYear=? , vehiclePrice=?, isAvailable=?, vehicleType=? WHERE vehicle_id=?");
