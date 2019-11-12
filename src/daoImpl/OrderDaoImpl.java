@@ -15,13 +15,12 @@ public class OrderDaoImpl implements OrderDao {
 
 	private OrderModel extractUserInfo(ResultSet rs) throws SQLException {
 		OrderModel order = new OrderModel();
-		order.setOrderStatus( rs.getInt("order_id") );
-		order.setCreatedDate( rs.getDate("dateCreate") );
-		order.setDueDate( rs.getDate("dueDate") );
 		order.setPaymentCleared( rs.getBoolean("paymentCleared") );
+		order.setCreatedDate( rs.getDate("dateCreate") );
+		order.setRentDuration( rs.getInt("rentDuration") );
 	    return order;
 	}
-	
+
 	@Override
 	public OrderModel getOrder() {
 		Connection conn = Database.getConnection();
@@ -57,14 +56,28 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void insertVehicle(OrderModel order) {
+	public void insertOrder(OrderModel order) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        PreparedStatement ps = conn.prepareStatement("INSERT INTO orderTable VALUES (NULL, ?, ?, ?, ?)");
-	        ps.setInt(1, order.getOrderStatus());
-	        ps.setString(2, order.getCreatedDate());
-	        ps.setString(3, order.getDueDate());
+	        PreparedStatement ps = conn.prepareStatement("INSERT INTO  orderTable(vehicle_id,user_id,rentDuration,paymentCleared) VALUES (?,?,?,?);");
+	        ps.setInt(1, order.getVehicleId());
+	        ps.setInt(2, order.getUserId());
+	        ps.setInt(3, order.getRentDuration());
 	        ps.setBoolean(4, order.getPaymentCleared());
+	        ps.executeUpdate();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	}
+	
+	@Override
+	public void insertOrderAdm(OrderModel order) {
+	    Connection conn = Database.getConnection();
+	    try {
+	        PreparedStatement ps = conn.prepareStatement("INSERT INTO  orderTable(rentDuration,paymentCleared) VALUES (?,?);");
+	        ps.setInt(1, order.getRentDuration());
+	        ps.setBoolean(2, order.getPaymentCleared());
 	        ps.executeUpdate();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
@@ -73,14 +86,44 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void updateVehicle(OrderModel order) {
+	public void updateOrderAdm(OrderModel order) {
 	    Connection conn = Database.getConnection();
 	    try {
 	        PreparedStatement ps = conn.prepareStatement("UPDATE orderTable SET orderStatus=?, dateCreate=?, dueDate=? , paymentCleared=? WHERE order_id=? AND vehicleReturned = 0");
-	        ps.setInt(1, order.getOrderStatus());
-	        ps.setString(2, order.getCreatedDate());
-	        ps.setString(3, order.getDueDate());
-	        ps.setBoolean(4, order.getPaymentCleared());
+	        ps.setString(1, order.getCreatedDate());
+	        ps.setInt(2, order.getRentDuration());
+	        ps.setBoolean(3, order.getPaymentCleared());
+	        ps.executeUpdate();
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	}
+	
+	@Override
+	public int getOrderId() {
+	    Connection conn = Database.getConnection();
+	    int id = 0;
+	    try {
+	        Statement st = conn.createStatement();
+	        ResultSet rs = st.executeQuery("SELECT order_id FROM orderTable WHERE order_id =(SELECT MAX(order_id) FROM orderTable);");
+	        if(rs.next()){
+	        	id = rs.getInt(1);
+	        };
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    return id;
+	}
+	
+	@Override
+	public void updatePayment(int id) {
+	    Connection conn = Database.getConnection();
+
+	    String query = "UPDATE orderTable SET paymentCleared=? WHERE order_id="+ id +";";
+	    try {
+	        PreparedStatement ps = conn.prepareStatement(query);
+	        ps.setBoolean(1, true);
 	        ps.executeUpdate();
 
 	    } catch (SQLException ex) {
@@ -89,7 +132,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void deleteVehicle(int orderId ) {
+	public void deleteOrder(int orderId ) {
 	    Connection conn = Database.getConnection();
 	    try {
 	        Statement st = conn.createStatement();
@@ -99,6 +142,4 @@ public class OrderDaoImpl implements OrderDao {
 	        ex.printStackTrace();
 	    }
 	}
-
-
 }
