@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import database.Database;
 import interfaces.PaymentListener;
+import models.OrderModel;
 import models.PaymentModel;
 import views.MasterView;
 import views.PaymentView;
@@ -23,7 +24,7 @@ public class PaymentController implements PaymentListener {
 		}
 
 		@Override
-		public void paymentPerformed(PaymentModel event) throws SQLException {
+		public void paymentPerformed(PaymentModel event, OrderModel newOrder) throws SQLException {
 			System.out.println("Payment process event received: " + event.getCardHolder() + "; " + 
 						event.getCardNo() + "; " +  event.getExpDate() + "; " + event.getcVV());
 		        

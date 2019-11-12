@@ -266,7 +266,7 @@ public class OrderViewExt extends JPanel {
         public void fireOrderSubmited(int userId,int vehicleId,int rentDuration,boolean paymentCleared) throws SQLException {
             if (orderExtListener != null) {
                 orderExtListener.orderSubmited(userId, vehicleId,rentDuration,false, parent);
-                parent.changePanel(new PaymentView(parent));
+                parent.changePanel(new PaymentView(parent,orderExtListener.getNewOrder()));
             }
         }
 
