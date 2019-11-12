@@ -22,6 +22,7 @@ public class CatalogView extends JPanel{
     private JScrollPane contentWindow;
     private GridBagConstraints gc;
     private ArrayList<VehicleModel> vehicleModels;
+	private JButton backbtn;
 	
     CatalogView(MasterView parent) {
         super();
@@ -40,6 +41,7 @@ public class CatalogView extends JPanel{
     }
 
     private void setMenu() {
+    	backbtn = new JButton("Back");
         JMenuBar menuBar = new JMenuBar();
         JMenu accNav = new JMenu("Account");
         accNav.addMenuListener(new MenuListener() {
@@ -76,6 +78,20 @@ public class CatalogView extends JPanel{
         menuBar.add(searchBtn);
 
         add(menuBar);
+        
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.anchor = GridBagConstraints.NORTHWEST;
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.insets = new Insets(0, 0, 0, 0);
+
+
+        backbtn.setBounds(0,180,80,30);
+        add(backbtn,gc);
+
+        backbtn.addActionListener(ae -> parent.changePanel(new LoginView(parent)));
     }
 
     private void buildInterface() {

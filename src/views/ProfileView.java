@@ -15,7 +15,7 @@ public class ProfileView extends JPanel {
     private JTextField name;
     private JTextArea address;
     private JTextField email;
-    private JButton updateBtn;
+    private JButton updateBtn,backbtn;
 
     private ProfileListener listener;
 
@@ -33,6 +33,7 @@ public class ProfileView extends JPanel {
         email = new JTextField(32);
         email.setText(parent.getCurrentUser().getEmail());
         updateBtn = new JButton("Update Details");
+        backbtn = new JButton("Back");
 
         setupView();
     }
@@ -41,6 +42,20 @@ public class ProfileView extends JPanel {
         setLayout(new GridBagLayout());
 
         GridBagConstraints gc = new GridBagConstraints();
+        
+        gc.anchor = GridBagConstraints.NORTHWEST;
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.insets = new Insets(0, 0, 0, 0);
+
+
+        backbtn.setBounds(0,180,80,30);
+        add(backbtn,gc);
+
+        backbtn.addActionListener(ae -> parent.changePanel(new CatalogView(parent)));
+
         gc.anchor = GridBagConstraints.WEST;
         gc.gridx = 1;
         gc.gridy = 1;
