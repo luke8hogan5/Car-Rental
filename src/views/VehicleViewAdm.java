@@ -7,10 +7,19 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import Decorator.Convertible;
+import Decorator.FourDoor;
+import Decorator.FourDoors.*;
+import Decorator.Van;
 import controllers.VehicleControllerAdm;
+import interfaces.Vehicle;
 import interfaces.VehicleListenerAdm;
 
 public class VehicleViewAdm extends JPanel {
@@ -39,9 +48,9 @@ public class VehicleViewAdm extends JPanel {
 	private void buildInterface() {
 		JLabel l1 = new JLabel("Vehicle ID");
 		JLabel l8 = new JLabel("Vehicle Type");
-		JLabel l2 = new JLabel("Vehile Make");
+		JLabel l2 = new JLabel("Vehicle Make");
 		JLabel l3 = new JLabel("Vehicle Model");
-		JLabel l6 = new JLabel("Vehicle Price");
+		JLabel l6 = new JLabel("Base Rent");
 		JLabel l5 = new JLabel("Vehicle Year");
 		JLabel l7 = new JLabel("Availability");
 		JLabel l4 = new JLabel("Scrubs Car Rental");
@@ -53,6 +62,22 @@ public class VehicleViewAdm extends JPanel {
 		yearField = new JTextField(10);
 		availableField = new JTextField(10);
 		typeField = new JTextField(10);
+		typeField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				calcBaseRent();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				calcBaseRent();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				calcBaseRent();
+			}
+		});
 		JButton saveBtn = new JButton("Add");
 		JButton updateBtn = new JButton("Update");
 		JButton deleteBtn = new JButton("Delete");
@@ -63,19 +88,6 @@ public class VehicleViewAdm extends JPanel {
 
 		GroupLayout layout = new GroupLayout(parent.getContentPane());
 		parent.getContentPane().setLayout(layout);
-
-		GridBagConstraints gc = new GridBagConstraints();
-		gc.anchor = GridBagConstraints.NORTHWEST;
-		gc.gridx = 1;
-		gc.gridy = 0;
-		gc.weightx = 1;
-		gc.weighty = 1;
-		gc.insets = new Insets(0, 0, 0, 0);
-
-		JButton backbtn = new JButton("Back");
-		backbtn.setBounds(0,180,80,30);
-		add(backbtn,gc);
-		backbtn.addActionListener(ae -> parent.changePanel(new OrderViewAdm(parent)));
 
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 						.addGroup(layout.createSequentialGroup()
@@ -248,7 +260,6 @@ public class VehicleViewAdm extends JPanel {
 		makeField.setText(model.getValueAt(i, 2).toString());
 		modelField.setText(model.getValueAt(i, 3).toString());
 		yearField.setText(model.getValueAt(i, 4).toString());
-		priceField.setText(model.getValueAt(i, 5).toString());
 		availableField.setText(model.getValueAt(i, 6).toString());
 	}
 
@@ -295,7 +306,44 @@ public class VehicleViewAdm extends JPanel {
 
 		scrollPane.getViewport().add(vehicleTable);
 
-		revalidate();
 
+	}
+
+	private void calcBaseRent(){
+
+
+		switch (typeField.getText()){
+			case "SUV":
+				SUV suv = new SUV(new FourDoor());
+				priceField.setText(Double.toString(suv.rentRate()));
+				break;
+			case "Convertable":
+				Convertible conv = new Convertible();
+				priceField.setText(Double.toString(conv.rentRate()));
+				break;
+			case "Van":
+				Van van = new Van();
+				priceField.setText(Double.toString(van.rentRate()));
+				break;
+			case "Jeep":
+				Jeep jeep = new Jeep(new FourDoor());
+				priceField.setText(Double.toString(jeep.rentRate()));
+				break;
+			case "Saloon":
+				Saloon saloon = new Saloon(new FourDoor());
+				priceField.setText(Double.toString(saloon.rentRate()));
+				break;
+			case "Hatchback":
+				Hatchback hBack = new Hatchback(new FourDoor());
+				priceField.setText(Double.toString(hBack.rentRate()));
+				break;
+			case "Luxury":
+				Luxury lux = new Luxury(new FourDoor());
+				priceField.setText(Double.toString(lux.rentRate()));
+				break;
+			default:
+				priceField.setText("Enter Price");
+				break;
+		}
 	}
 }
