@@ -17,7 +17,7 @@ import models.UserModel;
 
 public class RegisterView extends JPanel implements ActionListener {
 	private MasterView parent;
-	private JButton okButton;
+	private JButton okButton,backbtn;
 	private JTextField nameField;
 	private JPasswordField passField;
 	private JPasswordField repeatPassField;
@@ -35,10 +35,25 @@ public class RegisterView extends JPanel implements ActionListener {
 		repeatPassField = new JPasswordField(10);
 		okButton = new JButton("Create user");
 		emailField = new JTextField(20);
+	    backbtn = new JButton("Back");
 
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc = new GridBagConstraints();
+		
+        gc.anchor = GridBagConstraints.NORTHWEST;
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.insets = new Insets(0, 0, 0, 0);
+
+
+        backbtn.setBounds(0,180,80,30);
+        add(backbtn,gc);
+
+        backbtn.addActionListener(ae -> parent.changePanel(new WelcomeView(parent)));
+		
 		gc.anchor = GridBagConstraints.LAST_LINE_END;
 		gc.gridx = 1;
 		gc.gridy = 1;

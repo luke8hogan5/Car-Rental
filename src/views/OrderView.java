@@ -18,6 +18,8 @@ public class OrderView extends JPanel implements ActionListener {
 	private MasterView parent;
 
 	private OrderListener orderListener;
+	
+	private JButton backbtn;
 
 	public OrderView(MasterView parent, VehicleModel data) {
 		super();
@@ -36,12 +38,27 @@ public class OrderView extends JPanel implements ActionListener {
 	public void buildTable(String vMake,String vModel,String vYear,VehicleModel data) {
 
 		JButton getCosts = new JButton("Get Prices");
+		backbtn = new JButton("Back");
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc = new GridBagConstraints();
+		
+        gc.anchor = GridBagConstraints.NORTHWEST;
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.insets = new Insets(0, 0, 0, 0);
+
+
+        backbtn.setBounds(0,180,80,30);
+        add(backbtn,gc);
+
+        backbtn.addActionListener(ae -> parent.changePanel(new CatalogView(parent)));
+		
 		gc.anchor = GridBagConstraints.PAGE_START;
 		gc.gridx = 1;
-		gc.gridy = 0;
+		gc.gridy = 1;
 		gc.weightx = 1;
 		gc.weighty = 1;
 		gc.insets = new Insets(10, 0, 30, 0);
