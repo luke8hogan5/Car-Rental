@@ -4,23 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OrderModel{
-<<<<<<< HEAD
-	private  int user_id;
-	private  int vehicle_id;
-	private int orderStatus;
-	private boolean paymentCleared;
-	private Date dateCreated;
-	private Date dateDue;
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-=======
 	private  int userId;
 	private  int vehicleId;
-	private Date dateCreated; // dateCreated
+	private Date dateCreated; //
 	private int rentDuration;
 	private boolean paymentCleared;
 	private boolean vehicleReturned;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
->>>>>>> 07e6414a0b18a0340c27864332cceeba6b62de17
 
 	public OrderModel(int userId,int vehicleId,int rentDuration,boolean paymentCleared){
 		this.userId = userId;
