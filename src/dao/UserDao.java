@@ -12,5 +12,6 @@ public interface UserDao {
 	void insertUser(UserModel user);
 	void updateUser(UserModel user);
 	void deleteUser(int userId);
+	void updateUserInfo(UserModel user);
 	
 }

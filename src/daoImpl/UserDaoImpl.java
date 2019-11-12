@@ -19,6 +19,7 @@ public class UserDaoImpl implements UserDao {
 	    user.setUserId( rs.getInt("user_id") );
 	    user.setName( rs.getString("userName") );
 	    user.setPassword( rs.getString("userPassword") );
+	    user.setEmail(rs.getString("email"));
 	    return user;
 	}
 	
@@ -116,6 +117,23 @@ public class UserDaoImpl implements UserDao {
 	        ex.printStackTrace();
 	    }
 	}
-
+	
+	@Override
+	public void updateUserInfo(UserModel user ) {
+	    Connection conn = Database.getConnection();
+	    try {
+	    	PreparedStatement ps = conn.prepareStatement("UPDATE account SET userName=?, email=?, address=? WHERE user_id=?;");
+	        
+	        ps.setString(1, user.getName());
+	        ps.setString(2, user.getEmail());
+	        ps.setString(3, user.getAddress());
+	        ps.setInt(4, user.getUserId());
+	    	ps.execute();
+	        
+	        
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	}
 
 }

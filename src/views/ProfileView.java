@@ -4,6 +4,9 @@ import interfaces.ProfileListener;
 import models.UserModel;
 
 import javax.swing.*;
+
+import controllers.ProfileController;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +25,7 @@ public class ProfileView extends JPanel {
     public ProfileView(MasterView parent) {
         super();
         this.parent = parent;
+        listener = new ProfileController(this);
 
         name = new JTextField(32);
         name.setText(parent.getCurrentUser().getName());
