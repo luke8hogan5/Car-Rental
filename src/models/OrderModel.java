@@ -6,7 +6,7 @@ import java.util.Date;
 public class OrderModel{
 	private  int userId;
 	private  int vehicleId;
-	private Date dateCreated; //
+	private Date dateCreated;
 	private int rentDuration;
 	private boolean paymentCleared;
 	private boolean vehicleReturned;
