@@ -113,7 +113,6 @@ public class LoginView extends JPanel implements ActionListener {
 			String name = nameField.getText();
 			String password = new String(passField.getPassword());
 
-
 				try {
 					fireLoginEvent(name, password);
 				} catch (SQLException e1) {
