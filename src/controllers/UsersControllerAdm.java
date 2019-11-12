@@ -52,14 +52,5 @@ public class UsersControllerAdm implements UsersListenerAdm {
 			Statement st = con.createStatement();
 			st.execute(sql);
 		}
-		@Override
-		public void addPerformed(String name, String email) throws SQLException {
-			System.out.println("Display event received: ");
-			Connection con = Database.getConnection();
-			String sql = "INSERT INTO `account`(`userName`, `email`) "
-					+ "VALUES ('"+name+"','"+email+"';)";
-			Statement st = con.createStatement();
-			st.execute(sql);
-		}
 }
 

@@ -20,7 +20,7 @@ public class VehicleControllerAdm implements VehicleListenerAdm{
 		Connection conn = Database.getConnection();
 		Statement st = conn.createStatement();
 		ResultSet rs;
-		rs = st.executeQuery("select vehicleMake,vehicleModel, vehicle_id, vehicleYear, vehiclePrice, isAvailable from vehicle;");
+		rs = st.executeQuery("select * from vehicle;");
 
 		Vector<Vector<Object>> data = new Vector<>();
 		while (rs.next()) {
@@ -28,6 +28,7 @@ public class VehicleControllerAdm implements VehicleListenerAdm{
 			Vector<Object> row = new Vector<>();
 			for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
 				row.add(rs.getString(i));
+
 			}
 			data.add(row);
 		}
@@ -41,8 +42,8 @@ public class VehicleControllerAdm implements VehicleListenerAdm{
 
 		Connection con = Database.getConnection();
 		String sql = "UPDATE `vehicle` "
-				+"SET vehicleMake='"+make+"',vehicleModel='"+model+"',vehicleYear='"+year+"',vehiclePrice='"+price+"',isAvailable='"+available+"' "
-				+"WHERE vehicle_id='"+id+"'";
+				+"SET vehicleMake='"+make+"',vehicleModel='"+model+"',vehicleYear='"+year+"',vehiclePrice='"+price+"',isAvailable='"+available+"'"
+				+", vehicleType= '"+type+"' WHERE vehicle_id='"+id+"'";
 		Statement st = con.createStatement();
 		st.execute(sql);
 	}

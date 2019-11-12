@@ -10,7 +10,5 @@ public interface UsersListenerAdm {
 	void updatePerformed(String name, String email, int id) throws SQLException;
 
 	void deletePerformed(int id) throws SQLException;
-
-	void addPerformed(String name, String email) throws SQLException;
 }
 
