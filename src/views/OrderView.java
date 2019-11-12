@@ -220,12 +220,9 @@ public class OrderView extends JPanel implements ActionListener {
 
         proPay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!durationBox.getText().equals("")) {
-                    int rentDuration = Integer.parseInt(durationBox.getText());
-                    parent.changePanel(new OrderViewExt(parent, rentDuration, data));
-                } else {
-                    JOptionPane.showMessageDialog(null, "Please enter the duration of your rent", "Error", 1);
-                }
+				int rentDuration = Integer.parseInt(durationBox.getText());
+            	parent.changePanel(new OrderViewExt(parent,rentDuration,data));
+            	 // Move Frame to OrderViewExt
             }
         } );
 

@@ -6,6 +6,7 @@ import java.util.Date;
 public class OrderModel{
 	private  int userId;
 	private  int vehicleId;
+	private  int orderId;
 	private Date dateCreated;
 	private int rentDuration;
 	private boolean paymentCleared;
@@ -55,4 +56,12 @@ public class OrderModel{
 	public boolean isVehicleReturned() { return vehicleReturned; }
 
 	public void setVehicleReturned(boolean vehicleReturned) { this.vehicleReturned = vehicleReturned; }
+
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 }

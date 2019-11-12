@@ -21,7 +21,7 @@ public class VehicleDaoImpl implements VehicleDao {
 		vehicle.setVehicleModel( rs.getString("vehicleModel") );
 		vehicle.setVehicleYear( Integer.parseInt(rs.getString("vehicleYear") ));
 		vehicle.setVehiclePrice( Double.parseDouble(rs.getString("vehiclePrice") ));
-		vehicle.setVehicleAvailability( Integer.parseInt(rs.getString("isAvailable") ));
+//		vehicle.setVehicleAvailability( Integer.parseInt(rs.getString("isAvailable") ));
 		vehicle.setVehicleType( rs.getString("vehicleType") );
 	    return vehicle;
 	}
@@ -69,7 +69,7 @@ public class VehicleDaoImpl implements VehicleDao {
 	        ps.setString(2, vehicle.getVehicleMake());
 	        ps.setInt(3, vehicle.getVehicleYear());
 	        ps.setDouble(4, vehicle.getVehiclePrice());
-	        ps.setInt(5, vehicle.getVehicleAvailability());
+//	        ps.setInt(5, vehicle.getVehicleAvailability());
 	        ps.setString(6, vehicle.getVehicleType());
 	        ps.executeUpdate();
 	    } catch (SQLException ex) {
@@ -87,7 +87,7 @@ public class VehicleDaoImpl implements VehicleDao {
 	        ps.setString(2, vehicle.getVehicleMake());
 	        ps.setInt(3, vehicle.getVehicleYear());
 	        ps.setDouble(4, vehicle.getVehiclePrice());
-	        ps.setInt(5, vehicle.getVehicleAvailability());
+//	        ps.setInt(5, vehicle.getVehicleAvailability());
 	        ps.setString(6, vehicle.getVehicleType());
 	        ps.setInt(7, vehicle.getVehicleId());
 	        ps.executeUpdate();

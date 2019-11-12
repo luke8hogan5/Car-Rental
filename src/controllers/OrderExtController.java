@@ -1,5 +1,6 @@
 package controllers;
 
+import daoImpl.OrderDaoImpl;
 import database.Database;
 import interfaces.OrderExtListener;
 import models.OrderModel;
@@ -21,6 +22,7 @@ import static java.lang.String.valueOf;
 
 public class OrderExtController implements OrderExtListener {
 
+    private OrderDaoImpl dao = new OrderDaoImpl();
     private OrderModel newOrder;
     private OrderViewExt view;
     public OrderExtController(OrderViewExt view) {
@@ -28,26 +30,19 @@ public class OrderExtController implements OrderExtListener {
     }
 
     @Override
-    public void orderSubmited(int userId,int vehicleId,int rentDuration,boolean paymentClear, MasterView master) throws SQLException {
+    public void orderSubmited(int userId,int vehicleId,int rentDuration,boolean paymentCleared, MasterView master) throws SQLException {
 
-        newOrder = new OrderModel(userId, vehicleId,rentDuration, false);
-        String updateTable = "INSERT INTO  `orderTable`(`vehicle_id`,`user_id`,`rentDuration`,`paymentCleared`) VALUES (?,?,?,?);";
-        Connection conn = Database.getConnection();
-        PreparedStatement ps = null;
-        try {
-            ps = conn.prepareStatement(updateTable);
-            ps.setInt(1, vehicleId);
-            ps.setInt(2, userId);
-            ps.setInt(3,rentDuration);
-            ps.setBoolean(4, newOrder.getPaymentCleared());
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        newOrder = new OrderModel(userId, vehicleId,rentDuration, paymentCleared);
+
+        dao.insertOrder(newOrder);
+
+        newOrder.setOrderId(dao.getOrderId());
+
     }
     public OrderModel getNewOrder(){
         return newOrder;
     }
+
     public String calNetCost(double vCostPerDay, double totalDiscountsPerDay){
         String netCost = "";
         double netCostPerDay = 0.00;

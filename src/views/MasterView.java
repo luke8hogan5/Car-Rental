@@ -19,8 +19,9 @@ public class MasterView extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+
         changePanel(new WelcomeView(this));
-        //changePanel(new OrderView(this));
+        //changePanel(new PaymentView(this));
 
     }
 

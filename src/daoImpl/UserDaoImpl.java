@@ -78,7 +78,7 @@ public class UserDaoImpl implements UserDao {
 	public void insertUser(UserModel user) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        PreparedStatement ps = conn.prepareStatement("INSERT INTO account VALUES (NULL, ?, ?, ?)");
+	        PreparedStatement ps = conn.prepareStatement("INSERT INTO account VALUES (NULL, ?, ?, ?, ?)");
 	        ps.setString(1, user.getName());
 	        ps.setString(2, user.getPassword());
 	        ps.setString(3, user.getEmail());

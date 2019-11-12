@@ -17,7 +17,9 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * TODO: add reference and give improvement
+ *  Author: https://stackoverflow.com/users/340390/bitmap
+ *  Source: https://stackoverflow.com/questions/10347983/making-a-jbutton-clickable-inside-a-jtable
+ *  Use: This is used to allow order button in CatalogView table
  */
 
 public class ClientsTableRenderer extends DefaultCellEditor

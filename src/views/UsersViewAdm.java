@@ -56,7 +56,7 @@ public class UsersViewAdm extends JPanel{
 
 		GroupLayout layout = new GroupLayout(parent.getContentPane());
 		parent.getContentPane().setLayout(layout);
-		
+
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
 							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)

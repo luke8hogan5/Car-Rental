@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao {
 		order.setRentDuration( rs.getInt("rentDuration") );
 	    return order;
 	}
-	
+
 	@Override
 	public OrderModel getOrder() {
 		Connection conn = Database.getConnection();
@@ -68,7 +68,7 @@ public class OrderDaoImpl implements OrderDao {
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
 	    }
-		
+
 	}
 	
 	@Override
@@ -119,8 +119,10 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public void updatePayment(int id) {
 	    Connection conn = Database.getConnection();
+
+	    String query = "UPDATE orderTable SET paymentCleared=? WHERE order_id="+ id +";";
 	    try {
-	        PreparedStatement ps = conn.prepareStatement("UPDATE orderTable SET paymentCleared=? WHERE order_id=" + id + ";");
+	        PreparedStatement ps = conn.prepareStatement(query);
 	        ps.setBoolean(1, true);
 	        ps.executeUpdate();
 
@@ -140,6 +142,4 @@ public class OrderDaoImpl implements OrderDao {
 	        ex.printStackTrace();
 	    }
 	}
-
-
 }
