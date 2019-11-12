@@ -24,7 +24,6 @@ private OrderView view;
 
 	@Override
 	public void orderPerformed(VehicleModel event) throws SQLException {
-		//view.pack();
 	}
 
 }

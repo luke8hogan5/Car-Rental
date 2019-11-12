@@ -1,21 +1,13 @@
 package controllers;
 
 import daoImpl.OrderDaoImpl;
-import database.Database;
 import interfaces.OrderExtListener;
 import models.OrderModel;
-import models.UserModel;
-import models.VehicleModel;
 import views.MasterView;
-import views.OrderView;
 import views.OrderViewExt;
-import views.PaymentView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static java.lang.String.valueOf;

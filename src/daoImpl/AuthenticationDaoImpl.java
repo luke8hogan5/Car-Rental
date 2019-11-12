@@ -47,32 +47,31 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	public void registerUser(String username, String password, String email) {
 		Connection conn = Database.getConnection();
 		try {
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO account`(userName`,`userPassword`, email) VALUES (?,?,?);");
-			ResultSet rs = ps.executeQuery();
-		    
-			if(rs.next()){
-				ps.setString(1, username );
-			    ps.setString(2, password);
-			    ps.setString(3, email);
-			    ps.executeUpdate();
-        }
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `account`(`userName`,`userPassword`,`email`) VALUES (?,?,?);");
+
+			ps.setString(1, username );
+			ps.setString(2, password);
+			ps.setString(3, email);
+			ps.executeUpdate();
+
     } catch (SQLException ex) {
         ex.printStackTrace();
     }
 	}
 	@Override
-	public void loginAfterRegister() {
+	public UserModel loginAfterRegister() throws SQLException {
 		Connection conn = Database.getConnection();
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM account WHERE user_id (" +
-					"SELECT MAX(user_id) FROM account" + ");");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM account WHERE user_id = (SELECT MAX(user_id) FROM account);");
+
 			ResultSet rs = ps.executeQuery();
-		    
-			if(rs.next()){
-				extractUserInfo(rs);
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
+			if(rs.next()) {
+				UserModel currentUser = extractUserInfo(rs);
+				return currentUser;
+			}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			return null;
 	}
 }

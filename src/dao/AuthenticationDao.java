@@ -2,12 +2,14 @@ package dao;
 
 import models.UserModel;
 
+import java.sql.SQLException;
+
 public interface AuthenticationDao {
 
 	UserModel validateLogin(String name, String password);
 
 	void registerUser(String username, String password, String email);
 
-	void loginAfterRegister();
+	UserModel loginAfterRegister()throws SQLException;
 
 }

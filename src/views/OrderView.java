@@ -30,7 +30,6 @@ public class OrderView extends JPanel implements ActionListener {
 		vMake = data.getVehicleMake();
 		vModel = data.getVehicleModel();
 		vYear = Integer.toString(data.getVehicleYear());
-
 		buildTable(vMake,vModel,vYear,data);
 	}
 
@@ -206,13 +205,10 @@ public class OrderView extends JPanel implements ActionListener {
 
 				vRent = ((vPrice / 365)/2);
 				BigDecimal bd = new BigDecimal(vRent).setScale(2, RoundingMode.HALF_UP);
-				//vLease = vPrice/3;
-				//BigDecimal bd1 = new BigDecimal(vLease).setScale(2, RoundingMode.HALF_UP);
 
 				priceBox.setText(""+vPrice);
 				priceBox.setVisible(true);
 				rentBox.setText(""+bd.doubleValue());
-				//leaseBox.setText(""+bd1.doubleValue());
 				durationBox.setEditable(true);
                 proPay.setEnabled(true);
             }
