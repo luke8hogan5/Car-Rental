@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ public class VehicleViewAdm extends JPanel {
 	private JTextField yearField;
 	private JTextField priceField;
 	private JTextField availableField;
+	private JTextField typeField;
 	private JTable vehicleTable;
 	private JScrollPane scrollPane;
 
@@ -35,9 +37,10 @@ public class VehicleViewAdm extends JPanel {
 	}
 
 	private void buildInterface() {
-		JLabel l1 = new JLabel("Vehicle Make");
-		JLabel l2 = new JLabel("Vehile Model");
-		JLabel l3 = new JLabel("VehicleId");
+		JLabel l1 = new JLabel("Vehicle ID");
+		JLabel l8 = new JLabel("Vehicle Type");
+		JLabel l2 = new JLabel("Vehile Make");
+		JLabel l3 = new JLabel("Vehicle Model");
 		JLabel l6 = new JLabel("Vehicle Price");
 		JLabel l5 = new JLabel("Vehicle Year");
 		JLabel l7 = new JLabel("Availability");
@@ -49,6 +52,7 @@ public class VehicleViewAdm extends JPanel {
 		priceField = new JTextField(10);
 		yearField = new JTextField(10);
 		availableField = new JTextField(10);
+		typeField = new JTextField(10);
 		JButton saveBtn = new JButton("Add");
 		JButton updateBtn = new JButton("Update");
 		JButton deleteBtn = new JButton("Delete");
@@ -60,6 +64,19 @@ public class VehicleViewAdm extends JPanel {
 		GroupLayout layout = new GroupLayout(parent.getContentPane());
 		parent.getContentPane().setLayout(layout);
 
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.anchor = GridBagConstraints.NORTHWEST;
+		gc.gridx = 1;
+		gc.gridy = 0;
+		gc.weightx = 1;
+		gc.weighty = 1;
+		gc.insets = new Insets(0, 0, 0, 0);
+
+		JButton backbtn = new JButton("Back");
+		backbtn.setBounds(0,180,80,30);
+		add(backbtn,gc);
+		backbtn.addActionListener(ae -> parent.changePanel(new OrderViewAdm(parent)));
+
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 						.addGroup(layout.createSequentialGroup()
 							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -69,17 +86,22 @@ public class VehicleViewAdm extends JPanel {
 									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 										.addGroup(layout.createSequentialGroup()
 											.addComponent(l1,GroupLayout.PREFERRED_SIZE, 90,GroupLayout.PREFERRED_SIZE)
-											.addComponent(makeField,GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
+											.addComponent(idField,GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
+
+									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+										.addGroup(layout.createSequentialGroup()
+											.addComponent(l8,GroupLayout.PREFERRED_SIZE, 90,GroupLayout.PREFERRED_SIZE)
+											.addComponent(typeField,GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
 
 									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 										.addGroup(layout.createSequentialGroup()
 											.addComponent(l2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-											.addComponent(modelField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
+											.addComponent(makeField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
 
 									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 										.addGroup(layout.createSequentialGroup()
 											.addComponent(l3, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-											.addComponent(idField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
+											.addComponent(modelField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))
 
 									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 										.addGroup(layout.createSequentialGroup()
@@ -94,7 +116,7 @@ public class VehicleViewAdm extends JPanel {
 									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 										.addGroup(layout.createSequentialGroup()
 											.addComponent(l7, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-											.addComponent(availableField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))))))))
+											.addComponent(availableField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE)))))))))
 
 									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE))
 								.addGroup(layout.createSequentialGroup()
@@ -117,17 +139,21 @@ public class VehicleViewAdm extends JPanel {
 						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 							.addGroup(layout.createSequentialGroup()
 								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(makeField)
+									.addComponent(idField)
 									.addComponent(l1))
 								.addGap(30, 30, 30)
+									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+									.addComponent(typeField)
+									.addComponent(l8))
+								.addGap(30, 30, 30)
 								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(modelField)
+									.addComponent(makeField)
 									.addComponent(l2))
 								.addGap(30, 30, 30)
 								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-									.addComponent(idField)
+									.addComponent(modelField)
 									.addComponent(l3))
-								.addGap(39, 39, 39)
+								.addGap(30, 30, 30)
 								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 									.addComponent(yearField)
 									.addComponent(l5))
@@ -147,21 +173,22 @@ public class VehicleViewAdm extends JPanel {
 									.addComponent(saveBtn)))
 							.addComponent(scrollPane, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 600,GroupLayout.PREFERRED_SIZE))
 						.addContainerGap(30, Short.MAX_VALUE)));
+
 		parent.pack();
 		parent.setLocationRelativeTo(null);
 
 		saveBtn.addActionListener(event -> {
 			try {
 				if(!(makeField.getText().isEmpty() || modelField.getText().isEmpty() || yearField.getText().isEmpty()
-						|| priceField.getText().isEmpty() || availableField.getText().isEmpty())) {
+						|| priceField.getText().isEmpty() || availableField.getText().isEmpty() || typeField.getText().isEmpty())) {
 					String vehicleMake = makeField.getText();
 					String vehicleModel = modelField.getText();
+					String type  = typeField.getText();
 					int vehicleYear = Integer.parseInt(yearField.getText());
 					double vehiclePrice = Double.parseDouble(priceField.getText());
-					int available = Integer.parseInt(availableField.getText());
 
 
-					fireAddVehicleEvent(vehicleMake, vehicleModel,"", vehicleYear, vehiclePrice);
+					fireAddVehicleEvent(vehicleMake, vehicleModel,type, vehicleYear, vehiclePrice);
 				}else{
 					JOptionPane.showMessageDialog(null, "Error, Please ensure no fields are left empty",
 													"Error", JOptionPane.WARNING_MESSAGE);
@@ -173,16 +200,19 @@ public class VehicleViewAdm extends JPanel {
 
 		updateBtn.addActionListener(event -> {
 			try {
-				if(!(makeField.getText().isEmpty() || modelField.getText().isEmpty() || idField.getText().isEmpty()
-				|| yearField.getText().isEmpty() || priceField.getText().isEmpty() || availableField.getText().isEmpty())){
+				if(!(makeField.getText().isEmpty() || modelField.getText().isEmpty() || idField.getText().isEmpty()|| yearField.getText().isEmpty()
+						|| priceField.getText().isEmpty() || availableField.getText().isEmpty() || typeField.getText().isEmpty())){
 					String make = makeField.getText();
 					String model = modelField.getText();
+					String type = typeField.getText();
 					int id = Integer.parseInt(idField.getText());
 					int year = Integer.parseInt(yearField.getText());
 					double price = Double.parseDouble(priceField.getText());
 					int available = Integer.parseInt(availableField.getText());
 
-					fireUpdateVehicleEvent(id, make, model, year, price, available, "");
+					fireUpdateVehicleEvent(id, make, model, year, price, available, type);
+
+					getVehicles();
 				}else{
 					JOptionPane.showMessageDialog(null, "Error, Please ensure no fields are left empty",
 							"Error", JOptionPane.WARNING_MESSAGE);
@@ -197,6 +227,8 @@ public class VehicleViewAdm extends JPanel {
 				if(!idField.getText().isEmpty()) {
 					int id = Integer.parseInt(idField.getText());
 					fireDeleteVehicleEvent(id);
+
+					getVehicles();
 				}else
 					JOptionPane.showMessageDialog(null, "Please input ID or select option from table",
 													"Selection invalid", JOptionPane.WARNING_MESSAGE);
@@ -211,12 +243,13 @@ public class VehicleViewAdm extends JPanel {
 		// TODO add your handling code here:
 		int i = vehicleTable.getSelectedRow();
 		TableModel model = vehicleTable.getModel();
-		makeField.setText(model.getValueAt(i, 0).toString());
-		modelField.setText(model.getValueAt(i, 1).toString());
-		idField.setText(model.getValueAt(i, 2).toString());
-		yearField.setText(model.getValueAt(i, 3).toString());
-		priceField.setText(model.getValueAt(i, 4).toString());
-		availableField.setText(model.getValueAt(i, 5).toString());
+		idField.setText(model.getValueAt(i, 0).toString());
+		typeField.setText(model.getValueAt(i, 1).toString());
+		makeField.setText(model.getValueAt(i, 2).toString());
+		modelField.setText(model.getValueAt(i, 3).toString());
+		yearField.setText(model.getValueAt(i, 4).toString());
+		priceField.setText(model.getValueAt(i, 5).toString());
+		availableField.setText(model.getValueAt(i, 6).toString());
 	}
 
 	private void getVehicles(){
@@ -238,17 +271,21 @@ public class VehicleViewAdm extends JPanel {
 
 	private void setTable(Vector<Vector<Object>> data) {
 
-		String[] titles= {"ID", "Make", "Model", "Year", "Price", "Available"};
+		String[] titles= {"ID", "Type", "Make", "Model", "Year", "Price", "Available"};
 
 
 		DefaultTableModel tableModel = new DefaultTableModel(titles, 0);
 		vehicleTable = new JTable(tableModel);
 
-		for (Vector<Object> datum : data) tableModel.addRow(datum);
+		for (Vector<Object> datum : data){
+			tableModel.addRow(datum);
+			for(int i=0; i<datum.size(); i++)
+				vehicleTable.isCellEditable(data.indexOf(datum), i);
+		}
 
 		vehicleTable.setPreferredScrollableViewportSize(vehicleTable.getPreferredSize());
 		vehicleTable.setShowHorizontalLines(true);
-		vehicleTable.setShowVerticalLines(false);
+		vehicleTable.setShowVerticalLines(true);
 
 		vehicleTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event) {
@@ -257,6 +294,8 @@ public class VehicleViewAdm extends JPanel {
 		});
 
 		scrollPane.getViewport().add(vehicleTable);
+
+		revalidate();
 
 	}
 }

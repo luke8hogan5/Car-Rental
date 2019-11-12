@@ -49,7 +49,6 @@ public class UsersViewAdm extends JPanel{
 		emailField = new JTextField(20);
 		idField = new JTextField(20);
 		idField.setEditable(false);
-		JButton saveBtn = new JButton("Add");
 		JButton updateBtn = new JButton("Update");
 		JButton deleteBtn = new JButton("Delete");
 		userTable = new JTable();
@@ -57,6 +56,7 @@ public class UsersViewAdm extends JPanel{
 
 		GroupLayout layout = new GroupLayout(parent.getContentPane());
 		parent.getContentPane().setLayout(layout);
+
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
 							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -76,8 +76,6 @@ public class UsersViewAdm extends JPanel{
 												.addComponent(emailField, GroupLayout.PREFERRED_SIZE, 163,GroupLayout.PREFERRED_SIZE))))
 									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
 								.addGroup(layout.createSequentialGroup()
-									.addComponent(saveBtn,GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-									.addGap(27, 27, 27)
 									.addComponent(updateBtn,GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 									.addGap(27, 27, 27)
 									.addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 75,GroupLayout.PREFERRED_SIZE)))
@@ -111,23 +109,12 @@ public class UsersViewAdm extends JPanel{
 									.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 										.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 											.addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-											.addComponent(updateBtn, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
-										.addComponent(saveBtn, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))
+											.addComponent(updateBtn, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))))
 								.addComponent(scrollPane, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE))
 							.addContainerGap(29, Short.MAX_VALUE)));
 
 		parent.pack();
 		parent.setLocationRelativeTo(null);
-
-		saveBtn.addActionListener(event -> {
-			try {
-				fireAddUserEvent(nameField.getText(), emailField.getText());
-				getUsers();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		});
 
 		updateBtn.addActionListener(event -> {
 			try {
@@ -161,9 +148,6 @@ public class UsersViewAdm extends JPanel{
 
 	private void getUsers() throws SQLException {
 		setTable(displayUsersListener.getUsers());
-	}
-	private void fireAddUserEvent(String name, String email) throws SQLException {
-		displayUsersListener.addPerformed(name, email);
 	}
 	private void fireUpdateUserEvent(String name, String email, int id) throws SQLException {
 		displayUsersListener.updatePerformed(name, email, id);

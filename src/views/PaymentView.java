@@ -18,7 +18,7 @@ import models.PaymentModel;
 
 public class PaymentView extends JPanel {
 	private MasterView parent;
-	private JButton payButton;
+	private JButton payButton, backbtn;
 	private JTextField cardHolder;
 	private JTextField cardNo;
 	private JTextField expDate;
@@ -36,10 +36,24 @@ public class PaymentView extends JPanel {
 		cVV = new JPasswordField(3);
 		expDate = new JTextField(6);
 		payButton = new JButton("Process Payment");
+        backbtn = new JButton("Back");
 
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc = new GridBagConstraints();
+        gc.anchor = GridBagConstraints.NORTHWEST;
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.insets = new Insets(0, 0, 0, 0);
+
+
+        backbtn.setBounds(0,180,80,30);
+        add(backbtn,gc);
+
+        backbtn.addActionListener(ae -> parent.changePanel(new CatalogView(parent)));
+		
 		gc.anchor = GridBagConstraints.LAST_LINE_END;
 		gc.gridx = 1;
 		gc.gridy = 1;
@@ -48,7 +62,7 @@ public class PaymentView extends JPanel {
 		gc.insets = new Insets(100, 0, 0, 10);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(new JLabel("Card Holder: "), gc);
+		add(new JLabel("Card Holder Name: "), gc);
 
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 2;
@@ -136,6 +150,7 @@ public class PaymentView extends JPanel {
 			String expDateField = expDate.getText();
 			int cVVField = Integer.parseInt(cVV.getText());
 			//userId = get id on login from userModel
+	        parent.changePanel(new CatalogView(parent));
 
 			try {
 				firePaymentEvent(new PaymentModel(cardHolderField, cardNoField, cVVField, expDateField));

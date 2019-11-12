@@ -58,7 +58,7 @@ public class CatalogController implements CatalogListener{
         while(rs.next()){
             Vector<Object> resultLine = new Vector<>();
             VehicleModel model = new VehicleModel(rs.getInt("vehicle_id"),
-                                                  rs.getInt("vehicleType"),
+                                                  rs.getString("vehicleType"),
                                                   rs.getString("vehicleMake"),
                                                   rs.getDouble("vehiclePrice"),
                                                   rs.getString("vehicleModel"),

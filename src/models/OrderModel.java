@@ -12,6 +12,10 @@ public class OrderModel{
 	private Date dateDue; //Duedate
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+	public OrderModel() {
+
+	}
+
 	public OrderModel(int orderstatus, boolean paymentCleared, Date dateCreated, Date dateDue){
 		this.orderStatus = orderstatus;
 		this.paymentCleared = paymentCleared;
@@ -22,13 +26,14 @@ public class OrderModel{
 		this.orderStatus = orderstatus;
 		this.paymentCleared = paymentCleared;
 	}
+
 	public OrderModel(int user_id,int vehicle_id,boolean paymentCleared){
 		this.user_id = user_id;
 		this.vehicle_id = vehicle_id;
 		this.paymentCleared = paymentCleared;
 	}
-	
-	public int getOrderStatus(){
+
+    public int getOrderStatus(){
 		return orderStatus;
 	}
 	
