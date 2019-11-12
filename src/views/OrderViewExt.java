@@ -18,6 +18,7 @@ import static java.lang.String.valueOf;
 public class OrderViewExt extends JPanel {
     private MasterView parent;
     private OrderExtListener orderExtListener;
+    private JButton backbtn;
 
     public OrderViewExt(MasterView parent, int rentDuration, VehicleModel data) {
             super();
@@ -52,6 +53,7 @@ public class OrderViewExt extends JPanel {
 
         public void buildTable (int rating, String loyBracket, double price, int userId, int vehicleId,int rentDuration){
 
+            backbtn = new JButton("Back");
             double vRentPerDay = ((price / 365) / 2);
             int vRent = (int) Math.round((price / 365) / 2);
 
@@ -60,6 +62,19 @@ public class OrderViewExt extends JPanel {
 
             setLayout(new GridBagLayout());
             GridBagConstraints gc = new GridBagConstraints();
+
+            gc.anchor = GridBagConstraints.NORTHWEST;
+            gc.gridx = 1;
+            gc.gridy = 0;
+            gc.weightx = 1;
+            gc.weighty = 1;
+            gc.insets = new Insets(0, 0, 0, 0);
+
+
+            backbtn.setBounds(0,180,80,30);
+            add(backbtn,gc);
+
+            backbtn.addActionListener(ae -> parent.changePanel(new CatalogView(parent)));
 
             gc.anchor = GridBagConstraints.LINE_START;
             gc.gridx = 2;
@@ -118,7 +133,6 @@ public class OrderViewExt extends JPanel {
             JTextField pointsBox = new JTextField(10);
             pointsBox.setEditable(false);
             pointsBox.setText(loyBracket);
-            //makeBox.setVisible(false);
             gc.anchor = GridBagConstraints.CENTER;
             gc.gridx = 3;
             gc.gridy = 2;
@@ -126,7 +140,6 @@ public class OrderViewExt extends JPanel {
             gc.weighty = 1;
             gc.insets = new Insets(10, 0, 10, 100);
             add(pointsBox, gc);
-            //makeBox.setVisible(false);
 
             gc.anchor = GridBagConstraints.LINE_END;
             gc.gridx = 1;
