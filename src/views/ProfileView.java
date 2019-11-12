@@ -43,7 +43,7 @@ public class ProfileView extends JPanel {
 
         GridBagConstraints gc = new GridBagConstraints();
         
-        gc.anchor = GridBagConstraints.NORTH;
+        gc.anchor = GridBagConstraints.NORTHWEST;
         gc.gridx = 0;
         gc.gridy = 0;
         gc.weightx = 1;
@@ -56,7 +56,7 @@ public class ProfileView extends JPanel {
 
         backbtn.addActionListener(ae -> parent.changePanel(new CatalogView(parent)));
 
-        gc.anchor = GridBagConstraints.WEST;
+        gc.anchor = GridBagConstraints.CENTER;
         gc.gridx = 1;
         gc.gridy = 1;
         gc.weightx = 0;

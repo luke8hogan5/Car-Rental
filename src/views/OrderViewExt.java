@@ -24,7 +24,7 @@ public class OrderViewExt extends JPanel {
             super();
             this.parent = parent;
             orderExtListener = new OrderExtController(this);
-            //Send Over Price of Vehicle
+
             int userId = parent.getCurrentUser().getUserId();
             int vehicleId = data.getVehicleId();
             int loyRating = parent.getCurrentUser().getLoyaltyRating();
@@ -66,10 +66,9 @@ public class OrderViewExt extends JPanel {
             gc.anchor = GridBagConstraints.NORTHWEST;
             gc.gridx = 1;
             gc.gridy = 0;
-            gc.weightx = 1;
-            gc.weighty = 1;
+            gc.weightx = 0.5;
+            gc.weighty = 0.5;
             gc.insets = new Insets(0, 0, 0, 0);
-
 
             backbtn.setBounds(0,180,80,30);
             add(backbtn,gc);
@@ -133,7 +132,8 @@ public class OrderViewExt extends JPanel {
             JTextField pointsBox = new JTextField(10);
             pointsBox.setEditable(false);
             pointsBox.setText(loyBracket);
-            gc.anchor = GridBagConstraints.CENTER;
+            //makeBox.setVisible(false);
+            gc.anchor = GridBagConstraints.LINE_END;
             gc.gridx = 3;
             gc.gridy = 2;
             gc.weightx = 0.4;
