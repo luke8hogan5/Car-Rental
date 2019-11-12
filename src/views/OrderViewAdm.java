@@ -91,7 +91,7 @@ public class OrderViewAdm extends JPanel{
 	}
 
 	private void setTable(Vector<Vector<Object>> data) {
-		String[] titles= {"Date Created","Due Date","PaymentCleared"};
+		String[] titles= {"Date Created","Rent Period","PaymentCleared"};
 
 
 		DefaultTableModel tableModel = new DefaultTableModel(titles, 0);
@@ -101,7 +101,7 @@ public class OrderViewAdm extends JPanel{
 
 		dataTbl.setPreferredScrollableViewportSize(dataTbl.getPreferredSize());
 		dataTbl.setShowHorizontalLines(true);
-		dataTbl.setShowVerticalLines(false);
+		dataTbl.setShowVerticalLines(true);
 
 		scrollPane.getViewport().add(dataTbl);
 

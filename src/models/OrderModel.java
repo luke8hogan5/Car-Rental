@@ -8,8 +8,8 @@ public class OrderModel{
 	private  int vehicle_id;
 	private int orderStatus;
 	private boolean paymentCleared;
-	private Date dateCreated; // dateCreated
-	private Date dateDue; //Duedate
+	private Date dateCreated;
+	private Date dateDue;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 	public OrderModel(int orderstatus, boolean paymentCleared, Date dateCreated, Date dateDue){
