@@ -21,6 +21,7 @@ import static java.lang.String.valueOf;
 
 public class OrderExtController implements OrderExtListener {
 
+    private OrderModel newOrder;
     private OrderViewExt view;
     public OrderExtController(OrderViewExt view) {
         this.view = view;
@@ -29,7 +30,7 @@ public class OrderExtController implements OrderExtListener {
     @Override
     public void orderSubmited(int userId,int vehicleId,int rentDuration,boolean paymentClear, MasterView master) throws SQLException {
 
-        OrderModel newOrder = new OrderModel(userId, vehicleId, false);
+        newOrder = new OrderModel(userId, vehicleId,rentDuration, false);
         String updateTable = "INSERT INTO  `orderTable`(`vehicle_id`,`user_id`,`rentDuration`,`paymentCleared`) VALUES (?,?,?,?);";
         Connection conn = Database.getConnection();
         PreparedStatement ps = null;
@@ -43,6 +44,9 @@ public class OrderExtController implements OrderExtListener {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    public OrderModel getNewOrder(){
+        return newOrder;
     }
     public String calNetCost(double vCostPerDay, double totalDiscountsPerDay){
         String netCost = "";

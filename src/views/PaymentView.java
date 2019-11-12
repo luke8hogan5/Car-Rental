@@ -14,6 +14,7 @@ import controllers.PaymentController;
 import database.Database;
 import interfaces.LoginListener;
 import interfaces.PaymentListener;
+import models.OrderModel;
 import models.PaymentModel;
 
 public class PaymentView extends JPanel {
@@ -26,7 +27,7 @@ public class PaymentView extends JPanel {
 
 	private PaymentListener paymentListener;
 		
-	public PaymentView(MasterView parent) {
+	public PaymentView(MasterView parent, OrderModel newOrder) {
 		super();
 		this.parent = parent;
 		paymentListener = new PaymentController(this);
@@ -153,7 +154,7 @@ public class PaymentView extends JPanel {
 	        parent.changePanel(new CatalogView(parent));
 
 			try {
-				firePaymentEvent(new PaymentModel(cardHolderField, cardNoField, cVVField, expDateField));
+				firePaymentEvent(new PaymentModel(cardHolderField, cardNoField, cVVField, expDateField),newOrder);
 			} catch (SQLException e1) {
 				System.out.print("Could not process payment details");
 				e1.printStackTrace();
@@ -161,13 +162,9 @@ public class PaymentView extends JPanel {
 		});
 		}
 
-		public void setPaymentListener(PaymentListener paymentListener) {
-			this.paymentListener = paymentListener;
-		}
-
-		public void firePaymentEvent(PaymentModel event) throws SQLException {
+		public void firePaymentEvent(PaymentModel event,OrderModel newOrder) throws SQLException {
 			if (paymentListener != null) {
-				paymentListener.paymentPerformed(event);
+				paymentListener.paymentPerformed(event,newOrder);
 			}
 		}
 
