@@ -34,7 +34,7 @@ public class OrderViewAdm extends JPanel{
 		gc.weightx = 1;
 		gc.weighty = 100;
 		gc.insets = new Insets(0, 10, 0, 10);
-		gc.fill = GridBagConstraints.HORIZONTAL;
+		gc.fill = GridBagConstraints.BOTH;
 		scrollPane = new JScrollPane();
 		add(scrollPane, gc);
 
@@ -91,8 +91,8 @@ public class OrderViewAdm extends JPanel{
 	}
 
 	private void setTable(Vector<Vector<Object>> data) {
-		String[] titles= {"Date Created","Due Date","PaymentCleared"};
 
+		String[] titles= {"Date Created","Rent Duration","PaymentCleared"};
 
 		DefaultTableModel tableModel = new DefaultTableModel(titles, 0);
 		JTable dataTbl = new JTable(tableModel);

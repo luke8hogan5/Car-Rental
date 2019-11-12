@@ -120,11 +120,6 @@ public class CatalogView extends JPanel{
     }
 
     private void setTable(Vector<Vector<Object>> data) {
-        for (Vector<Object> objects : data) {
-            for (Object object : objects) System.out.printf("%s ", object);
-            System.out.print("\n");
-        }
-
         String[] titles= {"Make", "Model", "Year", "Price", "Order"};
 
 
