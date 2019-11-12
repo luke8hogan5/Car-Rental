@@ -20,7 +20,6 @@ public class ProfileController implements ProfileListener {
     public void profileUpdated(UserModel user) throws SQLException {
         System.out.println("Detail update received"+user.toString());
 
-
         Connection conn = Database.getConnection();
         String stmt = "UPDATE account SET userName=?, email=?, address=? WHERE user_id=?;";
 

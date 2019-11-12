@@ -6,16 +6,11 @@ import java.awt.Insets;
 import java.awt.event.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
 import controllers.OrderController;
-import database.Database;
 import interfaces.OrderListener;
 import models.VehicleModel;
 
@@ -23,48 +18,24 @@ public class OrderView extends JPanel implements ActionListener {
 	private MasterView parent;
 
 	private OrderListener orderListener;
-	public String[] vehicleModels = new String[10];
-	public JComboBox modelList;
 
-	public OrderView(MasterView parent) {
+	public OrderView(MasterView parent, VehicleModel data) {
 		super();
 		this.parent = parent;
 		orderListener = new OrderController(this);
-		String id = "" , vMake = "" , vModel = "" ;
-		double vPrice = 0.0;
-		Connection conn = Database.getConnection();
-		String query = "SELECT `vehicle_id` FROM  `vehicle`;";
-		Statement st = null;
-		try {
-			st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query);
-			int i = 0;
-			while (rs.next()) {
-				id = rs.getString("vehicle_id");
-				System.out.println(rs.getString("vehicle_id"));
-				i++;
-			}
-			buildTable(id);
-		}catch (SQLException exception) {
-			exception.printStackTrace();
-		}
+		String vMake = "" , vModel = "" , vYear = "" ;
+
+		vMake = data.getVehicleMake();
+		vModel = data.getVehicleModel();
+		vYear = Integer.toString(data.getVehicleYear());
+
+		buildTable(vMake,vModel,vYear,data);
 	}
 
 
-	public void buildTable(String id) {
+	public void buildTable(String vMake,String vModel,String vYear,VehicleModel data) {
 
-		System.out.println(id);
-
-		JTextField idBox = new JTextField(3);
-		idBox.setText(id);
-		JButton submitId = new JButton("Get Details");
-		idBox.setSize(50,20);
-	    JButton getCosts = new JButton("Get Prices");
-		getCosts.setEnabled(false);
-		/*JComboBox makeBox = new JComboBox();
-		makeBox.setModel(new DefaultComboBoxModel(vehicleMakes));
-		JComboBox makeList = makeBox;
-		*/
+		JButton getCosts = new JButton("Get Prices");
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc = new GridBagConstraints();
@@ -76,33 +47,9 @@ public class OrderView extends JPanel implements ActionListener {
 		gc.insets = new Insets(10, 0, 30, 0);
 		add(new JLabel("Place Your Order"), gc);
 
-		gc.anchor = GridBagConstraints.LINE_END;
-		gc.gridx = 1;
-		gc.gridy = 1;
-		gc.weightx = 1;
-		gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 10);
-        add(new JLabel("Vehicle Reference Number :"), gc);
-
-		gc.anchor = GridBagConstraints.LINE_START;
-		gc.gridx = 2;
-		gc.gridy = 1;
-		gc.weightx = 1;
-		gc.weighty = 1;
-		gc.insets = new Insets(10, 10, 10, 0);
-        add(idBox, gc);
-
-		gc.anchor = GridBagConstraints.LAST_LINE_START;
-		gc.gridx = 3;
-		gc.gridy = 1;
-		gc.weightx = 0.5;
-		gc.weighty = 1;
-        gc.insets = new Insets(50, 10, 10, 100);
-		add(submitId, gc);
-
 		gc.anchor = GridBagConstraints.FIRST_LINE_END;
 		gc.gridx = 1;
-		gc.gridy = 2;
+		gc.gridy = 1;
 		gc.weightx = 1;
 		gc.weighty = 1;
         gc.insets = new Insets(10, 10, 10, 10);
@@ -111,67 +58,67 @@ public class OrderView extends JPanel implements ActionListener {
 		JTextField makeBox = new JTextField(10);
         makeBox.setSize(100,20);
         makeBox.setEditable(false);
-        //makeBox.setVisible(false);
+		makeBox.setText(vMake);
+		//makeBox.setVisible(false);
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gc.gridx = 2;
+		gc.gridy = 1;
+		gc.weightx = 1;
+		gc.weighty = 1;
+		gc.insets = new Insets(10, 10, 10, 10);
+		add(makeBox, gc);
+
+		gc.anchor = GridBagConstraints.FIRST_LINE_END;
+		gc.gridx = 1;
+		gc.gridy = 2;
+		gc.weightx = 1;
+		gc.weighty = 1;
+		gc.insets = new Insets(10, 10, 10, 10);
+		add(new JLabel("Vehicle Model"), gc);
+
+		JTextField modelBox = new JTextField(10);
+        modelBox.setSize(100,10);
+        modelBox.setText(vModel);
+		modelBox.setEditable(false);
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gc.gridx = 2;
 		gc.gridy = 2;
 		gc.weightx = 1;
 		gc.weighty = 1;
 		gc.insets = new Insets(10, 10, 10, 10);
-		add(makeBox, gc);
-        //makeBox.setVisible(false);
-
-
-        //makeBox.setVisible(false);
-		gc.anchor = GridBagConstraints.FIRST_LINE_END;
-		gc.gridx = 1;
-		gc.gridy = 3;
-		gc.weightx = 1;
-		gc.weighty = 0.4;
-		gc.insets = new Insets(10, 10, 50, 10);
-		add(new JLabel("Vehicle Model"), gc);
-
-		JTextField modelBox = new JTextField(10);
-        modelBox.setSize(100,10);
-		gc.anchor = GridBagConstraints.FIRST_LINE_START;
-		gc.gridx = 2;
-		gc.gridy = 3;
-		gc.weightx = 1;
-		gc.weighty = 0.3;
-		gc.insets = new Insets(10, 10, 50, 10);
 		add(modelBox,gc);
-        modelBox.setEditable(false);
 
 		gc.anchor = GridBagConstraints.LAST_LINE_END;
 		gc.gridx = 1;
 		gc.gridy = 3;
 		gc.weightx = 1;
-		gc.weighty = 0.3;
-		gc.insets = new Insets(10, 10, 10, 10);
+		gc.weighty = 1;
+		gc.insets = new Insets(10, 10, 80, 10);
 		add(new JLabel("Vehicle Year"), gc);
 
 		JTextField yearBox = new JTextField(10);
 		yearBox.setSize(100,10);
+		yearBox.setEditable(false);
+		yearBox.setText(vYear);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 2;
 		gc.gridy = 3;
 		gc.weightx = 1;
-		gc.weighty = 0.4;
-		gc.insets = new Insets(10, 10, 10, 10);
+		gc.weighty = 1;
+		gc.insets = new Insets(10, 10, 80, 10);
 		add(yearBox,gc);
-		yearBox.setEditable(false);
 
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 3;
-		gc.gridy = 4;
+		gc.gridy = 3;
 		gc.weightx = 0.5;
 		gc.weighty = 1;
-		gc.insets = new Insets(10, 10, 10, 100);
+		gc.insets = new Insets(10, 10, 50, 100);
         add(getCosts, gc);
 
         gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 1;
-        gc.gridy = 5;
+        gc.gridy = 4;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.insets = new Insets(10, 10, 10, 10);
@@ -182,7 +129,7 @@ public class OrderView extends JPanel implements ActionListener {
         priceBox.setEditable(false);
         gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
-        gc.gridy = 5;
+        gc.gridy = 4;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.insets = new Insets(10, 10, 10, 0);
@@ -190,7 +137,7 @@ public class OrderView extends JPanel implements ActionListener {
 
         gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 1;
-        gc.gridy = 6;
+        gc.gridy = 5;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.insets = new Insets(10, 10, 10, 10);
@@ -201,7 +148,7 @@ public class OrderView extends JPanel implements ActionListener {
         rentBox.setEditable(false);
         gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
-        gc.gridy = 6;
+        gc.gridy = 5;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.insets = new Insets(10, 10, 10, 0);
@@ -209,99 +156,56 @@ public class OrderView extends JPanel implements ActionListener {
 
         gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 1;
-        gc.gridy = 7;
+        gc.gridy = 6;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.insets = new Insets(10, 10, 10, 10);
-        add(new JLabel("Lease Price Per Year :"), gc);
+        add(new JLabel("Enter Rent Duration In Days:"), gc);
 
-        JTextField leaseBox = new JTextField(10);
-        //priceBox.setSize(200,20);
-        leaseBox.setEditable(false);
+        JTextField durationBox = new JTextField(10);
+        durationBox.setEditable(false);
         gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
-        gc.gridy = 7;
+        gc.gridy = 6;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.insets = new Insets(10, 10, 10, 0);
-        add(leaseBox, gc);
+        add(durationBox, gc);
 
-        JButton proPay = new JButton("Payment");
+        JButton proPay = new JButton("Price Calculation");
         proPay.setEnabled(false);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 3;
-		gc.gridy = 7;
+		gc.gridy = 6;
 		gc.weightx = 0.5;
 		gc.weighty = 1;
 		gc.insets = new Insets(50, 10, 10, 100);
         add(proPay, gc);
 
-
-        submitId.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { //TODO: add to controller
-				String id = idBox.getText();
-				String vMake = "" , vModel = "" , vYear = "" ;
-				double vPrice = 0.0;
-
-				Connection conn = Database.getConnection();
-				Statement st = null;
-				String infoQuery = "SELECT `vehicleMake`,`vehicleModel`,`vehiclePrice`,`vehicleYear` FROM  `vehicle` WHERE `vehicle_id`=\""+id+"\";";;
-				ResultSet rq = null;
-				try {
-					st = conn.createStatement();
-					rq = st.executeQuery(infoQuery);
-					while(rq.next()){
-						vMake = rq.getString("vehicleMake");
-						vModel = rq.getString("vehicleModel");
-						vYear = rq.getString("vehicleYear");
-					}
-					makeBox.setText(vMake);
-					modelBox.setText(vModel);
-					yearBox.setText(vYear);
-
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-				getCosts.setEnabled(true);
-			}
-		} );
         getCosts.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String id = idBox.getText();
-                double vPrice = 0.0;
-                double vRent = 0.00 , vLease = 0.00;
+                double vPrice = 0.00 ,vRent = 0.00 , vLease = 0.00;
+				vPrice = data.getVehiclePrice();
 
-                Connection conn = Database.getConnection();
-                Statement st = null;
-                String infoQuery = "SELECT `vehiclePrice` FROM  `vehicle` WHERE `vehicle_id`=\""+id+"\";";;
-                ResultSet rq = null;
-                try {
-                    st = conn.createStatement();
-                    rq = st.executeQuery(infoQuery);
-                    while(rq.next()){
-                        vPrice = rq.getDouble("vehiclePrice");
-                        //System.out.println(vMake);
-                        //System.out.println(vMake);
-                    }
-                    vRent = ((vPrice / 365)/2);
-                    BigDecimal bd = new BigDecimal(vRent).setScale(2, RoundingMode.HALF_UP);
-                    vLease = vPrice/3;
-                    BigDecimal bd1 = new BigDecimal(vLease).setScale(2, RoundingMode.HALF_UP);
+				vRent = ((vPrice / 365)/2);
+				BigDecimal bd = new BigDecimal(vRent).setScale(2, RoundingMode.HALF_UP);
+				//vLease = vPrice/3;
+				//BigDecimal bd1 = new BigDecimal(vLease).setScale(2, RoundingMode.HALF_UP);
 
-                    priceBox.setText(""+vPrice);
-                    priceBox.setVisible(true);
-                    rentBox.setText(""+bd.doubleValue());
-                    leaseBox.setText(""+bd1.doubleValue());
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+				priceBox.setText(""+vPrice);
+				priceBox.setVisible(true);
+				rentBox.setText(""+bd.doubleValue());
+				//leaseBox.setText(""+bd1.doubleValue());
+				durationBox.setEditable(true);
                 proPay.setEnabled(true);
             }
         } );
+
         proPay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	 // Move Frame too OrderViewExt
+				int rentDuration = Integer.parseInt(durationBox.getText());
+            	parent.changePanel(new OrderViewExt(parent,rentDuration,data));
+            	 // Move Frame to OrderViewExt
             }
         } );
 
@@ -310,16 +214,6 @@ public class OrderView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("Actions Yeet");
 	}
-////			fireLoginEvent(new RegisterModel(name, password));
-////		} else {
-////			JOptionPane.showMessageDialog(this, "User not found.",
-////					"Error", JOptionPane.WARNING_MESSAGE);
-////		}
-////	}
-
-//	public void setOrderListener(OrderListener orderListener) {
-//		this.orderListener = orderListener;
-//	}
 
 	public void fireLoginEvent(VehicleModel event) throws SQLException {
 		if (orderListener != null) {

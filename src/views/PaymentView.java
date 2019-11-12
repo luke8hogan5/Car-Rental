@@ -48,7 +48,7 @@ public class PaymentView extends JPanel {
 		gc.insets = new Insets(100, 0, 0, 10);
 		gc.fill = GridBagConstraints.NONE;
 
-		add(new JLabel("Card Holder: "), gc);
+		add(new JLabel("Card Holder Name: "), gc);
 
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 2;
