@@ -1,9 +1,10 @@
 package controllers;
 
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Vector;
 
+import database.Database;
 import interfaces.UsersListenerAdm;
-import models.UserModel;
 import views.UsersViewAdm;
 
 public class UsersControllerAdm implements UsersListenerAdm {
@@ -14,20 +15,51 @@ public class UsersControllerAdm implements UsersListenerAdm {
 		this.view = view;
 	}
 
-		@Override
-		public void updatePerformed(UserModel event) throws SQLException {
-			System.out.println("Update event received: " + event.getName() + "; " + event.getEmail() + "; " + event.getUserId());
-			
-		}
-		@Override
-		public void deletePerformed(UserModel event) throws SQLException {
-			System.out.println("Display event received: " + event.getUserId());
+	@Override
+	public Vector<Vector<Object>> getUsers() throws SQLException {
+		Connection conn = Database.getConnection();
+		Statement st = conn.createStatement();
+		ResultSet rs;
+		rs = st.executeQuery("select user_id, userName, email, loyaltyRating, balanceDue from account where userType = 1;");
 
+		Vector<Vector<Object>> data = new Vector<>();
+
+		while (rs.next()) {
+
+			Vector<Object> row = new Vector<>();
+			for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
+				row.add(rs.getString(i));
+			}
+			data.add(row);
+		}
+
+		return data;
+	}
+
+	@Override
+		public void updatePerformed(String name, String email, int id) throws SQLException {
+			System.out.println("Update event received: ");
+			Connection con = Database.getConnection();
+			String sql = "UPDATE `account`SET userName='"+name+"',email='"+email+"'WHERE user_id='"+id +"'";
+			Statement st = con.createStatement();
+			st.execute(sql);
 		}
 		@Override
-		public void addPerformed(UserModel event) throws SQLException {
-			System.out.println("Display event received: " + event.getName() + "; " + event.getEmail() + "; " + event.getUserId());
-			
+		public void deletePerformed(int id) throws SQLException {
+			System.out.println("Display event received: ");
+			Connection con = Database.getConnection();
+			String sql = "DELETE FROM `account` WHERE user_id='"+id+"'";
+			Statement st = con.createStatement();
+			st.execute(sql);
+		}
+		@Override
+		public void addPerformed(String name, String email) throws SQLException {
+			System.out.println("Display event received: ");
+			Connection con = Database.getConnection();
+			String sql = "INSERT INTO `account`(`userName`, `email`) "
+					+ "VALUES ('"+name+"','"+email+"';)";
+			Statement st = con.createStatement();
+			st.execute(sql);
 		}
 }
 

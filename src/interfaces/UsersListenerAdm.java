@@ -1,15 +1,16 @@
 package interfaces;
 
 import java.sql.SQLException;
-
-import models.UserModel;
+import java.util.Vector;
 
 public interface UsersListenerAdm {
-	
-	public void updatePerformed(UserModel event) throws SQLException;
-	public void deletePerformed(UserModel event) throws SQLException;
-	public void addPerformed(UserModel event) throws SQLException;
 
-	
+	Vector<Vector<Object>> getUsers() throws SQLException;
+
+	void updatePerformed(String name, String email, int id) throws SQLException;
+
+	void deletePerformed(int id) throws SQLException;
+
+	void addPerformed(String name, String email) throws SQLException;
 }
 

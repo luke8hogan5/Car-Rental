@@ -1,18 +1,11 @@
 package controllers;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import com.mysql.cj.protocol.Resultset;
+import java.sql.*;
+import java.util.Vector;
 
 import database.Database;
 import interfaces.OrderListenerAdm;
-import interfaces.RegisterListener;
-import models.OrderModelAdm;
 import views.OrderViewAdm;
-import views.RegisterView;
 
 public class OrderControllerAdm implements OrderListenerAdm {
 	
@@ -23,10 +16,25 @@ public class OrderControllerAdm implements OrderListenerAdm {
 	}
 	
 	@Override
-	public void orderAdmPerformed(OrderModelAdm event) throws SQLException {
+	public Vector<Vector<Object>> orderAdmPerformed() throws SQLException {
 		System.out.println("Orders processed: ");
-		
 
-			
+		Connection conn = Database.getConnection();
+		String sql = "SELECT dateCreate, rentDuration, paymentCleared FROM orderTable where vehicleReturned = 0;";
+		PreparedStatement st = conn.prepareStatement(sql);
+		ResultSet rs = st.executeQuery();
+
+		Vector<Vector<Object>> data = new Vector<>();
+
+		while(rs.next()){
+			Vector<Object> dataLine = new Vector<>();
+			dataLine.add(rs.getString("dateCreate"));
+			dataLine.add(rs.getInt("rentDuration"));
+			dataLine.add(rs.getString("paymentCleared").equals("0") ? "No" : "Yes");
+
+			data.add(dataLine);
+		}
+
+		return data;
 	}
 }

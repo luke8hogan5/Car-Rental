@@ -5,15 +5,16 @@ import java.awt.Component;
 //import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 //import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 //import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * TODO: add reference and give improvement
@@ -53,14 +54,16 @@ public class ClientsTableRenderer extends DefaultCellEditor
     clicked = true;
     return button;
   }
-  public Object getCellEditorValue()
+  public Vector getCellEditorValue()
   {
-    if (clicked)
-    {
-      JOptionPane.showMessageDialog(button, "Column with Value: "+table.getValueAt(row, 4) + " -  Clicked!");
+    if (clicked){
+      DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+      return model.getDataVector().elementAt(row);
     }
     clicked = false;
-    return new String(label);
+
+    return null;
   }
 
   public boolean stopCellEditing()
