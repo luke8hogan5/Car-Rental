@@ -22,84 +22,32 @@ public class UserDaoImpl implements UserDao {
 	    user.setEmail(rs.getString("email"));
 	    return user;
 	}
-	
+
 	@Override
-	public UserModel getUser() {
+	public ResultSet getAllUsers() {
+		
 		Connection conn = Database.getConnection();
+		
 		try {
 			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM account WHERE userType = 1;");
-			if(rs.next()){
-				extractUserInfo(rs);
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-    return null;
-}
-
-	@Override
-	public List<UserModel> getAllUsers() {
-	    Connection conn = Database.getConnection();
-	    try {
-	        Statement st = conn.createStatement();
-	        ResultSet rs = st.executeQuery("SELECT * FROM account WHERE userType = 1");
-	        List<UserModel> users = new ArrayList<>();
-	        while(rs.next())
-	        {
-	        	UserModel user = extractUserInfo(rs);
-	            users.add(user);
-	        }
-	        return users;
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	    }
-	    return null;
-	}
-
-	@Override
-	public UserModel getUserByUserNameAndPassword(String username, String password) {
-	    Connection conn = Database.getConnection();
-	    try {
-	        PreparedStatement ps = conn.prepareStatement("SELECT * FROM account WHERE userName=? AND userPassword=? AND userType = 1");
-	        ps.setString(1, username);
-	        ps.setString(2, password);
-	        ResultSet rs = ps.executeQuery();
-	        if(rs.next())
-	        {
-	        	extractUserInfo(rs);
-	        }
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	    }
-	    return null;
-	}
-
-	@Override
-	public void insertUser(UserModel user) {
-	    Connection conn = Database.getConnection();
-	    try {
-	        PreparedStatement ps = conn.prepareStatement("INSERT INTO account VALUES (NULL, ?, ?, ?, ?)");
-	        ps.setString(1, user.getName());
-	        ps.setString(2, user.getPassword());
-	        ps.setString(3, user.getEmail());
-	        ps.setInt(4, user.getUserType());
-	        ps.executeUpdate();
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	    }
+			ResultSet rs = st.executeQuery("select user_id, userName, email, loyaltyRating, balanceDue from account where userType = 1;");
+			
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 		
 	}
 
 	@Override
-	public void updateUser(UserModel user) {
+	public void updateUserAdm(String name, String email, int id) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        PreparedStatement ps = conn.prepareStatement("UPDATE account SET userName=?, userPassword=?, email=? WHERE user_id=? AND userType = 1");
-	        ps.setString(1, user.getName());
-	        ps.setString(2, user.getEmail());
-	        ps.setInt(3, user.getUserId());
-	        ps.executeUpdate();
+			Connection con = Database.getConnection();
+			String sql = "UPDATE `account`SET userName='"+name+"',email='"+email+"'WHERE user_id='"+id +"'";
+			Statement st = con.createStatement();
+			st.execute(sql);
 
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
@@ -107,11 +55,13 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void deleteUser(int userId ) {
+	public void deleteUserAdm(int id ) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        Statement st = conn.createStatement();
-	        st.executeUpdate("DELETE FROM account WHERE user_id=" + userId);
+			Connection con = Database.getConnection();
+			String sql = "DELETE FROM `account` WHERE user_id='"+id+"'";
+			Statement st = con.createStatement();
+			st.execute(sql);
 
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();

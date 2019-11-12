@@ -197,6 +197,7 @@ public class VehicleViewAdm extends JPanel {
 
 
 					fireAddVehicleEvent(vehicleMake, vehicleModel,type, vehicleYear, vehiclePrice);
+					getVehicles();
 				}else{
 					JOptionPane.showMessageDialog(null, "Error, Please ensure no fields are left empty",
 													"Error", JOptionPane.WARNING_MESSAGE);

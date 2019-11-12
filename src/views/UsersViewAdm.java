@@ -168,7 +168,7 @@ public class UsersViewAdm extends JPanel{
 
 		userTable.setPreferredScrollableViewportSize(userTable.getPreferredSize());
 		userTable.setShowHorizontalLines(true);
-		userTable.setShowVerticalLines(false);
+		userTable.setShowVerticalLines(true);
 
 		userTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event) {

@@ -101,7 +101,7 @@ public class OrderViewAdm extends JPanel{
 
 		dataTbl.setPreferredScrollableViewportSize(dataTbl.getPreferredSize());
 		dataTbl.setShowHorizontalLines(true);
-		dataTbl.setShowVerticalLines(false);
+		dataTbl.setShowVerticalLines(true);
 
 		scrollPane.getViewport().add(dataTbl);
 

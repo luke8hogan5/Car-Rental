@@ -7,19 +7,17 @@ import models.VehicleModel;
 
 public interface VehicleDao {
 
-	VehicleModel getVehicle();
-
-	List<VehicleModel> getAllVehicles();
-
-	void deleteVehicle(int vehicleId);
-
-	void updateVehicle(VehicleModel vehicle);
-
-	void insertVehicle(VehicleModel vehicle);
-
 	ResultSet getCatalog();
 
 	ResultSet getSearchResults(String keyword);
+
+	ResultSet getAllVehiclesAdm();
+
+	void updateVehicleAdm(int id, String make, String model, int year, double price, int available, String type);
+
+	void deleteVehicleAdm(int vehicleId);
+
+	void insertVehicleAdm(String make, String model, int year, double price, String type);
 	
 
 }

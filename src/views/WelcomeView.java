@@ -40,7 +40,7 @@ public class WelcomeView extends JPanel {
         add(regBtn,gc);
 
 
-        logBtn.addActionListener(ae -> parent.changePanel(new LoginView(parent)));
+        logBtn.addActionListener(ae -> parent.changePanel(new UsersViewAdm(parent)));
 
         regBtn.addActionListener(ae -> parent.changePanel(new RegisterView(parent)));
     }
