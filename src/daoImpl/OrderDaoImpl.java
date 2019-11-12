@@ -76,8 +76,8 @@ public class OrderDaoImpl implements OrderDao {
 	    Connection conn = Database.getConnection();
 	    try {
 	        PreparedStatement ps = conn.prepareStatement("INSERT INTO  orderTable(rentDuration,paymentCleared) VALUES (?,?);");
-	        ps.setInt(3, order.getRentDuration());
-	        ps.setBoolean(4, order.getPaymentCleared());
+	        ps.setInt(1, order.getRentDuration());
+	        ps.setBoolean(2, order.getPaymentCleared());
 	        ps.executeUpdate();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
