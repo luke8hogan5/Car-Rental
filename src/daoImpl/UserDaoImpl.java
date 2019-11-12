@@ -82,7 +82,7 @@ public class UserDaoImpl implements UserDao {
 	        ps.setString(1, user.getName());
 	        ps.setString(2, user.getPassword());
 	        ps.setString(3, user.getEmail());
-	        ps.setBoolean(4, user.isUserType());
+	        ps.setInt(4, user.getUserType());
 	        ps.executeUpdate();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();

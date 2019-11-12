@@ -15,10 +15,10 @@ public class OrderDaoImpl implements OrderDao {
 
 	private OrderModel extractUserInfo(ResultSet rs) throws SQLException {
 		OrderModel order = new OrderModel();
-		order.setOrderStatus( rs.getInt("order_id") );
+		order.setOrderStatus( rs.getInt("orderStatus") );
+		order.setPaymentCleared( rs.getBoolean("paymentCleared") );
 		order.setCreatedDate( rs.getDate("dateCreate") );
 		order.setDueDate( rs.getDate("dueDate") );
-		order.setPaymentCleared( rs.getBoolean("paymentCleared") );
 	    return order;
 	}
 	

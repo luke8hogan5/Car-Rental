@@ -8,6 +8,7 @@ public class VehicleModel{
 	private double vehiclePrice;
 	private String vehicleModel;
 	private int vehicleYear;
+	private int vehicleAvailability;
 
 	public VehicleModel(int vehicleId, String vehicleType, String vehicleMake, double vehiclePrice, String vehicleModel, int vehicleYear) {
 		this.vehicleId = vehicleId;
@@ -18,11 +19,14 @@ public class VehicleModel{
 		this.vehicleYear = vehicleYear;
 	}
 
+	public VehicleModel() {
+	}
+
 	public String getVehicleType(){
 		return vehicleType;
 	}
-	public void setVehicleType(String VehicleType){
-		this.vehicleType = VehicleType;
+	public void setVehicleType(String string){
+		this.vehicleType = string;
 	}
 	
 	public String getVehicleModel(){
@@ -59,4 +63,13 @@ public class VehicleModel{
 	public void setVehicleYear(int vehicleYear) {
 		this.vehicleYear = vehicleYear;
 	}
+
+	public int getVehicleAvailability() {
+		return vehicleAvailability;
+	}
+
+	public void setVehicleAvailability(int vehicleAvailability) {
+		this.vehicleAvailability = vehicleAvailability;
+	}
+
 }
