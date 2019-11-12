@@ -1,6 +1,5 @@
 package views;
 
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -9,8 +8,6 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -19,7 +16,6 @@ import Decorator.FourDoor;
 import Decorator.FourDoors.*;
 import Decorator.Van;
 import controllers.VehicleControllerAdm;
-import interfaces.Vehicle;
 import interfaces.VehicleListenerAdm;
 
 public class VehicleViewAdm extends JPanel {
@@ -65,17 +61,17 @@ public class VehicleViewAdm extends JPanel {
 		typeField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				calcBaseRent();
+				getBaseRent();
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				calcBaseRent();
+				getBaseRent();
 			}
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				calcBaseRent();
+				getBaseRent();
 			}
 		});
 		JButton saveBtn = new JButton("Add");
@@ -282,7 +278,7 @@ public class VehicleViewAdm extends JPanel {
 
 	private void setTable(Vector<Vector<Object>> data) {
 
-		String[] titles= {"ID", "Type", "Make", "Model", "Year", "Price", "Available"};
+		String[] titles= {"ID", "Type", "Make", "Model", "Year", "Base Rent", "Available"};
 
 
 		DefaultTableModel tableModel = new DefaultTableModel(titles, 0);
@@ -309,7 +305,7 @@ public class VehicleViewAdm extends JPanel {
 
 	}
 
-	private void calcBaseRent(){
+	private void getBaseRent(){
 
 
 		switch (typeField.getText()){
