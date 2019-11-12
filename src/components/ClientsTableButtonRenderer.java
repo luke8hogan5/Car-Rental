@@ -19,7 +19,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 /**
- * TODO: add reference and give improvement
+ *  Author: https://stackoverflow.com/users/340390/bitmap
+ *  Source: https://stackoverflow.com/questions/10347983/making-a-jbutton-clickable-inside-a-jtable
+ *  Use: This is used to allow order button in CatalogView table
  */
 
 public class ClientsTableButtonRenderer extends JButton implements TableCellRenderer
