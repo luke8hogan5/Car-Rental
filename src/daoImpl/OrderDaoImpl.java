@@ -56,13 +56,14 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void insertVehicle(OrderModel order) {
+	public void insertOrder(OrderModel order) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        PreparedStatement ps = conn.prepareStatement("INSERT INTO orderTable VALUES (NULL, ?, ?, ?)");
-	        ps.setString(1, order.getCreatedDate());
-	        ps.setInt(2, order.getRentDuration());
-	        ps.setBoolean(3, order.getPaymentCleared());
+	        PreparedStatement ps = conn.prepareStatement("INSERT INTO  orderTable(vehicle_id,user_id,rentDuration,paymentCleared) VALUES (?,?,?,?);");
+	        ps.setInt(1, order.getVehicleId());
+	        ps.setInt(2, order.getUserId());
+	        ps.setInt(3, order.getRentDuration());
+	        ps.setBoolean(4, order.getPaymentCleared());
 	        ps.executeUpdate();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
@@ -71,7 +72,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void updateVehicle(OrderModel order) {
+	public void updateOrder(OrderModel order) {
 	    Connection conn = Database.getConnection();
 	    try {
 	        PreparedStatement ps = conn.prepareStatement("UPDATE orderTable SET orderStatus=?, dateCreate=?, dueDate=? , paymentCleared=? WHERE order_id=? AND vehicleReturned = 0");
@@ -86,7 +87,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void deleteVehicle(int orderId ) {
+	public void deleteOrder(int orderId ) {
 	    Connection conn = Database.getConnection();
 	    try {
 	        Statement st = conn.createStatement();

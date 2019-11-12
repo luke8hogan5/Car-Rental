@@ -10,10 +10,10 @@ public interface OrderDao {
 
 	List<OrderModel> getAllOrders();
 
-	void insertVehicle(OrderModel order);
+	void insertOrder(OrderModel order);
 
-	void updateVehicle(OrderModel order);
+	void updateOrder(OrderModel order);
 
-	void deleteVehicle(int orderId);
+	void deleteOrder(int orderId);
 
 }
