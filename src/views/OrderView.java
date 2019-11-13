@@ -9,12 +9,16 @@ import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import controllers.OrderController;
 import interfaces.OrderListener;
 import models.VehicleModel;
 
-public class OrderView extends JPanel implements ActionListener {
+import static java.lang.String.valueOf;
+
+public class OrderView extends JPanel {
 	private MasterView parent;
 
 	private OrderListener orderListener;
@@ -34,207 +38,216 @@ public class OrderView extends JPanel implements ActionListener {
 		buildTable(vMake,vModel,vYear,data);
 	}
 
-
 	public void buildTable(String vMake,String vModel,String vYear,VehicleModel data) {
 
 		JButton getCosts = new JButton("Get Prices");
 		backbtn = new JButton("Back");
 		setLayout(new GridBagLayout());
 
+		int userId = parent.getCurrentUser().getUserId();
+		int vehicleId = data.getVehicleId();
+		int rating = parent.getCurrentUser().getLoyaltyRating();
+		double discount = (orderListener.totalDiscounts(rating));
+
+		JTextField priceBox = new JTextField(10);
+		JButton proPay = new JButton("Proceed to payment");
+		proPay.setEnabled(false);
+		JTextField durationBox = new JTextField(10);
+
+
+
+		backbtn = new JButton("Back");
+		backbtn.setBounds(0,180,80,30);
+		backbtn.addActionListener(ae -> parent.changePanel(new CatalogView(parent)));
+
 		GridBagConstraints gc = new GridBagConstraints();
-		
-        gc.anchor = GridBagConstraints.NORTHWEST;
-        gc.gridx = 1;
-        gc.gridy = 1;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(0, 0, 0, 0);
 
-
-        backbtn.setBounds(0,180,80,30);
-        add(backbtn,gc);
-
-        backbtn.addActionListener(ae -> parent.changePanel(new CatalogView(parent)));
-		
-		gc.anchor = GridBagConstraints.PAGE_START;
+		gc.anchor = GridBagConstraints.NORTHWEST;
 		gc.gridx = 1;
 		gc.gridy = 1;
 		gc.weightx = 1;
 		gc.weighty = 1;
+		gc.insets = new Insets(0, 0, 0, 0);
+		add(backbtn,gc);
+
+		gc.anchor = GridBagConstraints.NORTH;
+		gc.gridx = 2;
+		gc.gridy = 1;
 		gc.insets = new Insets(10, 0, 30, 0);
 		add(new JLabel("Place Your Order"), gc);
 
 		gc.anchor = GridBagConstraints.FIRST_LINE_END;
 		gc.gridx = 1;
-		gc.gridy = 1;
-		gc.weightx = 1;
-		gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 10);
-        add(new JLabel("Vehicle Make"), gc);
+		gc.gridy = 2;
+		gc.insets = new Insets(10, 10, 10, 10);
+		add(new JLabel("Rent Price Per Day :"), gc);
 
-		JTextField makeBox = new JTextField(10);
-        makeBox.setSize(100,20);
-        makeBox.setEditable(false);
-		makeBox.setText(vMake);
-		//makeBox.setVisible(false);
+		JTextField rentBox = new JTextField(10);
+		rentBox.setEditable(false);
+		rentBox.setText(Double.toString(data.getVehiclePrice()));
+
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gc.gridx = 2;
-		gc.gridy = 1;
-		gc.weightx = 1;
-		gc.weighty = 1;
 		gc.insets = new Insets(10, 10, 10, 10);
-		add(makeBox, gc);
+		add(rentBox, gc);
+
+		gc.anchor = GridBagConstraints.FIRST_LINE_END;
+		gc.gridx = 3;
+		gc.insets = new Insets(10, 10, 10, 10);
+		add(new JLabel("Your Loyalty Rating : "), gc);
+
+		JTextField loyaltyBox = new JTextField(valueOf(rating), 5);
+		loyaltyBox.setEditable(false);
+
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gc.gridx = 4;
+		gc.insets = new Insets(10, 0, 10, 0);
+		add(loyaltyBox, gc);
 
 		gc.anchor = GridBagConstraints.FIRST_LINE_END;
 		gc.gridx = 1;
-		gc.gridy = 2;
-		gc.weightx = 1;
-		gc.weighty = 1;
+		gc.gridy = 3;
 		gc.insets = new Insets(10, 10, 10, 10);
-		add(new JLabel("Vehicle Model"), gc);
+		add(new JLabel("Enter Rent Duration In Days:"), gc);
 
-		JTextField modelBox = new JTextField(10);
-        modelBox.setSize(100,10);
-        modelBox.setText(vModel);
-		modelBox.setEditable(false);
+
+		durationBox.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(durationBox.getText().matches("[0-9]+")) {
+					int duration = Integer.parseInt(durationBox.getText());
+					priceBox.setText(String.format("%.2f", rentForDuration(data, duration, discount)));
+					proPay.setEnabled(true);
+				}else {
+					priceBox.setText("");
+					proPay.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if(durationBox.getText().matches("[0-9]+")) {
+					int duration = Integer.parseInt(durationBox.getText());
+					priceBox.setText(String.format("%.2f", rentForDuration(data, duration, discount)));
+					proPay.setEnabled(true);
+				}else {
+					priceBox.setText("");
+					proPay.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(durationBox.getText().matches("[0-9]+")) {
+					int duration = Integer.parseInt(durationBox.getText());
+					priceBox.setText(String.format("%.2f", rentForDuration(data, duration, discount)));
+					proPay.setEnabled(true);
+				}else {
+					priceBox.setText("");
+					proPay.setEnabled(false);
+				}
+			}
+		});
+
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gc.gridx = 2;
-		gc.gridy = 2;
-		gc.weightx = 1;
-		gc.weighty = 1;
+		gc.insets = new Insets(10, 10, 10, 0);
+		add(durationBox, gc);
+
+		gc.anchor = GridBagConstraints.FIRST_LINE_END;
+		gc.gridx = 3;
 		gc.insets = new Insets(10, 10, 10, 10);
-		add(modelBox,gc);
+		add(new JLabel("Discount: "), gc);
 
-		gc.anchor = GridBagConstraints.LAST_LINE_END;
+		JTextField discountBox = new JTextField(10);
+		discountBox.setText(String.format("%.2f", discount));
+		discountBox.setEditable(false);
+
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gc.gridx = 4;
+		gc.insets = new Insets(10, 0, 10, 0);
+		add(discountBox, gc);
+
+		gc.anchor = GridBagConstraints.FIRST_LINE_END;
+		gc.gridx = 3;
+		gc.gridy = 4;
+		gc.insets = new Insets(10, 0, 10, 0);
+		add(new JLabel("Additonal Fees"), gc);
+
+		gc.anchor = GridBagConstraints.LINE_END;
+		gc.gridx = 3;
+		gc.gridy = 5;
+		gc.insets = new Insets(10, 10, 10, 10);
+		add(new JLabel("Deposit Fee : "), gc);
+
+		JTextField depositBox = new JTextField("50", 10);
+		//priceBox.setSize(200,20);
+		depositBox.setEditable(false);
+		gc.anchor = GridBagConstraints.LINE_START;
+		gc.gridx = 4;
+		gc.insets = new Insets(10, 0, 10, 0);
+		add(depositBox, gc);
+
+		gc.anchor = GridBagConstraints.FIRST_LINE_END;
 		gc.gridx = 1;
-		gc.gridy = 3;
-		gc.weightx = 1;
-		gc.weighty = 1;
-		gc.insets = new Insets(10, 10, 80, 10);
-		add(new JLabel("Vehicle Year"), gc);
-
-		JTextField yearBox = new JTextField(10);
-		yearBox.setSize(100,10);
-		yearBox.setEditable(false);
-		yearBox.setText(vYear);
-		gc.anchor = GridBagConstraints.LAST_LINE_START;
-		gc.gridx = 2;
-		gc.gridy = 3;
-		gc.weightx = 1;
-		gc.weighty = 1;
-		gc.insets = new Insets(10, 10, 80, 10);
-		add(yearBox,gc);
-
-		gc.anchor = GridBagConstraints.LAST_LINE_START;
-		gc.gridx = 3;
-		gc.gridy = 3;
-		gc.weightx = 0.5;
-		gc.weighty = 1;
-		gc.insets = new Insets(10, 10, 50, 100);
-        add(getCosts, gc);
-
-        gc.anchor = GridBagConstraints.LINE_END;
-        gc.gridx = 1;
-        gc.gridy = 4;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 10);
-        add(new JLabel("Vehicle Price"), gc);
-
-        JTextField priceBox = new JTextField(10);
-        //priceBox.setSize(200,20);
-        priceBox.setEditable(false);
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.gridx = 2;
-        gc.gridy = 4;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 0);
-        add(priceBox, gc);
-
-        gc.anchor = GridBagConstraints.LINE_END;
-        gc.gridx = 1;
-        gc.gridy = 5;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 10);
-        add(new JLabel("Rent Price Per Day :"), gc);
-
-        JTextField rentBox = new JTextField(10);
-        //priceBox.setSize(200,20);
-        rentBox.setEditable(false);
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.gridx = 2;
-        gc.gridy = 5;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 0);
-        add(rentBox, gc);
-
-        gc.anchor = GridBagConstraints.LINE_END;
-        gc.gridx = 1;
-        gc.gridy = 6;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 10);
-        add(new JLabel("Enter Rent Duration In Days:"), gc);
-
-        JTextField durationBox = new JTextField(10);
-        durationBox.setEditable(false);
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.gridx = 2;
-        gc.gridy = 6;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.insets = new Insets(10, 10, 10, 0);
-        add(durationBox, gc);
-
-        JButton proPay = new JButton("Price Calculation");
-        proPay.setEnabled(false);
-		gc.anchor = GridBagConstraints.LAST_LINE_START;
-		gc.gridx = 3;
 		gc.gridy = 6;
-		gc.weightx = 0.5;
-		gc.weighty = 1;
+		gc.insets = new Insets(10, 10, 10, 10);
+		add(new JLabel("Vehicle Price"), gc);
+
+		priceBox.setSize(200,20);
+		priceBox.setEditable(false);
+
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gc.gridx = 2;
+		gc.insets = new Insets(10, 10, 10, 0);
+		add(priceBox, gc);
+
+		//makeBox.setVisible(false);
+		gc.anchor = GridBagConstraints.LAST_LINE_END;
+		gc.gridx = 3;
+		gc.insets = new Insets(10, 10, 10, 10);
+		add(new JLabel("Delivery Fee : "), gc);
+
+		JTextField deliveryBox = new JTextField(13);
+		deliveryBox.setEditable(false);
+		if (rating >= 100) {
+			deliveryBox.setText("Free Based On Loyalty");
+		}else{
+			deliveryBox.setText("50.00");
+		}
+
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.gridx = 4;
+		gc.insets = new Insets(10, 0, 10, 10);
+		add(deliveryBox, gc);
+
+		proPay.addActionListener(e -> {
+			try {
+				int rentDuration = Integer.parseInt(durationBox.getText());
+				fireOrderSubmited(userId,vehicleId,rentDuration,false);
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		});
+
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.gridx = 3;
+		gc.gridy = 7;
 		gc.insets = new Insets(50, 10, 10, 100);
         add(proPay, gc);
-
-        getCosts.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                double vPrice = 0.00 ,vRent = 0.00 , vLease = 0.00;
-				vPrice = data.getVehiclePrice();
-
-				vRent = ((vPrice / 365)/2);
-				BigDecimal bd = new BigDecimal(vRent).setScale(2, RoundingMode.HALF_UP);
-				//vLease = vPrice/3;
-				//BigDecimal bd1 = new BigDecimal(vLease).setScale(2, RoundingMode.HALF_UP);
-
-				priceBox.setText(""+vPrice);
-				priceBox.setVisible(true);
-				rentBox.setText(""+bd.doubleValue());
-				//leaseBox.setText(""+bd1.doubleValue());
-				durationBox.setEditable(true);
-                proPay.setEnabled(true);
-            }
-        } );
-
-        proPay.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-				int rentDuration = Integer.parseInt(durationBox.getText());
-            	parent.changePanel(new OrderViewExt(parent,rentDuration,data));
-            	 // Move Frame to OrderViewExt
-            }
-        } );
-
-	}
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		System.out.println("Actions Yeet");
 	}
 
-	public void fireLoginEvent(VehicleModel event) throws SQLException {
-		if (orderListener != null) {
-			orderListener.orderPerformed(event);
-		}
+	private void fireOrderSubmited(int userId, int vehicleId, int rentDuration, boolean paymentCleared) throws SQLException {
+			orderListener.orderSubmited(userId, vehicleId,rentDuration,false, parent);
+			parent.changePanel(new PaymentView(parent, orderListener.getNewOrder()));
+	}
+
+	private double rentForDuration(VehicleModel data, int duration, Double discount){
+		double vRent = data.getVehiclePrice();
+		vRent *= duration;
+		vRent -= vRent * discount;
+		BigDecimal bD = new BigDecimal(vRent).setScale(2, RoundingMode.HALF_UP);
+
+		return bD.doubleValue();
 	}
 }
