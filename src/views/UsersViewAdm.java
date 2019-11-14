@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -41,16 +43,80 @@ public class UsersViewAdm extends JPanel{
 	}
 
 	private void buildInterface() {
+		JButton updateBtn = new JButton("Update");
+		updateBtn.setEnabled(false);
+		JButton deleteBtn = new JButton("Delete");
+		deleteBtn.setEnabled(false);
 		JLabel l1 = new JLabel("FirstName");
 		JLabel l2 = new JLabel("Email");
 		JLabel l3 = new JLabel("Id");
 		JLabel l4 = new JLabel("Scrubs Car Rental");
 		nameField = new JTextField(20);
+		nameField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(!emailField.getText().isEmpty()) {
+					updateBtn.setEnabled(true);
+					deleteBtn.setEnabled(true);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if(!(nameField.getText().isEmpty() || emailField.getText().isEmpty())) {
+					updateBtn.setEnabled(true);
+					deleteBtn.setEnabled(true);
+				}else{
+					updateBtn.setEnabled(false);
+					deleteBtn.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(!(nameField.getText().isEmpty() || emailField.getText().isEmpty())) {
+					updateBtn.setEnabled(true);
+					deleteBtn.setEnabled(true);
+				}else{
+					updateBtn.setEnabled(false);
+					deleteBtn.setEnabled(false);
+				}
+			}
+		});
 		emailField = new JTextField(20);
+		emailField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(!nameField.getText().isEmpty()) {
+					updateBtn.setEnabled(true);
+					deleteBtn.setEnabled(true);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if(!(nameField.getText().isEmpty() || emailField.getText().isEmpty())) {
+					updateBtn.setEnabled(true);
+					deleteBtn.setEnabled(true);
+				}else{
+					updateBtn.setEnabled(false);
+					deleteBtn.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(!(nameField.getText().isEmpty() || emailField.getText().isEmpty())) {
+					updateBtn.setEnabled(true);
+					deleteBtn.setEnabled(true);
+				}else{
+					updateBtn.setEnabled(false);
+					deleteBtn.setEnabled(false);
+				}
+			}
+		});
 		idField = new JTextField(20);
 		idField.setEditable(false);
-		JButton updateBtn = new JButton("Update");
-		JButton deleteBtn = new JButton("Delete");
 		userTable = new JTable();
 		scrollPane = new JScrollPane();
 
@@ -122,6 +188,9 @@ public class UsersViewAdm extends JPanel{
 									emailField.getText(),
 									Integer.parseInt(idField.getText()));
 				getUsers();
+				idField.setText("");
+				nameField.setText("");
+				emailField.setText("");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -131,6 +200,9 @@ public class UsersViewAdm extends JPanel{
 			try {
 				fireDeleteUserEvent(Integer.parseInt(idField.getText()));
 				getUsers();
+				idField.setText("");
+				nameField.setText("");
+				emailField.setText("");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -168,7 +240,7 @@ public class UsersViewAdm extends JPanel{
 
 		userTable.setPreferredScrollableViewportSize(userTable.getPreferredSize());
 		userTable.setShowHorizontalLines(true);
-		userTable.setShowVerticalLines(false);
+		userTable.setShowVerticalLines(true);
 
 		userTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event) {

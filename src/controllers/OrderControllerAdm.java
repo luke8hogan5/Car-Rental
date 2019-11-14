@@ -3,6 +3,7 @@ package controllers;
 import java.sql.*;
 import java.util.Vector;
 
+import daoImpl.OrderDaoImpl;
 import database.Database;
 import interfaces.OrderListenerAdm;
 import views.OrderViewAdm;
@@ -10,6 +11,7 @@ import views.OrderViewAdm;
 public class OrderControllerAdm implements OrderListenerAdm {
 	
 	private OrderViewAdm view;
+	private OrderDaoImpl dao = new OrderDaoImpl();
 	
 	public OrderControllerAdm(OrderViewAdm view) {
 		this.view = view;
@@ -19,10 +21,8 @@ public class OrderControllerAdm implements OrderListenerAdm {
 	public Vector<Vector<Object>> orderAdmPerformed() throws SQLException {
 		System.out.println("Orders processed: ");
 
-		Connection conn = Database.getConnection();
-		String sql = "SELECT dateCreate, rentDuration, paymentCleared FROM orderTable where vehicleReturned = 0;";
-		PreparedStatement st = conn.prepareStatement(sql);
-		ResultSet rs = st.executeQuery();
+		ResultSet rs = dao.getAllOrdersAdm();
+		
 
 		Vector<Vector<Object>> data = new Vector<>();
 

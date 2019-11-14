@@ -24,13 +24,13 @@ public class LoginView extends JPanel implements ActionListener {
 	private LoginListener loginListener;
 
 		
-	public LoginView(MasterView parent) {
+	LoginView(MasterView parent) {
 		super();
 		this.parent = parent;
 		loginListener = new LoginController(this);
 
 		buildInterface();
-		}
+	}
 
 	private void buildInterface() {
 		nameField = new JTextField(10);
@@ -109,33 +109,30 @@ public class LoginView extends JPanel implements ActionListener {
 	}
 
 	@Override
-		public void actionPerformed(ActionEvent e) {
-			String name = nameField.getText();
-			String password = new String(passField.getPassword());
+	public void actionPerformed(ActionEvent e) {
+		String name = nameField.getText();
+		String password = new String(passField.getPassword());
 
-				try {
-					fireLoginEvent(name, password);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
+		try {
+			fireLoginEvent(name, password);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+	}
 
-		public void fireLoginEvent(String name, String pass) throws SQLException {
-			if (loginListener != null) {
-				loginListener.loginPerformed(name, pass,parent);
+	private void fireLoginEvent(String name, String pass) throws SQLException {
+		if (loginListener != null) {
+			loginListener.loginPerformed(name, pass,parent);
 
-                if(parent.getCurrentUser() == null) {
-                    JOptionPane.showMessageDialog(this, "Incorrect username or password", "Login Error", JOptionPane.WARNING_MESSAGE);
-                }else if(parent.getCurrentUser().getUserType() == 1) {
-                    parent.changePanel(new CatalogView(parent));
-                }else if(parent.getCurrentUser().getUserType() == 2) {
-                    parent.changePanel(new OrderViewAdm(parent));
-                }
-            }
+			if(parent.getCurrentUser() == null) {
+				JOptionPane.showMessageDialog(this, "Incorrect username or password", "Login Error", JOptionPane.WARNING_MESSAGE);
+			}else if(parent.getCurrentUser().getUserType() == 1) {
+				parent.changePanel(new CatalogView(parent));
+			}else if(parent.getCurrentUser().getUserType() == 2) {
+				parent.changePanel(new OrderViewAdm(parent));
+			}
 		}
-
-//	}
+	}
 
 }

@@ -13,8 +13,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import daoImpl.VehicleDaoImpl;
+
 public class CatalogController implements CatalogListener{
     CatalogView view;
+    private VehicleDaoImpl dao = new VehicleDaoImpl();
 
     public CatalogController(CatalogView view) {
         this.view = view;
@@ -24,31 +27,14 @@ public class CatalogController implements CatalogListener{
     public Vector<Vector<Object>> getCatalog() throws SQLException {
         System.out.println("Attempting to get catalog data...");
 
-
-        Connection conn = Database.getConnection();
-        String stmt = "SELECT * FROM vehicle Where isAvailable = 1;";
-        PreparedStatement st = conn.prepareStatement(stmt);
-        ResultSet rs = st.executeQuery();
-
-        return getResults(rs);
+        return getResults(dao.getCatalog());
     }
 
     @Override
     public Vector<Vector<Object>> searchByKeyword(String keyword) throws SQLException {
         System.out.println("Searching keyword: "+keyword);
 
-        Connection conn = Database.getConnection();
-
-        String stmt = "SELECT * FROM vehicle WHERE vehicleType LIKE ? ";
-        stmt += "OR vehicleMake LIKE ? OR vehicleModel LIKE ? OR vehicleYear LIKE ? OR vehiclePrice LIKE ?;";
-
-        PreparedStatement ps = conn.prepareStatement(stmt);
-        for(int i=1; i<6; i++)
-        ps.setString(i, "%"+keyword+"%");
-
-        ResultSet rs = ps.executeQuery();
-
-        return getResults(rs);
+        return getResults(dao.getSearchResults(keyword));
     }
 
     //

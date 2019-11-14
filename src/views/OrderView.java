@@ -34,7 +34,6 @@ public class OrderView extends JPanel {
 		vMake = data.getVehicleMake();
 		vModel = data.getVehicleModel();
 		vYear = Integer.toString(data.getVehicleYear());
-
 		buildTable(vMake,vModel,vYear,data);
 	}
 
@@ -221,14 +220,14 @@ public class OrderView extends JPanel {
 		gc.insets = new Insets(10, 0, 10, 10);
 		add(deliveryBox, gc);
 
-		proPay.addActionListener(e -> {
-			try {
-				int rentDuration = Integer.parseInt(durationBox.getText());
-				fireOrderSubmited(userId,vehicleId,rentDuration,false);
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		});
+        proPay.addActionListener(e -> {
+			try{
+			int rentDuration = Integer.parseInt(durationBox.getText());
+			fireOrderSubmited(userId,vehicleId,rentDuration,false);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	});
 
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.gridx = 3;

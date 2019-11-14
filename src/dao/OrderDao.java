@@ -1,22 +1,15 @@
 package dao;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import models.OrderModel;
 
 public interface OrderDao {
 
-	OrderModel getOrder();
-
-	List<OrderModel> getAllOrders();
+	ResultSet getAllOrdersAdm();
 
 	void insertOrder(OrderModel order);
-
-	void deleteOrder(int orderId);
-
-	void insertOrderAdm(OrderModel order);
-
-	void updateOrderAdm(OrderModel order);
 
 	int getOrderId();
 	

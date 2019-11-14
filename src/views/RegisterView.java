@@ -171,7 +171,7 @@ public class RegisterView extends JPanel implements ActionListener {
 
 	public void fireRegisterEvent(String name, String pass, String email) throws SQLException {
 		if (registerListener != null) {
-			registerListener.registerPerformed(name, email, pass, parent);
+			registerListener.registerPerformed(name, pass, email, parent);
 			parent.changePanel(new CatalogView(parent));
 		}
 	}

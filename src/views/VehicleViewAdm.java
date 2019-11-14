@@ -197,6 +197,15 @@ public class VehicleViewAdm extends JPanel {
 
 
 					fireAddVehicleEvent(vehicleMake, vehicleModel,type, vehicleYear, vehiclePrice);
+					getVehicles();
+
+					makeField.setText("");
+					modelField.setText("");
+					idField.setText("");
+					yearField.setText("");
+					priceField.setText("");
+					availableField.setText("");
+					typeField.setText("");
 				}else{
 					JOptionPane.showMessageDialog(null, "Error, Please ensure no fields are left empty",
 													"Error", JOptionPane.WARNING_MESSAGE);
@@ -221,6 +230,14 @@ public class VehicleViewAdm extends JPanel {
 					fireUpdateVehicleEvent(id, make, model, year, price, available, type);
 
 					getVehicles();
+
+					makeField.setText("");
+					modelField.setText("");
+					idField.setText("");
+					yearField.setText("");
+					priceField.setText("");
+					availableField.setText("");
+					typeField.setText("");
 				}else{
 					JOptionPane.showMessageDialog(null, "Error, Please ensure no fields are left empty",
 							"Error", JOptionPane.WARNING_MESSAGE);
@@ -237,6 +254,14 @@ public class VehicleViewAdm extends JPanel {
 					fireDeleteVehicleEvent(id);
 
 					getVehicles();
+
+					makeField.setText("");
+					modelField.setText("");
+					idField.setText("");
+					yearField.setText("");
+					priceField.setText("");
+					availableField.setText("");
+					typeField.setText("");
 				}else
 					JOptionPane.showMessageDialog(null, "Please input ID or select option from table",
 													"Selection invalid", JOptionPane.WARNING_MESSAGE);
@@ -313,7 +338,7 @@ public class VehicleViewAdm extends JPanel {
 				SUV suv = new SUV(new FourDoor());
 				priceField.setText(Double.toString(suv.rentRate()));
 				break;
-			case "Convertable":
+			case "Convertible":
 				Convertible conv = new Convertible();
 				priceField.setText(Double.toString(conv.rentRate()));
 				break;

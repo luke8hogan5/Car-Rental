@@ -64,22 +64,25 @@ public class OrderController implements OrderListener  {
 //	}
 
 	@Override
-	public double totalDiscounts(int loyaltyRating){
+	public double totalDiscounts(int loyaltyRating) {
 		double rate = 0.00;
 
-		if(loyaltyRating > 600){
-			rate =  .10;
-		}else if(loyaltyRating > 400) {
-			rate =  .08;
-		}else if(loyaltyRating > 200) {
-			rate =  .06;
-		}else if(loyaltyRating > 100) {
+		if (loyaltyRating > 600) {
+			rate = .10;
+		} else if (loyaltyRating > 400) {
+			rate = .08;
+		} else if (loyaltyRating > 200) {
+			rate = .06;
+		} else if (loyaltyRating > 100) {
 			rate = .04;
-		}else if(loyaltyRating > 50) {
+		} else if (loyaltyRating > 50) {
 			rate = .02;
 		}
 
 		return rate;
+	}
+
+	public void orderPerformed(VehicleModel event) throws SQLException {
 	}
 
 }

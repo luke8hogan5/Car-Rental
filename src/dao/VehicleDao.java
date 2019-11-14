@@ -1,19 +1,23 @@
 package dao;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import models.VehicleModel;
 
 public interface VehicleDao {
 
-	VehicleModel getVehicle();
+	ResultSet getCatalog();
 
-	List<VehicleModel> getAllVehicles();
+	ResultSet getSearchResults(String keyword);
 
-	void deleteVehicle(int vehicleId);
+	ResultSet getAllVehiclesAdm();
 
-	void updateVehicle(VehicleModel vehicle);
+	void updateVehicleAdm(int id, String make, String model, int year, double price, int available, String type);
 
-	void insertVehicle(VehicleModel vehicle);
+	void deleteVehicleAdm(int vehicleId);
+
+	void insertVehicleAdm(String make, String model, int year, double price, String type);
+	
 
 }

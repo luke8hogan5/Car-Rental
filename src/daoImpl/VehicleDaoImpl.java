@@ -25,53 +25,69 @@ public class VehicleDaoImpl implements VehicleDao {
 		vehicle.setVehicleType( rs.getString("vehicleType") );
 	    return vehicle;
 	}
-	
-	@Override
-	public VehicleModel getVehicle() {
-		Connection conn = Database.getConnection();
-		try {
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM vehicle;");
-			if(rs.next()){
-				extractUserInfo(rs);
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-    return null;
-}
 
 	@Override
-	public List<VehicleModel> getAllVehicles() {
+	public ResultSet getAllVehiclesAdm() {
 	    Connection conn = Database.getConnection();
 	    try {
 	        Statement st = conn.createStatement();
 	        ResultSet rs = st.executeQuery("SELECT * FROM vehicle");
-	        List<VehicleModel> vehicles = new ArrayList<>();
-	        while(rs.next())
-	        {
-	        	VehicleModel vehicle = extractUserInfo(rs);
-	        	vehicles.add(vehicle);
-	        }
-	        return vehicles;
+	        
+	        return rs;
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
 	    }
 	    return null;
 	}
+	
+	@Override
+	public ResultSet getCatalog() {
+		Connection conn = Database.getConnection();
+			try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM vehicle WHERE isAvailable = 1;");
+			ResultSet rs = ps.executeQuery();
+			return rs;
+			}
+			catch(SQLException ex){
+				ex.printStackTrace();
+			}
+			return null;
+	}
+	
+	@Override
+	public ResultSet getSearchResults(String keyword) {
+		Connection conn = Database.getConnection();
+			try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM vehicle WHERE vehicleType LIKE ? OR vehicleMake LIKE ? OR vehicleModel LIKE ? OR vehicleYear LIKE ? OR vehiclePrice LIKE ?;");
+	        
+			for(int i=1; i<6; i++) {
+	        	ps.setString(i, "%"+keyword+"%");
+			}
+	        	ResultSet rs = ps.executeQuery();
+	        	return rs;
+	        
+		
+			}
+			catch(SQLException ex){
+				ex.printStackTrace();
+			}
+			return null;
+	}
 
 	@Override
-	public void insertVehicle(VehicleModel vehicle) {
+	public void insertVehicleAdm(String make, String model, int year, double price, String type) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        PreparedStatement ps = conn.prepareStatement("INSERT INTO vehicle VALUES (NULL, ?, ?, ?, ?, ?, ?)");
-	        ps.setString(1, vehicle.getVehicleModel());
-	        ps.setString(2, vehicle.getVehicleMake());
-	        ps.setInt(3, vehicle.getVehicleYear());
-	        ps.setDouble(4, vehicle.getVehiclePrice());
-//	        ps.setInt(5, vehicle.getVehicleAvailability());
-	        ps.setString(6, vehicle.getVehicleType());
-	        ps.executeUpdate();
+			Connection con = Database.getConnection();
+			String sql = "INSERT INTO vehicle(vehicleMake, vehicleModel, vehicleYear, vehiclePrice, vehicleType) VALUES (?,?,?,?,?);";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, make);
+			ps.setString(2, model);
+			ps.setInt(3, year);
+			ps.setDouble(4, price);
+			ps.setString(5, type);
+			ps.executeUpdate();
+			
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
 	    }
@@ -79,18 +95,15 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 
 	@Override
-	public void updateVehicle(VehicleModel vehicle) {
+	public void updateVehicleAdm(int id, String make, String model, int year, double price, int available, String type) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        PreparedStatement ps = conn.prepareStatement("UPDATE vehicle SET vehicleModel=?, vehicleMake=?, vehicleYear=? , vehiclePrice=?, isAvailable=?, vehicleType=? WHERE vehicle_id=?");
-	        ps.setString(1, vehicle.getVehicleModel());
-	        ps.setString(2, vehicle.getVehicleMake());
-	        ps.setInt(3, vehicle.getVehicleYear());
-	        ps.setDouble(4, vehicle.getVehiclePrice());
-//	        ps.setInt(5, vehicle.getVehicleAvailability());
-	        ps.setString(6, vehicle.getVehicleType());
-	        ps.setInt(7, vehicle.getVehicleId());
-	        ps.executeUpdate();
+			Connection con = Database.getConnection();
+			String sql = "UPDATE `vehicle` "
+					+"SET vehicleMake='"+make+"',vehicleModel='"+model+"',vehicleYear='"+year+"',vehiclePrice='"+price+"',isAvailable='"+available+"'"
+					+", vehicleType= '"+type+"' WHERE vehicle_id='"+id+"'";
+			Statement st = con.createStatement();
+			st.execute(sql);
 
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
@@ -98,12 +111,14 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 
 	@Override
-	public void deleteVehicle(int vehicleId ) {
+	public void deleteVehicleAdm(int vehicleId ) {
 	    Connection conn = Database.getConnection();
 	    try {
-	        Statement st = conn.createStatement();
-	        st.executeUpdate("DELETE FROM vehicle WHERE vehicle_id=" + vehicleId);
-
+			Connection con = Database.getConnection();
+			String sql = "DELETE FROM `vehicle` WHERE vehicle_id='" +vehicleId+"'";
+			Statement st = con.createStatement();
+			st.execute(sql);
+			
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
 	    }

@@ -3,6 +3,7 @@ package controllers;
 import java.sql.*;
 import java.util.Vector;
 
+import daoImpl.UserDaoImpl;
 import database.Database;
 import interfaces.UsersListenerAdm;
 import views.UsersViewAdm;
@@ -10,6 +11,7 @@ import views.UsersViewAdm;
 public class UsersControllerAdm implements UsersListenerAdm {
 	
 	private UsersViewAdm view;
+	private UserDaoImpl dao = new UserDaoImpl();
 		
 	public UsersControllerAdm(UsersViewAdm view) {
 		this.view = view;
@@ -17,11 +19,10 @@ public class UsersControllerAdm implements UsersListenerAdm {
 
 	@Override
 	public Vector<Vector<Object>> getUsers() throws SQLException {
-		Connection conn = Database.getConnection();
-		Statement st = conn.createStatement();
-		ResultSet rs;
-		rs = st.executeQuery("select user_id, userName, email, loyaltyRating, balanceDue from account where userType = 1;");
 
+		ResultSet rs;
+		rs = dao.getAllUsers();
+		
 		Vector<Vector<Object>> data = new Vector<>();
 
 		while (rs.next()) {
@@ -39,18 +40,14 @@ public class UsersControllerAdm implements UsersListenerAdm {
 	@Override
 		public void updatePerformed(String name, String email, int id) throws SQLException {
 			System.out.println("Update event received: ");
-			Connection con = Database.getConnection();
-			String sql = "UPDATE `account`SET userName='"+name+"',email='"+email+"'WHERE user_id='"+id +"'";
-			Statement st = con.createStatement();
-			st.execute(sql);
+			
+			dao.updateUserAdm(name, email, id);
 		}
 		@Override
 		public void deletePerformed(int id) throws SQLException {
 			System.out.println("Display event received: ");
-			Connection con = Database.getConnection();
-			String sql = "DELETE FROM `account` WHERE user_id='"+id+"'";
-			Statement st = con.createStatement();
-			st.execute(sql);
+			
+			dao.deleteUserAdm(id);
 		}
 }
 
