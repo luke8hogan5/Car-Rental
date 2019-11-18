@@ -26,9 +26,11 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public ResultSet getAllUsers() {
 		
-		Connection conn = Database.getConnection();
-		
+		Connection conn;
 		try {
+			Database db = Database.getInstance();
+			conn = Database.getConnection();
+
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery("select user_id, userName, email, loyaltyRating, balanceDue from account where userType = 1;");
 			
@@ -42,8 +44,11 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void updateUserAdm(String name, String email, int id) {
-	    Connection conn = Database.getConnection();
-	    try {
+		Connection conn;
+		try {
+			Database db = Database.getInstance();
+			conn = Database.getConnection();
+
 			Connection con = Database.getConnection();
 			String sql = "UPDATE `account`SET userName='"+name+"',email='"+email+"'WHERE user_id='"+id +"'";
 			Statement st = con.createStatement();
@@ -56,8 +61,10 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void deleteUserAdm(int id ) {
-	    Connection conn = Database.getConnection();
-	    try {
+		Connection conn;
+		try {
+			Database db = Database.getInstance();
+			conn = Database.getConnection();
 			Connection con = Database.getConnection();
 			String sql = "DELETE FROM `account` WHERE user_id='"+id+"'";
 			Statement st = con.createStatement();

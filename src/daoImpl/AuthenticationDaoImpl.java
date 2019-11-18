@@ -26,8 +26,10 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	
 	@Override
 	public UserModel validateLogin(String name, String password) {
-		Connection conn = Database.getConnection();
+		Connection conn;
 		try {
+			Database db = Database.getInstance();
+			conn = Database.getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM account WHERE userName = ? AND userPassword = ?;");
 			ps.setString(1,name);
 			ps.setString(2, password);
@@ -45,18 +47,22 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	
 	@Override
 	public void registerUser(String username, String password, String email) {
-		Connection conn = Database.getConnection();
+		Connection conn;
 		try {
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `account`(`userName`,`userPassword`,`email`) VALUES (?,?,?);");
+			Database db = Database.getInstance();
+			conn = Database.getConnection();
+
+
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO account (userName,userPassword,email) VALUES (?,?,?);");
 
 			ps.setString(1, username );
 			ps.setString(2, password);
 			ps.setString(3, email);
 			ps.executeUpdate();
 
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
 	}
 	@Override
 	public UserModel loginAfterRegister() throws SQLException {
