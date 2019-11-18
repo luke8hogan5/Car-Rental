@@ -28,7 +28,6 @@ public class UserDaoImpl implements UserDao {
 		
 		Connection conn;
 		try {
-			Database db = Database.getInstance();
 			conn = Database.getConnection();
 
 			Statement st = conn.createStatement();
@@ -46,12 +45,10 @@ public class UserDaoImpl implements UserDao {
 	public void updateUserAdm(String name, String email, int id) {
 		Connection conn;
 		try {
-			Database db = Database.getInstance();
 			conn = Database.getConnection();
 
-			Connection con = Database.getConnection();
 			String sql = "UPDATE `account`SET userName='"+name+"',email='"+email+"'WHERE user_id='"+id +"'";
-			Statement st = con.createStatement();
+			Statement st = conn.createStatement();
 			st.execute(sql);
 
 	    } catch (SQLException ex) {
@@ -63,11 +60,9 @@ public class UserDaoImpl implements UserDao {
 	public void deleteUserAdm(int id ) {
 		Connection conn;
 		try {
-			Database db = Database.getInstance();
 			conn = Database.getConnection();
-			Connection con = Database.getConnection();
 			String sql = "DELETE FROM `account` WHERE user_id='"+id+"'";
-			Statement st = con.createStatement();
+			Statement st = conn.createStatement();
 			st.execute(sql);
 
 	    } catch (SQLException ex) {

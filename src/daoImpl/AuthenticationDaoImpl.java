@@ -28,7 +28,6 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	public UserModel validateLogin(String name, String password) {
 		Connection conn;
 		try {
-			Database db = Database.getInstance();
 			conn = Database.getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM account WHERE userName = ? AND userPassword = ?;");
 			ps.setString(1,name);
@@ -49,7 +48,6 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	public void registerUser(String username, String password, String email) {
 		Connection conn;
 		try {
-			Database db = Database.getInstance();
 			conn = Database.getConnection();
 
 
