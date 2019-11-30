@@ -4,9 +4,7 @@ import java.sql.*;
 import java.util.Vector;
 
 import daoImpl.UserDaoImpl;
-import database.Database;
 import interfaces.UsersListenerAdm;
-import views.UsersViewAdm;
 
 public class UsersControllerAdm implements UsersListenerAdm {
 

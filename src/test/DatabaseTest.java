@@ -35,24 +35,16 @@ class DatabaseTest {
   @Test
   void testAddUser() {
 	  
-	    UserDaoImpl ud = new UserDaoImpl();
 	    UserModel um =  new UserModel();
 	    AuthenticationDaoImpl ad = new AuthenticationDaoImpl();
 	    
 	    um.setName("name");
 	    um.setPassword("password");
 	    um.setEmail("email");
-	   // um.setUserType(1000);
-	   // ud.insertUser(um);
 	    ad.registerUser(um.getName(),um.getPassword(),um.getEmail());
 	        
         System.out.println("data generated");
   }
-  /*@Test
-  public void testGetUserByNamePassword() {
-      UserModel um = ud.getUserByUserNameAndPassword("name","password" );
-      System.out.println(um);
-  }*/
   
   @Test
   void testgetAllUsers() {

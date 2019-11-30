@@ -1,6 +1,5 @@
 package Decorator.FourDoors;
 
-import Decorator.FourDoor;
 import Decorator.VehicleDecorator;
 import interfaces.Vehicle;
 

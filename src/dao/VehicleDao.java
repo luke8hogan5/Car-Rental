@@ -1,9 +1,6 @@
 package dao;
 
 import java.sql.ResultSet;
-import java.util.List;
-
-import models.VehicleModel;
 
 public interface VehicleDao {
 

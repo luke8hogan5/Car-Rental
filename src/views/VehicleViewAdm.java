@@ -273,7 +273,6 @@ public class VehicleViewAdm extends JPanel {
 
 	//set the values of a row to the textfields
 	private void vehicleTableMouseClicked(MouseEvent event) {
-		// TODO add your handling code here:
 		int i = vehicleTable.getSelectedRow();
 		TableModel model = vehicleTable.getModel();
 		idField.setText(model.getValueAt(i, 0).toString());

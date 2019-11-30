@@ -69,35 +69,27 @@ public class ProfileView extends JPanel {
         gc.gridx = 2;
         add(name, gc);
 
-//        gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 1;
         gc.gridy = 2;
         add(new JLabel("Email:"),gc);
-//        gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
         add(email, gc);
 
-//        gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 1;
         gc.gridy = 3;
         add(new JLabel("Address:"), gc);
-//        gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
         add(address, gc);
 
-//        gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 1;
         gc.gridy = 4;
         add(new JLabel("Balance:"), gc);
-//        gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
         add(new JLabel(Double.toString(parent.getCurrentUser().getBalanceDue())), gc);
 
-//        gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 1;
         gc.gridy = 5;
         add(new JLabel("Loyalty Points:"), gc);
-//        gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 2;
         add(new JLabel(Integer.toString(parent.getCurrentUser().getLoyaltyRating())), gc);
 

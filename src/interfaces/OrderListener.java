@@ -1,8 +1,5 @@
 package interfaces;
 import models.OrderModel;
-import models.UserModel;
-import models.VehicleModel;
-import views.MasterView;
 
 import java.sql.SQLException;
 

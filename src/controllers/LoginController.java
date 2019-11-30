@@ -1,16 +1,7 @@
 package controllers;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import dao.AuthenticationDao;
 import daoImpl.AuthenticationDaoImpl;
-import database.Database;
 import interfaces.LoginListener;
 import models.UserModel;
-import views.LoginView;
 import views.MasterView;
 
 public class LoginController implements LoginListener {
