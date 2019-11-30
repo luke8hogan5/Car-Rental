@@ -9,14 +9,17 @@ import interfaces.OrderListenerAdm;
 import views.OrderViewAdm;
 
 public class OrderControllerAdm implements OrderListenerAdm {
-	
-	private OrderViewAdm view;
+
 	private OrderDaoImpl dao = new OrderDaoImpl();
 	
-	public OrderControllerAdm(OrderViewAdm view) {
-		this.view = view;
+	public OrderControllerAdm() {
 	}
-	
+
+
+   /**
+	* Gets data on orders from database by calling on the DAO
+	* @return Data split into multidimen array
+	*/
 	@Override
 	public Vector<Vector<Object>> orderAdmPerformed() throws SQLException {
 		System.out.println("Orders processed: ");

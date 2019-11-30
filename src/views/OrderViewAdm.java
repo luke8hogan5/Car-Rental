@@ -22,7 +22,7 @@ public class OrderViewAdm extends JPanel{
 	OrderViewAdm(MasterView parent){
 		super();
 		this.parent = parent;
-		orderAdmListener = new OrderControllerAdm(this);
+		orderAdmListener = new OrderControllerAdm();
 
 		setupMenu();
 

@@ -1,14 +1,8 @@
 package views;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -18,9 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import controllers.UsersControllerAdm;
-import database.Database;
 import interfaces.UsersListenerAdm;
-import models.UserModel;
 
 public class UsersViewAdm extends JPanel{
 	private MasterView parent;
@@ -35,7 +27,7 @@ public class UsersViewAdm extends JPanel{
 	UsersViewAdm(MasterView parent){
 		super();
 		this.parent = parent;
-		displayUsersListener = new UsersControllerAdm(this);
+		displayUsersListener = new UsersControllerAdm();
 		buildInterface();
 
 		try {getUsers();}

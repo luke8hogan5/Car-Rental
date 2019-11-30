@@ -1,18 +1,17 @@
 package daoImpl;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import dao.OrderDao;
 import database.Database;
 import models.OrderModel;
 
+import java.sql.*;
+
 public class OrderDaoImpl implements OrderDao {
 
+   /**
+	* Get all details for orders from DB
+	* @return Result from DB query
+	*/
 	@Override
 	public ResultSet getAllOrdersAdm() {
 	    Connection conn = Database.getConnection();
@@ -27,6 +26,10 @@ public class OrderDaoImpl implements OrderDao {
 	    return null;
 	}
 
+   /**
+	* Create new order entry in dB
+	* @param order Order details
+	*/
 	@Override
 	public void insertOrder(OrderModel order) {
 	    Connection conn = Database.getConnection();
@@ -42,7 +45,11 @@ public class OrderDaoImpl implements OrderDao {
 	    }
 
 	}
-	
+
+   /**
+	* Get newest entry from order table in DB
+	* @return Order ID
+	*/
 	@Override
 	public int getOrderId() {
 	    Connection conn = Database.getConnection();
@@ -58,7 +65,11 @@ public class OrderDaoImpl implements OrderDao {
 	    }
 	    return id;
 	}
-	
+
+   /**
+	* Update status of whether order has been payed or not
+	* @param id Order ID
+	*/
 	@Override
 	public void updatePayment(int id) {
 	    Connection conn = Database.getConnection();

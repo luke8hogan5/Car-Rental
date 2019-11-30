@@ -1,17 +1,21 @@
 package daoImpl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import dao.AuthenticationDao;
 import database.Database;
 import models.UserModel;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class AuthenticationDaoImpl implements AuthenticationDao {
-	
+
+   /**
+	* Extracts User info from DB query results
+	* @param rs DB query results
+	* @return Extracted user details contained in a user model
+	*/
 	private UserModel extractUserInfo(ResultSet rs) throws SQLException {
 	    UserModel user = new UserModel(
 	    rs.getInt(1),
@@ -23,7 +27,13 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	    rs.getDouble(8));
 	    return user;
 	}
-	
+
+   /**
+	* Searches for user in DB by username and password
+	* @param name User's name.
+	* @param password User's password
+	* @return User details if user exists, otherwise return null.
+	*/
 	@Override
 	public UserModel validateLogin(String name, String password) {
 		Connection conn;
@@ -43,7 +53,13 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		}
 		return null;
 	}
-	
+
+   /**
+	* Try to insert new user into DB
+	* @param username User's username
+	* @param password User's password
+	* @param email User's email
+	*/
 	@Override
 	public void registerUser(String username, String password, String email) {
 		Connection conn;
@@ -62,8 +78,13 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	        ex.printStackTrace();
 	    }
 	}
+
+   /**
+	* Log user in after they have registered for an account
+	* @return User details if user exists, otherwise return null.
+	*/
 	@Override
-	public UserModel loginAfterRegister() throws SQLException {
+	public UserModel loginAfterRegister() {
 		Connection conn = Database.getConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM account WHERE user_id = (SELECT MAX(user_id) FROM account);");

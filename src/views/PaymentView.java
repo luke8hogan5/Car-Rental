@@ -1,18 +1,12 @@
 package views;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;	
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.Insets;
 import java.sql.SQLException;
 
 import javax.swing.*;
 
 import controllers.PaymentController;
-import database.Database;
-import interfaces.LoginListener;
 import interfaces.PaymentListener;
 import models.OrderModel;
 import models.PaymentModel;
@@ -30,7 +24,7 @@ public class PaymentView extends JPanel {
 	public PaymentView(MasterView parent, OrderModel newOrder) {
 		super();
 		this.parent = parent;
-		paymentListener = new PaymentController(this);
+		paymentListener = new PaymentController();
 		
 		cardHolder = new JTextField(30);
 		cardNo = new JTextField(16);

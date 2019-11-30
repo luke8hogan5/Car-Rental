@@ -35,7 +35,7 @@ public class VehicleViewAdm extends JPanel {
 	VehicleViewAdm(MasterView parent){
 		super();
 		this.parent = parent;
-		vehicleListener = new VehicleControllerAdm(this);
+		vehicleListener = new VehicleControllerAdm();
 
 		buildInterface();
 		getVehicles();

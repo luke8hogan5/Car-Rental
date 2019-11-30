@@ -15,14 +15,15 @@ import static java.lang.String.valueOf;
 
 public class OrderController implements OrderListener  {
 
-	private OrderView view;
 	private OrderDaoImpl dao = new OrderDaoImpl();
 	private OrderModel newOrder;
 	
-	public OrderController(OrderView view) {
-		this.view = view;
+	public OrderController() {
 	}
 
+   /**
+  	* @return current order being processed.
+    */
 	@Override
 	public OrderModel getNewOrder(){
 		return newOrder;
@@ -33,8 +34,16 @@ public class OrderController implements OrderListener  {
 //		//view.pack();
 //	}
 
+   /**
+	* Calls DAO to add order details to DB
+	*
+	* @param userId			Current user's ID#
+	* @param vehicleId		Selected vehicle's ID#
+	* @param rentDuration	Specified duration of rent
+	* @param paymentCleared	Whether user has paid by cash
+	*/
 	@Override
-	public void orderSubmited(int userId, int vehicleId, int rentDuration, boolean paymentCleared, MasterView master) throws SQLException {
+	public void orderSubmited(int userId, int vehicleId, int rentDuration, boolean paymentCleared) {
 
 		newOrder = new OrderModel(userId, vehicleId,rentDuration, paymentCleared);
 
@@ -63,6 +72,11 @@ public class OrderController implements OrderListener  {
 //		return netCost;
 //	}
 
+   /**
+	* Decides discount on order based on their loyalty score
+	* @param loyaltyRating Current users total loyalty points.
+	* @return discount rate on order
+	*/
 	@Override
 	public double totalDiscounts(int loyaltyRating) {
 		double rate = 0.00;
@@ -80,9 +94,6 @@ public class OrderController implements OrderListener  {
 		}
 
 		return rate;
-	}
-
-	public void orderPerformed(VehicleModel event) throws SQLException {
 	}
 
 }

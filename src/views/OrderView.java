@@ -3,7 +3,6 @@ package views;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
@@ -28,7 +27,7 @@ public class OrderView extends JPanel {
 	public OrderView(MasterView parent, VehicleModel data) {
 		super();
 		this.parent = parent;
-		orderListener = new OrderController(this);
+		orderListener = new OrderController();
 		String vMake = "" , vModel = "" , vYear = "" ;
 
 		vMake = data.getVehicleMake();
@@ -223,7 +222,7 @@ public class OrderView extends JPanel {
         proPay.addActionListener(e -> {
 			try{
 			int rentDuration = Integer.parseInt(durationBox.getText());
-			fireOrderSubmited(userId,vehicleId,rentDuration,false);
+			fireOrderSubmited(userId,vehicleId,rentDuration);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -236,8 +235,8 @@ public class OrderView extends JPanel {
         add(proPay, gc);
 	}
 
-	private void fireOrderSubmited(int userId, int vehicleId, int rentDuration, boolean paymentCleared) throws SQLException {
-			orderListener.orderSubmited(userId, vehicleId,rentDuration,false, parent);
+	private void fireOrderSubmited(int userId, int vehicleId, int rentDuration) throws SQLException {
+			orderListener.orderSubmited(userId, vehicleId,rentDuration,false);
 			parent.changePanel(new PaymentView(parent, orderListener.getNewOrder()));
 	}
 

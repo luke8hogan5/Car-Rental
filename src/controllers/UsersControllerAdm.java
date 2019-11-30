@@ -9,14 +9,16 @@ import interfaces.UsersListenerAdm;
 import views.UsersViewAdm;
 
 public class UsersControllerAdm implements UsersListenerAdm {
-	
-	private UsersViewAdm view;
+
 	private UserDaoImpl dao = new UserDaoImpl();
 		
-	public UsersControllerAdm(UsersViewAdm view) {
-		this.view = view;
+	public UsersControllerAdm() {
 	}
 
+   /**
+	* Calls DAO to get data of all users
+	* @return User data split into multidimen vector to be inserted into table model
+	*/
 	@Override
 	public Vector<Vector<Object>> getUsers() throws SQLException {
 
@@ -37,17 +39,28 @@ public class UsersControllerAdm implements UsersListenerAdm {
 		return data;
 	}
 
+   /**
+	* Calls DAO to update selected user's details
+	* @param name	User's name
+	* @param email	User's email
+	* @param id		User's ID#
+	*/
 	@Override
-		public void updatePerformed(String name, String email, int id) throws SQLException {
-			System.out.println("Update event received: ");
-			
-			dao.updateUserAdm(name, email, id);
-		}
-		@Override
-		public void deletePerformed(int id) throws SQLException {
-			System.out.println("Display event received: ");
-			
-			dao.deleteUserAdm(id);
-		}
+	public void updatePerformed(String name, String email, int id) {
+		System.out.println("Update event received: ");
+
+		dao.updateUserAdm(name, email, id);
+	}
+
+   /**
+	* Calls DAO to delete selected user from database
+	* @param id selected user's id
+ 	*/
+	@Override
+	public void deletePerformed(int id) {
+		System.out.println("Display event received: ");
+
+		dao.deleteUserAdm(id);
+	}
 }
 

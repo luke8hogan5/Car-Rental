@@ -15,12 +15,16 @@ import views.MasterView;
 
 public class LoginController implements LoginListener {
 	private AuthenticationDaoImpl dao = new AuthenticationDaoImpl();
-	private LoginView view;
 
-	public LoginController(LoginView view) {
-		this.view = view;
+	public LoginController() {
 	}
 
+   /**
+	* Calls DAO to try logging in user
+	* @param name User's name
+	* @param pass User's password
+	* @param master Current top-level view ancestor to allow the current user info
+	*/
 	@Override
 	public void loginPerformed(String name, String pass, MasterView master) {
 

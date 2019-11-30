@@ -4,19 +4,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;	
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.*;
 
 import controllers.LoginController;
 import interfaces.LoginListener;
-import models.UserModel;
 
 public class LoginView extends JPanel implements ActionListener {
-	
-	private JButton okButton,backbtn;
+
 	private JTextField nameField;
 	private JPasswordField passField;
 	private MasterView parent;
@@ -27,7 +23,7 @@ public class LoginView extends JPanel implements ActionListener {
 	LoginView(MasterView parent) {
 		super();
 		this.parent = parent;
-		loginListener = new LoginController(this);
+		loginListener = new LoginController();
 
 		buildInterface();
 	}
@@ -35,8 +31,8 @@ public class LoginView extends JPanel implements ActionListener {
 	private void buildInterface() {
 		nameField = new JTextField(10);
 		passField = new JPasswordField(10);
-		okButton = new JButton("Login");
-        backbtn = new JButton("Back");
+		JButton okButton = new JButton("Login");
+		JButton backbtn = new JButton("Back");
 
 		setLayout(new GridBagLayout());
 

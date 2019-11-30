@@ -1,25 +1,26 @@
 package controllers;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import daoImpl.AuthenticationDaoImpl;
-import database.Database;
 import interfaces.RegisterListener;
 import models.UserModel;
 import views.MasterView;
-import views.RegisterView;
+
+import java.sql.SQLException;
 
 public class RegisterController implements RegisterListener {
-	private RegisterView view;
 
 	private AuthenticationDaoImpl dao = new AuthenticationDaoImpl();
 
-	public RegisterController(RegisterView view) {
-		this.view = view;
+	public RegisterController() {
 	}
 
+   /**
+	* Calls DAO to register user using details they have provided.
+	* @param name User's name
+	* @param pass User's password
+	* @param _email User's email
+	* @param master Current top-level view ancestor to allow the current user info
+	*/
 	@Override
 	public void registerPerformed(String name, String pass, String _email, MasterView master) throws SQLException {
 		System.out.println("Register event received: " + name + "; " + pass);
