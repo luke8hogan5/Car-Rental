@@ -21,8 +21,6 @@ public class MasterView extends JFrame{
 		setVisible(true);
 
         changePanel(new WelcomeView(this));
-        //changePanel(new PaymentView(this));
-
     }
 
     void changePanel(JPanel panel){
@@ -34,10 +32,6 @@ public class MasterView extends JFrame{
 
             revalidate();
         }
-    }
-
-    private void setMenu(JMenuBar menuBar){
-        setJMenuBar(menuBar);
     }
 
     public UserModel getCurrentUser() {

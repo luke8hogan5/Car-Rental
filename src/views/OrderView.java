@@ -38,7 +38,6 @@ public class OrderView extends JPanel {
 
 	public void buildTable(String vMake,String vModel,String vYear,VehicleModel data) {
 
-		JButton getCosts = new JButton("Get Prices");
 		backbtn = new JButton("Back");
 		setLayout(new GridBagLayout());
 
@@ -179,7 +178,6 @@ public class OrderView extends JPanel {
 		add(new JLabel("Deposit Fee : "), gc);
 
 		JTextField depositBox = new JTextField("50", 10);
-		//priceBox.setSize(200,20);
 		depositBox.setEditable(false);
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.gridx = 4;
@@ -200,7 +198,6 @@ public class OrderView extends JPanel {
 		gc.insets = new Insets(10, 10, 10, 0);
 		add(priceBox, gc);
 
-		//makeBox.setVisible(false);
 		gc.anchor = GridBagConstraints.LAST_LINE_END;
 		gc.gridx = 3;
 		gc.insets = new Insets(10, 10, 10, 10);

@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.ResultSet;
-import java.util.List;
 
 import models.UserModel;
 

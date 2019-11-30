@@ -2,7 +2,6 @@ package components;
 
 import java.awt.Color;
 import java.awt.Component;
-//import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -10,8 +9,6 @@ import java.util.Vector;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-//import javax.swing.JFrame;
-//import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -35,12 +32,9 @@ public class ClientsTableRenderer extends DefaultCellEditor
     super(checkBox);
     button = new JButton();
     button.setOpaque(true);
-    button.addActionListener(new ActionListener()
+    button.addActionListener(e ->
     {
-      public void actionPerformed(ActionEvent e)
-      {
         fireEditingStopped();
-      }
     });
   }
   public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)

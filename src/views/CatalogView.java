@@ -20,10 +20,9 @@ public class CatalogView extends JPanel{
     private JTextField searchField;
     private CatalogListener listener;
     private JScrollPane contentWindow;
-    private GridBagConstraints gc;
+    private GridBagConstraints gc = new GridBagConstraints();
     private ArrayList<VehicleModel> vehicleModels;
-	private JButton backbtn;
-	
+
     CatalogView(MasterView parent) {
         super();
         this.parent = parent;
@@ -41,6 +40,7 @@ public class CatalogView extends JPanel{
     }
 
     private void setMenu() {
+        JButton backbtn;
     	backbtn = new JButton("Back");
         JMenuBar menuBar = new JMenuBar();
         JMenu accNav = new JMenu("Account");
@@ -52,11 +52,11 @@ public class CatalogView extends JPanel{
 
             @Override
             public void menuDeselected(MenuEvent e) {
-
+                /* Do nothing */
             }
             @Override
             public void menuCanceled(MenuEvent e) {
-
+                //Do nothing
             }
         });
         Button searchBtn = new Button("Search");
@@ -79,7 +79,6 @@ public class CatalogView extends JPanel{
 
         add(menuBar);
         
-        GridBagConstraints gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.NORTHWEST;
         gc.gridx = 0;
         gc.gridy = 0;

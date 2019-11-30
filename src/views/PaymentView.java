@@ -161,7 +161,4 @@ public class PaymentView extends JPanel {
 				paymentListener.paymentPerformed(event,newOrder);
 			}
 		}
-
-//	}
-
 }

@@ -1,14 +1,7 @@
-import java.awt.*;
 import java.sql.SQLException;
 
 import javax.swing.SwingUtilities;
-
-import controllers.CatalogController;
-import controllers.LoginController;
-import controllers.ProfileController;
-import controllers.RegisterController;
 import database.Database;
-import interfaces.ProfileListener;
 import views.*;
 
 public class Main {
@@ -27,12 +20,6 @@ public class Main {
 				}
 				if(db != null) {
                     MasterView masterView = new MasterView();
-				}
-				
-				try {
-
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 		});

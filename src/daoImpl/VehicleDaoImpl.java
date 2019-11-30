@@ -9,23 +9,6 @@ import java.sql.*;
 public class VehicleDaoImpl implements VehicleDao {
 
    /**
-	* Extract vehicle details from DB query results
-	* @param rs Results from DB query
-	* @return Vehicle data contained in a VehicleModel
-	*/
-	private VehicleModel extractVehicleInfo(ResultSet rs) throws SQLException {
-		VehicleModel vehicle = new VehicleModel();
-		vehicle.setVehicleId( rs.getInt("vehicle_id") );
-		vehicle.setVehicleMake( rs.getString("vehicleMake") );
-		vehicle.setVehicleModel( rs.getString("vehicleModel") );
-		vehicle.setVehicleYear( Integer.parseInt(rs.getString("vehicleYear") ));
-		vehicle.setVehiclePrice( Double.parseDouble(rs.getString("vehiclePrice") ));
-//		vehicle.setVehicleAvailability( Integer.parseInt(rs.getString("isAvailable") ));
-		vehicle.setVehicleType( rs.getString("vehicleType") );
-	    return vehicle;
-	}
-
-   /**
 	* Get all vehicle data from DB
 	* @return Results from DB query
 	*/

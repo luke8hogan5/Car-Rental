@@ -5,28 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import dao.UserDao;
 import database.Database;
 import models.UserModel;
 
 public class UserDaoImpl implements UserDao {
-
-
-   /**
-	* Extract user details from DB query results
-	* @return User details contained in a UserModel object
-	*/
-	private UserModel extractUserInfo(ResultSet rs) throws SQLException {
-	    UserModel user = new UserModel();
-	    user.setUserId( rs.getInt("user_id") );
-	    user.setName( rs.getString("userName") );
-	    user.setPassword( rs.getString("userPassword") );
-	    user.setEmail(rs.getString("email"));
-	    return user;
-	}
 
    /**
 	* Get the id, username, email, loyalty points, and balance of all users from DB

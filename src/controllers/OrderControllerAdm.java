@@ -4,9 +4,7 @@ import java.sql.*;
 import java.util.Vector;
 
 import daoImpl.OrderDaoImpl;
-import database.Database;
 import interfaces.OrderListenerAdm;
-import views.OrderViewAdm;
 
 public class OrderControllerAdm implements OrderListenerAdm {
 

@@ -156,7 +156,6 @@ public class RegisterView extends JPanel implements ActionListener {
 			try {
 				fireRegisterEvent(name, pass, email);
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		} else {

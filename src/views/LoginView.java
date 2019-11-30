@@ -112,7 +112,6 @@ public class LoginView extends JPanel implements ActionListener {
 		try {
 			fireLoginEvent(name, password);
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
