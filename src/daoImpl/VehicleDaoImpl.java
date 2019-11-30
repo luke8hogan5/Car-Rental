@@ -108,6 +108,9 @@ public class VehicleDaoImpl implements VehicleDao {
 		
 	}
 
+   /**
+	* Update vehicle details in DB
+	*/
 	@Override
 	public void updateVehicleAdm(int id, String make, String model, int year, double price, int available, String type) {
 	    Connection conn = Database.getConnection();
@@ -123,6 +126,9 @@ public class VehicleDaoImpl implements VehicleDao {
 	    }
 	}
 
+   /**
+	* Delete Vehicle from DB
+	*/
 	@Override
 	public void deleteVehicleAdm(int vehicleId ) {
 	    Connection conn = Database.getConnection();

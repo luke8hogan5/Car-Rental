@@ -331,8 +331,6 @@ public class VehicleViewAdm extends JPanel {
 	}
 
 	private void getBaseRent(){
-
-
 		switch (typeField.getText()){
 			case "SUV":
 				SUV suv = new SUV(new FourDoor());
