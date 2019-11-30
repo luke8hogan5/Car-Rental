@@ -41,6 +41,7 @@ public class OrderViewAdm extends JPanel{
 		fireOrderAdmEvent();
 	}
 
+	// Setup menu for user and stock navigation
 	private void setupMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu usersNav = new JMenu("Users");

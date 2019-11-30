@@ -6,7 +6,7 @@ public class PaymentModel {
 	private int cVV;
 	private String expDate;
 	
-	public PaymentModel(String cardHolder, String cardNo, int cVV, String expDate) { //include userId later
+	public PaymentModel(String cardHolder, String cardNo, int cVV, String expDate) {
 		super();
 		this.cardHolder = cardHolder;
 		this.cardNo = cardNo;

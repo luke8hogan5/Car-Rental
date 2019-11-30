@@ -43,6 +43,7 @@ public class WelcomeView extends JPanel {
         regBtn.addActionListener(ae -> parent.changePanel(new RegisterView(parent)));
     }
 
+    // Paint background image
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

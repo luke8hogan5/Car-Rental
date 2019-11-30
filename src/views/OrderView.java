@@ -51,8 +51,6 @@ public class OrderView extends JPanel {
 		proPay.setEnabled(false);
 		JTextField durationBox = new JTextField(10);
 
-
-
 		backbtn = new JButton("Back");
 		backbtn.setBounds(0,180,80,30);
 		backbtn.addActionListener(ae -> parent.changePanel(new CatalogView(parent)));
@@ -107,7 +105,7 @@ public class OrderView extends JPanel {
 		gc.insets = new Insets(10, 10, 10, 10);
 		add(new JLabel("Enter Rent Duration In Days:"), gc);
 
-
+//		Disable proBtn if any of fields are empty
 		durationBox.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
@@ -241,7 +239,7 @@ public class OrderView extends JPanel {
 		double vRent = data.getVehiclePrice();
 		vRent *= duration;
 		vRent -= vRent * discount;
-		BigDecimal bD = new BigDecimal(vRent).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal bD = new BigDecimal(vRent).setScale(2, RoundingMode.HALF_UP); // Round price up to 2 decimal places
 
 		return bD.doubleValue();
 	}

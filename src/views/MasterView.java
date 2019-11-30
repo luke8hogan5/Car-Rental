@@ -26,9 +26,9 @@ public class MasterView extends JFrame{
     void changePanel(JPanel panel){
         if(currentPanel != panel){
             if(currentPanel != null)
-                remove(currentPanel);
+                remove(currentPanel); // Remove previous panel
             currentPanel = panel;
-            add(panel);
+            add(panel);     // Transition to new panel
 
             revalidate();
         }

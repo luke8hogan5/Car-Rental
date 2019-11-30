@@ -22,6 +22,7 @@ public class CatalogView extends JPanel{
     private JScrollPane contentWindow;
     private GridBagConstraints gc = new GridBagConstraints();
     private ArrayList<VehicleModel> vehicleModels;
+    private boolean showCatBtnVisible = false;
 
     CatalogView(MasterView parent) {
         super();
@@ -39,6 +40,7 @@ public class CatalogView extends JPanel{
         }
     }
 
+//  Setup menu with search bar and account button
     private void setMenu() {
         JButton backbtn;
     	backbtn = new JButton("Back");
@@ -62,8 +64,11 @@ public class CatalogView extends JPanel{
         Button searchBtn = new Button("Search");
         searchBtn.addActionListener(e -> {
             try {
+                if(!showCatBtnVisible) {
+                    returnToCatButton();
+                    showCatBtnVisible = true;
+                }
                 fireSearchEvent();
-                returnToCatButton();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -123,9 +128,10 @@ public class CatalogView extends JPanel{
 
 
         DefaultTableModel tableModel = new DefaultTableModel(titles, 0);
-        JTable dataTbl = new JTable(tableModel);
+        JTable dataTbl = new JTable(tableModel);    //Use tableModel as template for dataTbl
         ClientsTableRenderer renderer = new ClientsTableRenderer(new JCheckBox());
 
+//     Takes multidimen vector of vehicle data and inserts it row by row into model
         for (Vector<Object> datum : data) tableModel.addRow(datum);
 
         dataTbl.getColumnModel().getColumn(4).setCellRenderer(new ClientsTableButtonRenderer());
@@ -141,6 +147,7 @@ public class CatalogView extends JPanel{
 
     }
 
+//  Setup button to unfilter list
     private void returnToCatButton(){
         JButton showCat = new JButton("Show Catalog");
 
@@ -148,6 +155,7 @@ public class CatalogView extends JPanel{
             try {
                 getFullCatalog();
                 remove(showCat);
+                showCatBtnVisible = false;
                 repaint();
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -163,6 +171,7 @@ public class CatalogView extends JPanel{
         revalidate();
     }
 
+//  Setup list of Vehicle models to pass to order
     public void setVehicleModels(ArrayList<VehicleModel> vehicleModels) {
         this.vehicleModels = vehicleModels;
     }

@@ -20,42 +20,17 @@ public class OrderModel{
 		this.rentDuration = rentDuration;
 	}
 
-	public OrderModel() {
-	}
-
 	public boolean getPaymentCleared(){
 		return paymentCleared;
-	}
-	
-	public void setPaymentCleared(boolean paymentCleared){
-		this.paymentCleared = paymentCleared;
-	}
-	
-	public String getCreatedDate(){ return dateFormat.format(dateCreated); }
-	
-	public void setCreatedDate(Date d1){
-		this.dateCreated = d1;
 	}
 	
 	public int getRentDuration(){
 		return this.rentDuration;
 	}
-	
-	public void setRentDuration(int rentDuration){
-		this.rentDuration = rentDuration;
-	}
 
 	public int getUserId() { return userId; }
 
-	public void setUserId(int userId) { this.userId = userId; }
-
 	public int getVehicleId() { return vehicleId; }
-
-	public void setVehicleId(int vehicleId) { this.vehicleId = vehicleId; }
-
-	public boolean isVehicleReturned() { return vehicleReturned; }
-
-	public void setVehicleReturned(boolean vehicleReturned) { this.vehicleReturned = vehicleReturned; }
 
 	public int getOrderId() {
 		return orderId;

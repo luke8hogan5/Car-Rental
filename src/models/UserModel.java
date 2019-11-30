@@ -12,29 +12,6 @@ public class UserModel {
 	private String password;
 
 	public UserModel(){}
-	public UserModel(String name, String password) {
-		this.name = name;
-		this.password = password;
-	}
-	public UserModel(int userId) {
-		this.userId = userId;
-	}
-	public UserModel(String name, String password, String email) {
-		this.name = name;
-		this.password = password;
-		this.email = email;
-	}
-	public UserModel(String name, String email, int userId) {
-		this.name = name;
-		this.userId = userId;
-		this.email = email;
-	}
-	public UserModel(int userId, String name, String email, String address) {
-		this.userId = userId;
-		this.name = name;
-		this.email = email;
-		this.address = address;
-	}
 
 	public UserModel(int userId, int userType, String name, String email, String address, int loyaltyRating, double balanceDue) {
 		this.userId = userId;

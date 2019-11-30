@@ -74,7 +74,7 @@ public class UsersViewAdm extends JPanel{
 					deleteBtn.setEnabled(false);
 				}
 			}
-		});
+		}); // Disable button if both fields are empty
 		emailField = new JTextField(20);
 		emailField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -106,7 +106,7 @@ public class UsersViewAdm extends JPanel{
 					deleteBtn.setEnabled(false);
 				}
 			}
-		});
+		});// Disable button if both fields are empty
 		idField = new JTextField(20);
 		idField.setEditable(false);
 		userTable = new JTable();

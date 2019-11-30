@@ -58,7 +58,7 @@ public class VehicleViewAdm extends JPanel {
 		yearField = new JTextField(10);
 		availableField = new JTextField(10);
 		typeField = new JTextField(10);
-		typeField.getDocument().addDocumentListener(new DocumentListener() {
+		typeField.getDocument().addDocumentListener(new DocumentListener() { // Checks for general categories for base rent suggestion.
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				getBaseRent();
@@ -329,7 +329,7 @@ public class VehicleViewAdm extends JPanel {
 
 	}
 
-	private void getBaseRent(){
+	private void getBaseRent(){ // suggest a baseline rent price by general car types
 		switch (typeField.getText()){
 			case "SUV":
 				SUV suv = new SUV(new FourDoor());

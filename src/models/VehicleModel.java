@@ -18,29 +18,13 @@ public class VehicleModel{
 		this.vehicleModel = vehicleModel;
 		this.vehicleYear = vehicleYear;
 	}
-
-	public VehicleModel() {
-	}
-
-	public String getVehicleType(){
-		return vehicleType;
-	}
-	public void setVehicleType(String string){
-		this.vehicleType = string;
-	}
 	
 	public String getVehicleModel(){
 		return vehicleModel;
 	}
-	public void setVehicleModel(String VehicleDetails){
-		this.vehicleModel =VehicleDetails;
-	}
 	
 	public double getVehiclePrice(){
 		return vehiclePrice;
-	}
-	public void setVehiclePrice(double VehiclePrice){
-		this.vehiclePrice = VehiclePrice;
 	}
 
 	public int getVehicleId() {
