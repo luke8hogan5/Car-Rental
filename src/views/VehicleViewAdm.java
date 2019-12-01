@@ -186,7 +186,7 @@ public class VehicleViewAdm extends JPanel {
 		parent.setLocationRelativeTo(null);
 
 		saveBtn.addActionListener(event -> {
-			try {
+			try {		// prevent user from adding blank attributes
 				if(!(makeField.getText().isEmpty() || modelField.getText().isEmpty() || yearField.getText().isEmpty()
 						|| priceField.getText().isEmpty() || availableField.getText().isEmpty() || typeField.getText().isEmpty())) {
 					String vehicleMake = makeField.getText();
@@ -216,7 +216,7 @@ public class VehicleViewAdm extends JPanel {
 		});
 
 		updateBtn.addActionListener(event -> {
-			try {
+			try {		// prevent user from adding blank attributes
 				if(!(makeField.getText().isEmpty() || modelField.getText().isEmpty() || idField.getText().isEmpty()|| yearField.getText().isEmpty()
 						|| priceField.getText().isEmpty() || availableField.getText().isEmpty() || typeField.getText().isEmpty())){
 					String make = makeField.getText();
