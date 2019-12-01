@@ -2,6 +2,10 @@ package views;
 
 import models.UserModel;
 import javax.swing.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MasterView extends JFrame{
     private UserModel currentUser;
@@ -25,6 +29,8 @@ public class MasterView extends JFrame{
 
     void changePanel(JPanel panel){
         if(currentPanel != panel){
+//            List<StackTraceElement> stack = Arrays.asList(Thread.currentThread().getStackTrace());
+//            for(StackTraceElement e : stack)    System.out.println(e);
             if(currentPanel != null)
                 remove(currentPanel); // Remove previous panel
             currentPanel = panel;

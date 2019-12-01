@@ -1,5 +1,5 @@
 package interfaces;
 
 public interface Vehicle {
-   public double rentRate();
+   double rentRate();
 }

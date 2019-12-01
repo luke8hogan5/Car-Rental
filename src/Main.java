@@ -7,20 +7,16 @@ import views.*;
 public class Main {
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				Database db = null;
-				try {
-					db = Database.getInstance();
-				} catch (SQLException e1) {
-					System.out.print("Database not initialised");
-					e1.printStackTrace();
-				}
-				if(db != null) {
-                    MasterView masterView = new MasterView();
-				}
+		SwingUtilities.invokeLater(() -> {
+			Database db = null;
+			try {
+				db = Database.getInstance();
+			} catch (SQLException e1) {
+				System.out.print("Database not initialised");
+				e1.printStackTrace();
+			}
+			if(db != null) {
+MasterView masterView = new MasterView();
 			}
 		});
 	}
