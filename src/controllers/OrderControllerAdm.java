@@ -28,6 +28,9 @@ public class OrderControllerAdm implements OrderListenerAdm {
 		Vector<Vector<Object>> data = new Vector<>();
 
 		while(rs.next()){
+			assert(rs.getString("dateCreate") != null
+					&& rs.getInt("rentDuration") != 0);
+
 			Vector<Object> dataLine = new Vector<>();
 			dataLine.add(rs.getString("dateCreate"));
 			dataLine.add(rs.getInt("rentDuration"));

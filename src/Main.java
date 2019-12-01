@@ -16,7 +16,7 @@ public class Main {
 				e1.printStackTrace();
 			}
 			if(db != null) {
-MasterView masterView = new MasterView();
+				MasterView masterView = new MasterView();
 			}
 		});
 	}

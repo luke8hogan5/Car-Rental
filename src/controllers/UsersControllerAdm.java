@@ -29,6 +29,7 @@ public class UsersControllerAdm implements UsersListenerAdm {
 
 			Vector<Object> row = new Vector<>();
 			for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
+				assert(rs.getString(i) != null);
 				row.add(rs.getString(i));
 			}
 			data.add(row);

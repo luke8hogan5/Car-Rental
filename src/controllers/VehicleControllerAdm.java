@@ -2,6 +2,7 @@ package controllers;
 
 import interfaces.VehicleListenerAdm;
 import java.sql.*;
+import java.util.Calendar;
 import java.util.Vector;
 
 import daoImpl.VehicleDaoImpl;
@@ -58,6 +59,7 @@ public class VehicleControllerAdm implements VehicleListenerAdm{
 	*/
 	@Override
 	public void deletePerformed(int id) {
+		assert(id > 0);
 		System.out.println("Display event received: "+id);
 
 		dao.deleteVehicleAdm(id);
@@ -72,7 +74,9 @@ public class VehicleControllerAdm implements VehicleListenerAdm{
 	* @param type	Vehicle type
 	*/
 	@Override
-	public void addPerformed(String make, String model, int year, double price, String type) throws SQLException {
+	public void addPerformed(String make, String model, int year, double price, String type) {
+		assert(make != null && model != null
+				&& year > Calendar.getInstance().get(Calendar.YEAR)-10 && price > 0 && type != null);
 		System.out.println("Display event received: "+make+"; "+model+"; "+type);
 
 		dao.insertVehicleAdm(make, model, year, price, type);

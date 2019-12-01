@@ -36,6 +36,7 @@ public class CatalogController implements CatalogListener{
    */
     @Override
     public Vector<Vector<Object>> searchByKeyword(String keyword) throws SQLException {
+        assert keyword != null;
         System.out.println("Searching keyword: "+keyword);
 
         return getResults(dao.getSearchResults(keyword));
@@ -47,6 +48,8 @@ public class CatalogController implements CatalogListener{
      * @return split data from rs in form of multidimen array
     */
     private Vector<Vector<Object>> getResults(ResultSet rs) throws SQLException{
+        assert(rs != null);
+
         Vector<Vector<Object>> resultList = new Vector<>();
         ArrayList<VehicleModel> models = new ArrayList<>();
         while(rs.next()){
@@ -65,6 +68,8 @@ public class CatalogController implements CatalogListener{
             resultLine.add("Order");
             resultList.add(resultLine);
         }
+
+        assert (view != null && resultList.get(0) != null);
 
         view.setVehicleModels(models);
         return resultList;

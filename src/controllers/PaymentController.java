@@ -20,6 +20,7 @@ public class PaymentController implements PaymentListener {
 	*/
 	@Override
 	public void paymentPerformed(PaymentModel event, OrderModel newOrder) {
+		assert(event != null & newOrder != null);
 		System.out.println("Payment process event received: " + event.getCardHolder() + "; " +
 					event.getCardNo() + "; " +  event.getExpDate() + "; " + event.getcVV());
 		System.out.print(newOrder.getOrderId());

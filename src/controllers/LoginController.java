@@ -18,9 +18,10 @@ public class LoginController implements LoginListener {
 	*/
 	@Override
 	public void loginPerformed(String name, String pass, MasterView master) {
-
+		assert(name != null & pass != null & master != null);
 		UserModel currentUser = dao.validateLogin(name, pass);
 		master.setCurrentUser(currentUser);
+		assert(master.getCurrentUser() != null);
 	}
 }
 

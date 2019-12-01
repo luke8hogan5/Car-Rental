@@ -16,6 +16,7 @@ public class ProfileController implements ProfileListener {
     */
     @Override
     public void profileUpdated(UserModel user) {
+        assert(user != null);
         System.out.println("Detail update received"+user.toString());
 
         dao.updateUserInfo(user);

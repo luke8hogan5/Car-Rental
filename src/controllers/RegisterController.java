@@ -22,11 +22,13 @@ public class RegisterController implements RegisterListener {
 	* @param master Current top-level view ancestor to allow the current user info
 	*/
 	@Override
-	public void registerPerformed(String name, String pass, String _email, MasterView master) throws SQLException {
+	public void registerPerformed(String name, String pass, String _email, MasterView master) {
+		assert(name != null && pass != null && _email != null && master != null);
 		System.out.println("Register event received: " + name + "; " + pass);
 
 		dao.registerUser(name,pass,_email);
 		UserModel currentUser = dao.loginAfterRegister();
 	   	master.setCurrentUser(currentUser);
+	   	assert(master.getCurrentUser() != null);
 	}
 }
