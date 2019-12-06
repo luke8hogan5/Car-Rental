@@ -38,6 +38,7 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	public UserModel validateLogin(String name, String password) {
 		Connection conn;
 		try {
+			Database db = Database.getInstance(); // Needed for JUnit testing
 			conn = Database.getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM account WHERE userName = ? AND userPassword = ?;");
 			ps.setString(1,name);
@@ -64,6 +65,7 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	public void registerUser(String username, String password, String email) {
 		Connection conn;
 		try {
+			Database db = Database.getInstance(); // Needed for JUnit testing
 			conn = Database.getConnection();
 
 
@@ -87,6 +89,7 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	public UserModel loginAfterRegister() {
 		Connection conn = Database.getConnection();
 		try {
+			Database db = Database.getInstance(); // Needed for JUnit testing
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM account WHERE user_id = (SELECT MAX(user_id) FROM account);");
 
 			ResultSet rs = ps.executeQuery();

@@ -81,6 +81,7 @@ public class OrderViewAdm extends JPanel{
 		menuBar.add(stockNav);
 
 		add(menuBar);
+		repaint();
 	}
 
 	private void fireOrderAdmEvent(){
