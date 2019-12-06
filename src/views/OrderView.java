@@ -28,15 +28,10 @@ public class OrderView extends JPanel {
 		super();
 		this.parent = parent;
 		orderListener = new OrderController();
-		String vMake = "" , vModel = "" , vYear = "" ;
-
-		vMake = data.getVehicleMake();
-		vModel = data.getVehicleModel();
-		vYear = Integer.toString(data.getVehicleYear());
-		buildTable(vMake,vModel,vYear,data);
+		buildTable(data);
 	}
 
-	public void buildTable(String vMake,String vModel,String vYear,VehicleModel data) {
+	public void buildTable(VehicleModel data) {
 
 		backbtn = new JButton("Back");
 		setLayout(new GridBagLayout());
@@ -217,7 +212,7 @@ public class OrderView extends JPanel {
         proPay.addActionListener(e -> {
 			try{
 			int rentDuration = Integer.parseInt(durationBox.getText());
-			fireOrderSubmited(userId,vehicleId,rentDuration);
+			fireOrderSubmitted(userId,vehicleId,rentDuration);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -230,7 +225,7 @@ public class OrderView extends JPanel {
         add(proPay, gc);
 	}
 
-	private void fireOrderSubmited(int userId, int vehicleId, int rentDuration) throws SQLException {
+	private void fireOrderSubmitted(int userId, int vehicleId, int rentDuration) throws SQLException {
 			orderListener.orderSubmited(userId, vehicleId,rentDuration,false);
 			parent.changePanel(new PaymentView(parent, orderListener.getNewOrder()));
 	}
